@@ -32,6 +32,7 @@ public class kuwasysController
     //properties
     private String name;
     private String lastname;
+    private String temp;
 
     /**
      * default empty constructor
@@ -45,7 +46,10 @@ public class kuwasysController
      */
     public String send()
     {
-        //do real logic, return a string which will be used for the navigation system of JSF
+    	//do real logic, return a string which will be used for the navigation system of JSF
+    	temp=name;
+    	name=lastname;
+    	lastname=temp;
         return "page2.xhtml";
     }
 
