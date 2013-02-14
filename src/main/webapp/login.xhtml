@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="stylesheets">
+		<h:outputStylesheet name="css/login.css" />
+	</ui:define>
+
+	<ui:define name="title">
+        Anmeldung
+    </ui:define>
+
+	<ui:define name="content">
+
+		<h3>Anmeldung</h3>
+		<h:panelGroup>Bitte anmelden. Sie werden nach 5 Minuten Inaktivität
+			automatisch abgemeldet.</h:panelGroup>
+
+		<form id="login_form" method="POST" action="j_security_check"
+			name="loginForm">
+			<h:panelGroup layout="block">
+				<label class="label" for="username">Benutzername</label>
+				<input id="username" type="text" name="j_username" />
+
+				<label class="label" for="password">Passwort</label>
+				<input id="password" type="password" name="j_password" />
+
+				<input type="submit" value="Anmelden" />
+			</h:panelGroup>
+		</form>
+
+	</ui:define>
+
+</ui:composition>

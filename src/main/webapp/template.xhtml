@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+<h:head>
+	<title>Kurswahlsystem der Schillerschule Aalen - <ui:insert name="title" /></title>
+	<h:outputStylesheet name="css/style.css" />
+	<ui:insert name="stylesheets" />
+	<ui:insert name="headers" />
+</h:head>
+<h:body>
+<h:form>
+<t:panelNavigation id="nav" styleClass="navigation"
+	separatorClass="navseparator" itemClass="navitem"
+	activeItemClass="navitem_active" openItemClass="navitem_open">
+	<t:commandNavigation id="nav_1" value="Kontenbersicht" action="go_kontenuebersicht" />
+	<t:commandNavigation id="nav_2" value="Umsatzanzeige" action="go_umsatzanzeige" />
+	<t:commandNavigation id="nav_3" value="Persnliche Daten" action="go_persoenliche_daten" />
+	<t:commandNavigation id="nav_4" value="berweisung" action="go_ueberweisung" />
+	<t:commandNavigation id="nav_5" value="Nachrichten">
+		<t:commandNavigation id="nav_5_1" value="Politik" action="go_news_politik" />
+		<t:commandNavigation id="nav_5_2" value="Finanzen" action="go_news_finanzen" />
+	</t:commandNavigation>
+	<t:commandNavigation id="logout" value="#{msg.logout}" action="logout" />
+</t:panelNavigation>
+</h:form>
+	<ui:insert name="content" />
+</h:body>
+</html>
