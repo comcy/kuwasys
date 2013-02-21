@@ -18,18 +18,58 @@
  */
 
 body {
-    background-color: rgb(0, 35, 75);
+    background-color: rgb(0, 0, 255);
     font-family: tahoma, arial, helvetica, sans-serif;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 #container {
     margin: 10px auto;
-    width: 900px;
+    width: 1000px;
     background-color: white;
     padding: 3px;
 }
 
 h1 {
     font-size: 20px;
+}
+
+/*
+   --------------------------------------------------------------
+    Horizontal Panelnavigation
+   --------------------------------------------------------------
+*/
+
+#hNav_outer {
+	border-bottom:solid 17px green;
+}
+
+a:link {
+	white-space : nowrap;
+    color: white;
+    text-decoration: none;
+}
+a:visited {
+	white-space : nowrap;
+    color: white;
+    text-decoration: none;
+}
+a:hover,active {
+	white-space : nowrap;
+    color: lightgray;
+    text-decoration: underline;
+}
+
+#hNav_outer ul li { /*float the main list items*/
+    margin: 0px 5px;
+    float: left;
+    display: block;
+    padding: 0px 50px;
+}
+
+
+
+
+#content {
+	clear:left;
 }

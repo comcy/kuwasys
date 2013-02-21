@@ -1,0 +1,24 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:t="http://myfaces.apache.org/tomahawk">
+<body>
+  <ui:composition>
+ 	 <t:div id="hNav_outer">
+       <t:panelNavigation2 id="nav1" layout="list" itemClass="off" activeItemClass="on" openItemClass="on" renderAll="true" visibleOnUserRole="admin">
+            <t:commandNavigation2 >
+                <t:commandNavigation2>
+                    <t:outputText value="Start"/>
+                </t:commandNavigation2>
+                <t:commandNavigation2 externalLink="http://www.irian.at" target="_blank">
+                    <t:outputText value="Schülerliste einlesen"/>
+                </t:commandNavigation2>
+                <t:commandNavigation2 id="logout" action="#{kuwasys.logout}">
+                    <t:outputText value="Abmelden"/>
+                </t:commandNavigation2>
+            </t:commandNavigation2>
+		</t:panelNavigation2>
+	</t:div>
+  </ui:composition>
+</body>
+</html>

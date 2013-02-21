@@ -17,152 +17,156 @@
  * specific language governing permissions and limitations
  * under the License.
 -->
-<web-app xmlns="http://java.sun.com/xml/ns/javaee"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
-        version="2.5">
-
-    <description>kuwasys web.xml</description>
-
-    <!-- JSF standard parameters -->
-    <context-param>
-        <description>Project stage for the application (new in 2.0). Expects one of
-            the following values: Development, Production, SystemTest, UnitTest
-        </description>
-        <param-name>javax.faces.PROJECT_STAGE</param-name>
-        <param-value>Development</param-value>
-    </context-param>
-    <context-param>
-        <description>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+ <description>kuwasys web.xml</description>
+ <context-param>
+  <description>
             If this parameter is set to true and the submitted value of a component is
             the empty string, the submitted value will be set to null
         </description>
-        <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
-        <param-value>true</param-value>
-    </context-param>
-    <context-param>
-        <description>Define the state method to be used. There are two different options 
+  <param-name>javax.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <!-- JSF standard parameters -->
+ <context-param>
+  <description>Project stage for the application (new in 2.0). Expects one of
+            the following values: Development, Production, SystemTest, UnitTest
+        </description>
+  <param-name>javax.faces.PROJECT_STAGE</param-name>
+  <param-value>Development</param-value>
+ </context-param>
+ <context-param>
+  <description>Define the state method to be used. There are two different options 
             defined by the specification: 'client' and 'server' state.</description>
-        <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
-        <param-value>server</param-value>
-    </context-param>
-
-    <!-- MyFaces specific parameters -->
-    <!-- See http://myfaces.apache.org/docindex.html for documentation 
-         about MyFaces Projects -->
-    <!-- See http://myfaces.apache.org/core21/myfaces-impl/webconfig.html 
-         for an updated list of web config parameters for MyFaces Core 
-         See http://wiki.apache.org/myfaces/Secure_Your_Application
-         for instructions about how to secure your web application -->
-    <context-param>
-        <description>Only applicable if state saving method is "server" (= default).
-            Defines the amount (default = 20) of the latest views are stored in session.</description>
-        <param-name>org.apache.myfaces.NUMBER_OF_VIEWS_IN_SESSION</param-name>
-        <param-value>20</param-value>
-    </context-param>
-    <context-param>
-        <description>Only applicable if state saving method is "server" (= default).
-            If true (default) the state will be serialized to a byte stream before it
-            is written to the session.
-            If false the state will not be serialized to a byte stream.</description>
-        <param-name>org.apache.myfaces.SERIALIZE_STATE_IN_SESSION</param-name>
-        <param-value>false</param-value>
-    </context-param>
-    <context-param>
-        <description>Only applicable if state saving method is "server" (= default) and if
+  <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
+  <param-value>server</param-value>
+ </context-param>
+ <context-param>
+  <param-name>org.apache.myfaces.ALLOW_JAVASCRIPT</param-name>
+  <param-value>true</param-value>
+ </context-param>
+ <context-param>
+  <description>Only applicable if state saving method is "server" (= default) and if
             org.apache.myfaces.SERIALIZE_STATE_IN_SESSION is true (= default)
             If true (default) the serialized state will be compressed before it
             is written to the session. If false the state will not be compressed.</description>
-        <param-name>org.apache.myfaces.COMPRESS_STATE_IN_SESSION</param-name>
-        <param-value>false</param-value>
-    </context-param>
-    <context-param>
-        <description>Defines which packages to scan for beans, separated by commas.
+  <param-name>org.apache.myfaces.COMPRESS_STATE_IN_SESSION</param-name>
+  <param-value>false</param-value>
+ </context-param>
+ <!-- MyFaces specific parameters 
+ See http://myfaces.apache.org/docindex.html for documentation 
+         about MyFaces Projects 
+ See http://myfaces.apache.org/core21/myfaces-impl/webconfig.html 
+         for an updated list of web config parameters for MyFaces Core 
+         See http://wiki.apache.org/myfaces/Secure_Your_Application
+         for instructions about how to secure your web application -->
+ <context-param>
+  <description>Only applicable if state saving method is "server" (= default).
+            Defines the amount (default = 20) of the latest views are stored in session.</description>
+  <param-name>org.apache.myfaces.NUMBER_OF_VIEWS_IN_SESSION</param-name>
+  <param-value>20</param-value>
+ </context-param>
+ <context-param>
+  <description>Only applicable if state saving method is "server" (= default).
+            If true (default) the state will be serialized to a byte stream before it
+            is written to the session.
+            If false the state will not be serialized to a byte stream.</description>
+  <param-name>org.apache.myfaces.SERIALIZE_STATE_IN_SESSION</param-name>
+  <param-value>false</param-value>
+ </context-param>
+ <context-param>
+  <description>Defines which packages to scan for beans, separated by commas.
         Useful for when using maven and jetty:run (version 6) or tomcat:run
         </description>
-        <param-name>org.apache.myfaces.annotation.SCAN_PACKAGES</param-name>
-        <param-value>de.schillerschule.kuwasys20</param-value>
-    </context-param>
-
-    <!-- Faces Servlet -->
-    <servlet>
-        <servlet-name>Faces Servlet</servlet-name>
-        <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <!-- Faces Servlet Mapping -->
-    <servlet-mapping>
-        <servlet-name>Faces Servlet</servlet-name>
-        <url-pattern>*.jsf</url-pattern>
-    </servlet-mapping>
-
-    <!-- Welcome files -->
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
-
-	<!-- Rollen-->
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>schueler</web-resource-name>
-			<url-pattern>/schueler/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>schueler</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
-	
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>lehrer</web-resource-name>
-			<url-pattern>/lehrer/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>lehrer</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
-
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>admin</web-resource-name>
-			<url-pattern>/admin/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>admin</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
-	
-	<security-role>
-		<role-name>schueler</role-name>
-	</security-role>	
-	<security-role>
-		<role-name>lehrer</role-name>
-	</security-role>
-		<security-role>
-		<role-name>admin</role-name>
-	</security-role>
-
-	<login-config>
-		<auth-method>FORM</auth-method>
-		<form-login-config>
-			<form-login-page>/login.jsf</form-login-page>
-			<form-error-page>/login_failed.jsf</form-error-page>
-		</form-login-config>
-	</login-config>
-
-
-
-
-
-
+  <param-name>org.apache.myfaces.annotation.SCAN_PACKAGES</param-name>
+  <param-value>de.schillerschule.kuwasys20</param-value>
+ </context-param>
+ <!-- Faces Servlet -->
+ <servlet>
+  <servlet-name>Faces Servlet</servlet-name>
+  <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
+  <load-on-startup>1</load-on-startup>
+ </servlet>
+ <!-- Faces Servlet Mapping -->
+ <servlet-mapping>
+  <servlet-name>Faces Servlet</servlet-name>
+  <url-pattern>*.jsf</url-pattern>
+ </servlet-mapping>
+ <!-- Welcome files -->
+ <welcome-file-list>
+  <welcome-file>index.html</welcome-file>
+ </welcome-file-list>
+ <security-constraint>
+  <display-name>security-constraint</display-name>
+  <web-resource-collection>
+   <web-resource-name>resources</web-resource-name>
+   <url-pattern>/resources/*</url-pattern>
+  </web-resource-collection>
+ </security-constraint>
+ <!-- Rollen-->
+ <security-constraint>
+  <web-resource-collection>
+   <web-resource-name>schueler</web-resource-name>
+   <url-pattern>/schueler/*</url-pattern>
+  </web-resource-collection>
+  <auth-constraint>
+   <role-name>schueler</role-name>
+  </auth-constraint>
+  <user-data-constraint>
+   <transport-guarantee>NONE</transport-guarantee>
+  </user-data-constraint>
+ </security-constraint>
+ <security-constraint>
+  <web-resource-collection>
+   <web-resource-name>lehrer</web-resource-name>
+   <url-pattern>/lehrer/*</url-pattern>
+  </web-resource-collection>
+  <auth-constraint>
+   <role-name>lehrer</role-name>
+  </auth-constraint>
+  <user-data-constraint>
+   <transport-guarantee>NONE</transport-guarantee>
+  </user-data-constraint>
+ </security-constraint>
+ <security-constraint>
+  <web-resource-collection>
+   <web-resource-name>admin</web-resource-name>
+   <url-pattern>/admin/*</url-pattern>
+  </web-resource-collection>
+  <auth-constraint>
+   <role-name>admin</role-name>
+  </auth-constraint>
+  <user-data-constraint>
+   <transport-guarantee>NONE</transport-guarantee>
+  </user-data-constraint>
+ </security-constraint>
+ <security-constraint>
+  <display-name>security-constraint</display-name>
+  <web-resource-collection>
+   <web-resource-name>kuwasys</web-resource-name>
+   <url-pattern>/kuwasys.jsf</url-pattern>
+  </web-resource-collection>
+  <auth-constraint>
+   <role-name>admin</role-name>
+   <role-name>lehrer</role-name>
+   <role-name>schueler</role-name>
+  </auth-constraint>
+ </security-constraint>
+ <login-config>
+  <auth-method>FORM</auth-method>
+  <form-login-config>
+   <form-login-page>/login.jsf</form-login-page>
+   <form-error-page>/login_failed.jsf</form-error-page>
+  </form-login-config>
+ </login-config>
+ <security-role>
+  <role-name>schueler</role-name>
+ </security-role>
+ <security-role>
+  <role-name>lehrer</role-name>
+ </security-role>
+ <security-role>
+  <role-name>admin</role-name>
+ </security-role>
 </web-app>

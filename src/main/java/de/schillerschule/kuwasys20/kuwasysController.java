@@ -18,8 +18,12 @@
  */
 package de.schillerschule.kuwasys20;
 
+import java.io.IOException;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 
 /**
  * A typical simple backing bean, that is backed to <code>helloWorld.xhtml</code>
@@ -52,6 +56,18 @@ public class kuwasysController
     	lastname=temp;
         return "page2.xhtml";
     }
+    
+    public String logout() throws IOException
+    {
+    ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
+    ec.invalidateSession();
+    ec.redirect("kuwasys.jsf"); // Or whatever servlet mapping you use
+    // redirect() invokes FacesContext.responseComplete() for you
+
+    return null;
+    }
+    
+    
 
     //-------------------getter & setter
 
