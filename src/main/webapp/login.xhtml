@@ -14,20 +14,19 @@
 	<ui:define name="content">
 
 		<h3>Anmeldung</h3>
-		<h:panelGroup>Bitte anmelden. Sie werden nach 5 Minuten Inaktivität
-			automatisch abgemeldet.</h:panelGroup>
+		<h:panelGroup>Hallo zum Kurswahlsystem der Schillerschule Aalen! <br /> </h:panelGroup>
 
-		<form id="login_form" method="POST" action="j_security_check"
-			name="loginForm">
-			<h:panelGroup layout="block">
-				<label class="label" for="username">Benutzername</label>
-				<input id="username" type="text" name="j_username" />
-
-				<label class="label" for="password">Passwort</label>
-				<input id="password" type="password" name="j_password" />
-
-				<input type="submit" value="Anmelden" />
-			</h:panelGroup>
+		<form id="login_form" method="POST" action="j_security_check" name="loginForm">
+           <h:panelGrid columns="2">
+                <h:outputLabel id="userNameLabel" for="j_username" value="Kürzel:"/>
+                <h:inputText id="j_username" autocomplete="off" />
+                <h:outputLabel id="passwordLabel" for="j_password" value="Passwort:"/>
+                <h:inputSecret id="j_password" autocomplete="off"/>
+                <div/>
+                <h:panelGroup>
+                    <h:commandButton type="submit" value="Anmelden"/>
+                </h:panelGroup>
+            </h:panelGrid>
 		</form>
 
 	</ui:define>

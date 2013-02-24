@@ -24,7 +24,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
-
 /**
  * A typical simple backing bean, that is backed to <code>helloWorld.xhtml</code>
  */
@@ -54,7 +53,7 @@ public class kuwasysController
     	temp=name;
     	name=lastname;
     	lastname=temp;
-        return "page2.xhtml";
+        return "page2.jsf";
     }
     
     public String logout() throws IOException
