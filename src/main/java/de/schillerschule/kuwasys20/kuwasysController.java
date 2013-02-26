@@ -66,7 +66,9 @@ public class kuwasysController
     return null;
     }
     
-    
+    public String home(){
+    	return "kuwasys.jsf";
+    }
 
     //-------------------getter & setter
 
