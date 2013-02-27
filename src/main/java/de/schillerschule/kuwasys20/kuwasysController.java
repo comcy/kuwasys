@@ -36,6 +36,7 @@ public class kuwasysController
     private String name;
     private String lastname;
     private String temp;
+    
 
     /**
      * default empty constructor
@@ -56,6 +57,19 @@ public class kuwasysController
         return "page2.jsf";
     }
     
+    
+    public String userRole() {
+    	FacesContext context = FacesContext.getCurrentInstance();
+    	if (context.getExternalContext().isUserInRole("admin"))
+    		return "Admin";
+    	if (context.getExternalContext().isUserInRole("lehrer"))
+    		return "Lehrer";
+    	if (context.getExternalContext().isUserInRole("schueler"))
+    		return "Schüler";
+    	else return null;
+    }
+    
+    
     public String logout() throws IOException
     {
     ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
@@ -67,7 +81,7 @@ public class kuwasysController
     }
     
     public String home(){
-    	return "kuwasys.jsf";
+    	return "kuwasys";
     }
 
     //-------------------getter & setter

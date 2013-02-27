@@ -13,10 +13,10 @@
 	                <h:outputLabel for="name" value="Vorname"/>
 	                <h:inputText id="name" value="#{kuwasys.name}" required="true"/>
 	                <h:outputLabel for="lastname" value="Nachname"/>
-	                <h:inputText id="lname" value="#{kuwasys.lastname}" required="true"/>
+	                <h:inputText id="lastname" value="#{kuwasys.lastname}" required="true"/>
 	                <h:commandButton value="Press me" action="#{kuwasys.send}"/>
 	                <h:commandButton action="/cancelled.xhtml" value="Cancel" immediate="true"/>
-	                <h:messages showDetail="true" showSummary="false"/>
+	                <h:messages showDetail="true" showSummary="false"/><h:messages showDetail="true" showSummary="false"/>
 	            </h:panelGrid>
 	        </h:form>
 	</ui:define>
