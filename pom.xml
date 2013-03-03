@@ -141,7 +141,7 @@ testcommmit 3
 			<artifactId>validation-api</artifactId>
 			<version>1.0.0.GA</version>
 		</dependency>
-		<!-- PostgreSQL Driver JDBC4 -->
+		<!-- PostgreSQL Driver JDBC4 und alles wird gut!-->
 		<dependency>
 			<groupId>postgresql</groupId>
 			<artifactId>postgresql</artifactId>
