@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">
+		Import
+	</ui:define>
+
+	<ui:define name="content">
+
+		<h3>Schülerliste importieren</h3>
+		<h:panelGroup>Bitte wählen Sie eine CSV-Datei für den Import aus.</h:panelGroup>
+
+		<h:form id="csvimport" enctype="multipart/form-data" name="csvimport">
+			<h:panelGroup layout="block">
+				<t:inputFileUpload id="file" value="#{importBean.file}" required="true" requiredMessage="Bitte eine Datei auswählen!" />
+
+				<h:commandButton value="Importieren" action="#{importBean.doImport}" />
+				
+				<h:message for="file" infoStyle="color: red;" />
+				
+				<h:message for="csvimport" infoStyle="color: green;"
+					errorStyle="color: red;" />
+			</h:panelGroup>
+		</h:form>
+
+		<p>Die Daten werden beim Klick auf den Button "Importieren" automatisch in die Datenbank importiert.</p>
+		<p>Bitte beachten Sie, dass die CSV-Datei die folgenden Struktur aufweist:<br></br>
+		'Nachname', 'Vorname', 'Geburtsdatum', 'Konfession'</p>
+	</ui:define>
+
+</ui:composition> 

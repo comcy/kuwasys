@@ -8,6 +8,8 @@
 			<h:form>
 				<t:panelNavigation2 id="nav1" layout="list" itemClass="off" activeItemClass="on" openItemClass="on" renderAll="true">
 					<t:navigationMenuItem value="Startseite" id="home" action="#{kuwasys.home}" visibleOnUserRole="admin,lehrer,schueler"/>
+					<t:navigationMenuItem value="Schüler importieren" id="csvimport" action="#{importBean.home}" visibleOnUserRole="admin"/>
+					<t:navigationMenuItem value="Neuen User anlegen" id="useradd" action="#{addUserBean.home}" visibleOnUserRole="admin"/>
 					<t:navigationMenuItem value="Klasse" id="klasse" action="#{kuwasys.home}" visibleOnUserRole="lehrer"/>
 					<t:navigationMenuItem value="Kurse" id="kurse" action="#{kuwasys.home}" visibleOnUserRole="lehrer,schueler"/>
 					<t:navigationMenuItem value="Einstellungen" id="einstellungen" action="#{kuwasys.home}" visibleOnUserRole="admin,lehrer,schueler"/>

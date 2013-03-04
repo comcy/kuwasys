@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">User Kontrolle</ui:define>
+	<ui:define name="content">
+		<h1>User erfolgreich hinzugefügt!</h1>
+		<h:form id="useraddsuccess">
+
+			<h:outputText
+				value="Der User #{addUserBean.name} #{addUserBean.lastname}, geboren am: #{addUserBean.geb} wurde erfolgreich angelegt" />
+
+		</h:form>
+	</ui:define>
+</ui:composition>
+

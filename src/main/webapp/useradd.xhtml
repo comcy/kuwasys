@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">User Kontrolle</ui:define>
+	<ui:define name="content">
+	        <h1>User hinzufügen</h1>
+	        <h:form id="useradd">
+	            <h:panelGrid columns="2">
+	                <h:outputLabel for="name" value="Vorname"/>
+	                <h:inputText id="name" value="#{addUserBean.name}" required="true"/>
+
+	                <h:outputLabel for="lastname" value="Nachname"/>
+	                <h:inputText id="lastname" value="#{addUserBean.lastname}" required="true"/>
+
+	                <h:outputLabel for="geb" value="Geburtsdatum"/>
+	                <h:inputText id="geb" value="#{addUserBean.geb}" required="true"/>
+
+	                <h:commandButton value="User anlegen" action="#{addUserBean.send}"/>
+	                
+	                <h:messages showDetail="true" showSummary="false"/><h:messages showDetail="true" showSummary="false"/>
+	            </h:panelGrid>
+	        </h:form>
+	</ui:define>
+</ui:composition>
