@@ -5,19 +5,20 @@ import javax.faces.bean.RequestScoped;
 
 /**
  * Klasse zum Anlegen von neuen Usern im System
+ * 
  * @author cy
  * 
  */
-@ManagedBean(name = "addUserBean")
+@ManagedBean(name = "userBean")
 @RequestScoped
-public class AddUserBean {
+public class UserBean {
 
 	// Property-Strings
 	private String name;
 	private String lastname;
 	private String geb;
 
-	public AddUserBean() {
+	public UserBean() {
 	}
 
 	// Get-Methoden
@@ -77,15 +78,6 @@ public class AddUserBean {
 	}
 
 	/**
-	 * Methode für die Navigation
-	 * 
-	 * @return Facelet "useradd"
-	 */
-	public String home() {
-		return "useradd";
-	}
-
-	/**
 	 * Neuen User anlegen
 	 * 
 	 * @return Facelet "useraddsuccess"
@@ -93,7 +85,7 @@ public class AddUserBean {
 	public String send() {
 
 		// SQL Statement um User in DB einzufügen
-		
+
 		return "useraddsuccess";
 	}
 

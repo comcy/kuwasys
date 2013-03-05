@@ -4,10 +4,10 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<ui:define name="title">User Kontrolle</ui:define>
+	<ui:define name="title">Lehrerverwaltung</ui:define>
 	<ui:define name="content">
-	        <h1>User hinzufügen</h1>
-	        <h:form id="useradd">
+	        <h1>Lehrer hinzufügen</h1>
+	        <h:form id="teacheradd">
 	            <h:panelGrid columns="2">
 	                <h:outputLabel for="name" value="Vorname"/>
 	                <h:inputText id="name" value="#{UserBean.name}" required="true"/>
@@ -16,9 +16,9 @@
 	                <h:inputText id="lastname" value="#{UserBean.lastname}" required="true"/>
 
 	                <h:outputLabel for="geb" value="Geburtsdatum"/>
-	                <h:inputText id="geb" value="#{UserBean.geb}" required="true"/>
+	                <h:inputText id="geb" value="#{addUserBean.geb}" required="true"/>
 
-	                <h:commandButton value="User anlegen" action="#{UserBean.send}"/>
+	                <h:commandButton value="Lehrer anlegen" action="#UserBean.send}"/>
 	                
 	                <h:messages showDetail="true" showSummary="false"/><h:messages showDetail="true" showSummary="false"/>
 	            </h:panelGrid>
