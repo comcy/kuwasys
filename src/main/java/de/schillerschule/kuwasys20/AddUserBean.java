@@ -94,6 +94,8 @@ public class AddUserBean {
 	 */
 	public String send() {
 
+		// SQL Statement um User in DB einzufügen
+		
 		return "useraddsuccess";
 	}
 

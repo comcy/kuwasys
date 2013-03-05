@@ -7,7 +7,6 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -39,13 +38,6 @@ public class ImportBean implements Serializable {
 	private String fileName;
 	private UploadedFile file;
 	
-	// Variablen
-	// Datenbank Verbindung
-	static String url = "jdbc:postgresql://localhost/kuwasys";
-	static String user = "ijcy";
-	static String password = "12kuwasys34";
-
-	// Datenbank
 	static Connection connection;
 	static Statement statement;
 	static ResultSet result;
@@ -123,7 +115,7 @@ public class ImportBean implements Serializable {
 				System.out.println("Konfession: " + konf);
 
 				// Datenbank Insert
-				//DBInsert(klasse, nname, vname, geb, konf, lineNumber);
+				DBInsert(klasse, nname, vname, geb, konf, lineNumber);
 
 				System.out.println("--------------------------");
 
@@ -161,35 +153,30 @@ public class ImportBean implements Serializable {
 
 	}
 
+	// Get-Methoden
 	public String getFileName() {
 		return fileName;
 	}
 
+	// Get-Methoden
 	public UploadedFile getFile() {
 		return file;
 	}
 
+	// Set-Methoden
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}
 	
+	/**
+	 * Schüler in die Datenbank importieren
+	 * 
+	 * @return Facelet "csvimport"
+	 */
 	public String home(){
+		DatabaseHandler.SQLConnection(); // Datenbankverbindung herstellen
     	return "csvimport";
     }
-	
-		// SQL connection testing
-		public static void SQLTestConnection() {
-			try {
-				connection = DriverManager.getConnection(url, user, password);
-				statement = connection.createStatement();
-				result = statement.executeQuery("SELECT VERSION()");
-				if (result.next()) {
-					System.out.println(result.getString(1));
-				}
-			} catch (SQLException ex) {
-				System.out.println("Error during DB connection " + ex);
-			}
-		}
 	
 	/**
 	 * createUsername: zum automatischen erstellen des Usernamens aus dem echten
@@ -265,7 +252,7 @@ public class ImportBean implements Serializable {
 		String vnameDB = "";
 		String gebDB = "";
 
-		// 
+		// Username und Passwort generieren
 		String username = createUsername(vname, nname, count);
 		String passwort = createPassword();
 
@@ -295,7 +282,7 @@ public class ImportBean implements Serializable {
 			if (!isCurrentUser) { // Wenn der aktuelle User noch nicht in der Datenbank vorhanden ist - INSERT
 				statement = connection.createStatement();
 				statement
-						.executeUpdate("INSERT INTO users(users_nachname, users_vorname, "
+						.executeUpdate("INSERT INTO users(users_nachname, users_vorname, " // User anlegen
 								+ "users_geburtstag, users_konfession, "
 								+ "users_klasse, users_username, users_passwort, "
 								+ "users_rolle) VALUES ("
@@ -320,8 +307,12 @@ public class ImportBean implements Serializable {
 								+ "'"
 								+ passwort
 								+ "', "
-								+ "'schueler');"); // DEBUG
-				System.out.println(">>> INSERT");
+								+ "'schueler');"
+								+ "INSERT INTO roles(users_username, roles_rolle)" // Rolle des aktuellen Users festlegen
+								+ "VALUES ("
+								+ "'" + username + "', "
+								+ "'schueler');");
+				System.out.println(">>> INSERT"); // DEBUG
 
 			}
 		} catch (SQLException ex) {
