@@ -8,16 +8,8 @@
 	<ui:define name="title">Kurswahl Start</ui:define>
 	<ui:define name="content">
 	        <h1>Kurswahlsystem</h1>
-	        <h:form id="mainForm">
-	            <h:panelGrid columns="2">
-	                <h:outputLabel for="name" value="Vorname"/>
-	                <h:inputText id="name" value="#{kuwasys.name}" required="true"/>
-	                <h:outputLabel for="lastname" value="Nachname"/>
-	                <h:inputText id="lastname" value="#{kuwasys.lastname}" required="true"/>
-	                <h:commandButton value="Press me" action="#{kuwasys.send}"/>
-	                <h:commandButton action="/cancelled.xhtml" value="Cancel" immediate="true"/>
-	                <h:messages showDetail="true" showSummary="false"/><h:messages showDetail="true" showSummary="false"/>
-	            </h:panelGrid>
-	        </h:form>
+	        <h2>Hallo <h:outputText value="#{database.getUserFullName()}"/></h2>
+
+	        
 	</ui:define>
 </ui:composition>
