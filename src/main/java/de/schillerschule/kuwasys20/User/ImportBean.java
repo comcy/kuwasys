@@ -1,4 +1,4 @@
-package de.schillerschule.kuwasys20;
+package de.schillerschule.kuwasys20.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,6 +22,8 @@ import javax.validation.ConstraintViolationException;
 
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.hibernate.tool.hbm2ddl.ImportScriptException;
+
+import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 
 /**
  * Managed Bean für den Upload von CSV-Dokumenten zum Import von Schülern.

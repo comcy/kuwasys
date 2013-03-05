@@ -1,4 +1,4 @@
-package de.schillerschule.kuwasys20;
+package de.schillerschule.kuwasys20.Database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,6 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+/**
+ * Allgemeine Datenbank Methoden
+ * @author cy
+ *
+ */
 public class DatabaseHandler {
 
 	// Variablen

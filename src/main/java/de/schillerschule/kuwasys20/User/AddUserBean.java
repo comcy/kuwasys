@@ -1,12 +1,10 @@
-package de.schillerschule.kuwasys20;
+package de.schillerschule.kuwasys20.User;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 /**
- * Klasse zum Anlegen von neuen Usern im System: - Schueler - Lehrer - ernennen
- * eines neuen Admins
- * 
+ * Klasse zum Anlegen von neuen Usern im System
  * @author cy
  * 
  */
