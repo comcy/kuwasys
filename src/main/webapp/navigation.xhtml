@@ -4,21 +4,21 @@
     xmlns:t="http://myfaces.apache.org/tomahawk">
 <body>
 	<ui:composition>
-		<t:div id="hNav_outer">
+		<t:div id="nav" styleClass="navigation">
 			<h:form>
-				<t:panelNavigation2 id="nav1" layout="list" itemClass="off" activeItemClass="on" openItemClass="on" renderAll="false" expandAll="false">
+				<t:panelNavigation2 id="nav1" width="200px" layout="list" itemClass="off" activeItemClass="on" openItemClass="open" renderAll="false" expandAll="false">
 					<t:navigationMenuItem value="Startseite" id="home" action="#{kuwasys.home}" visibleOnUserRole="admin,lehrer,schueler"/>
 					<t:navigationMenuItem value="Schüler verwalten" id="schüler" action="#{kuwasys.home}" visibleOnUserRole="admin,lehrer,schueler">
-						<t:navigationMenuItem value="Schüler importieren" id="csvimport" action="#{kuwasys.importCSV}" visibleOnUserRole="admin"/>
-						<t:navigationMenuItem value="Neuen Schüler hinzufügen" id="useradd" action="#{kuwasys.addUser}" visibleOnUserRole="admin,leher,schueler"/>
+						<t:navigationMenuItem value=" - importieren" id="csvimport" action="#{kuwasys.importCSV}" visibleOnUserRole="admin"/>
+						<t:navigationMenuItem value=" - hinzufügen" id="useradd" action="#{kuwasys.addUser}" visibleOnUserRole="admin,leher,schueler"/>
 					</t:navigationMenuItem>
 					<t:navigationMenuItem value="Lehrer verwalten" id="lehrer" action="#{kuwasys.home}" visibleOnUserRole="admin,lehrer,schueler">
-						<t:navigationMenuItem value="Neuen Lehrer hinzufügen" id="teacheradd" action="#{kuwasys.addTeacher}" visibleOnUserRole="admin,leher,schueler"/>
+						<t:navigationMenuItem value=" - hinzufügen" id="teacheradd" action="#{kuwasys.addTeacher}" visibleOnUserRole="admin,leher,schueler"/>
 					</t:navigationMenuItem>
 					<t:navigationMenuItem value="Klasse" id="klasse" action="#{kuwasys.home}" visibleOnUserRole="lehrer"/>
 					<t:navigationMenuItem value="Kurse" id="kurse" action="#{kuwasys.home}" visibleOnUserRole="lehrer,schueler"/>
 					<t:navigationMenuItem value="Einstellungen" id="einstellungen" action="#{kuwasys.home}" visibleOnUserRole="admin,lehrer,schueler">
-						<t:navigationMenuItem value="Passwort ändern" id="changepw" action="#{addUserBean.home}" visibleOnUserRole="admin,leher,schueler"/>
+						<t:navigationMenuItem value=" - Passwort ändern" id="changepw" action="#{addUserBean.home}" visibleOnUserRole="admin,leher,schueler"/>
 					</t:navigationMenuItem>
 					<t:navigationMenuItem value="Abmelden" id="logout" action="#{kuwasys.logout}" visibleOnUserRole="admin,lehrer,schueler"/>
 				</t:panelNavigation2>

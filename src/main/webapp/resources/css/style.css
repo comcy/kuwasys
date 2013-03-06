@@ -1,27 +1,48 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
-
 body {
     background-color: white;
     font-family: tahoma, arial, helvetica, sans-serif;
     font-size: 12px;
     margin:0px;
+}
+#titlebar {
+	background-color: rgb(0, 120, 183);
+	color: white;
+	font-weight: bold;
+	padding:0px 0px 0px 0px;
+}
+.navigation {
+	width: 200px;
+}
+
+#nav li {
+	display: block;
+}
+
+li.open li.off a.off, li.open li.off a.on{
+	width:150px;
+	margin-left:-40px;
+	padding-left:10px;
+	font-style: italic;
+}
+
+.on a:hover, .off a:hover {
+	background-color: lightgray;
+	text-decoration:none;
+}
+
+li.off a:hover, li.on a:hover, li.open a:hover {
+	background-color: lightgray;
+	text-decoration:none;
+}
+
+a.off:link {
+	color: black;	
+}
+a.off:hover, active {
+	text-decoration:none;
+}
+a.on:link, a.open:link {
+	font-weight:bold;
 }
 
 #container {
@@ -30,75 +51,15 @@ body {
     background-color: white;
     padding: 0px;
 }
-
-#titlebar {
-	background-color: rgb(0, 120, 183);
-	color: white;
-	font-weight: bold;
-	padding:0px 0px 0px 0px;
-}
-
-h1 {
-    font-size: 20px;
-}
-
-/*
-   --------------------------------------------------------------
-    Horizontal Panelnavigation
-   --------------------------------------------------------------
-*/
-
-#hNav_outer {
-	border-bottom:solid 0px rgb(0, 120, 183);
-	vertical-align:top;
-	width:150px;
-	padding:0px;
-	margin:0px;
-	
-}
-
 a:link {
 	display:block;
-
-    color: black;
-    text-decoration: none;
-}
-a:visited {
-
-    color: black;
+    color: rgb(0, 120, 183);
     text-decoration: none;
 }
 a:hover,active  {
-
-    color: black;
-    text-decoration: none;
+    text-decoration: underline;
 }
-
-li {
-	border-bottom:solid 1px lightgray;
-	margin:3px;
-}
-
-li.on{
-	font-weight: bold;
-}
-
-li.off a:hover {
-	background-color: lightgray;
-}
-
-#hNav_outer li { 
-	background-color: white;
-    margin: 0px 0px;
-    /*float: left;*/
-    display: block;
-    padding: 0px 0px;
-    text-align: left;
-}
-
-
 #content {
 	clear:left;
 	padding: 20px;
-	
 }
