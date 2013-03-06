@@ -17,13 +17,12 @@ import javax.validation.ConstraintViolationException;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.hibernate.tool.hbm2ddl.ImportScriptException;
 
-import de.schillerschule.kuwasys20.Database.DatabaseHandlerBean;
 import de.schillerschule.kuwasys20.Database.UserDatabaseHandler;
 
 /**
  * Managed Bean für den Upload von CSV-Dokumenten zum Import von Schülern.
  */
-@ManagedBean(name= "importBean")
+@ManagedBean(name = "importBean")
 @RequestScoped
 public class ImportBean implements Serializable {
 
@@ -34,7 +33,7 @@ public class ImportBean implements Serializable {
 
 	private String fileName;
 	private UploadedFile file;
-	
+
 	/**
 	 * Führt einen Import mit der hochgeladenen Datei durch.
 	 */
@@ -55,9 +54,10 @@ public class ImportBean implements Serializable {
 		String geb = ""; // (4)
 		String empty = ""; // (5)
 		String konf = ""; // (6)
-		
+
 		try {
-			BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					file.getInputStream(), "ISO-8859-1"));
 
 			StringTokenizer st = null;
 			int lineNumber = 0, tokenNumber = 0;
@@ -66,38 +66,28 @@ public class ImportBean implements Serializable {
 			// Aufbau der CSV Datei:
 			// (1) 'Klasse', (2) 'Nachname', (3) 'Vorname', (4) 'Geburtsdatum',
 			// (5) 'EMPTY' (6) 'Religionsunterricht'
-			
+
 			// Datenbankverbindung herstellen
 			UserDatabaseHandler.SQLConnection();
-			
+
 			System.out.println("--------------------------");
 			line = reader.readLine(); // erste Zeile überspringen
 			while ((line = reader.readLine()) != null) {
-				String encode = new String(line.getBytes(),"LATIN1");
-				
 				lineNumber++;
-				st = new StringTokenizer(encode, ","); // Trennzeichen
+				st = new StringTokenizer(line, ","); // Trennzeichen
 				while (st.hasMoreTokens()) {
 					tokenNumber++;
 					switch (tokenNumber) {
 					case 1:
-						klasse = st.nextToken().replaceAll(
-								"'", "");
+						klasse = st.nextToken().replaceAll("'", "");
 					case 2:
-						nname = st.nextToken().replaceAll(
-								"'", "");
+						nname = st.nextToken().replaceAll("'", "");
 					case 3:
-						vname = st.nextToken().replaceAll(
-								"'", "");
+						vname = st.nextToken().replaceAll("'", "");
 					case 4:
-						geb = st.nextToken().replaceAll(
-								"'", "");
+						geb = st.nextToken().replaceAll("'", "");
 					case 5:
-						empty = st.nextToken().replaceAll(
-								"'", "");
-					case 6:
-						konf = st.nextToken().replaceAll(
-								"'", "");
+						konf = st.nextToken().replaceAll("'", "");
 					}
 				}
 
@@ -106,19 +96,18 @@ public class ImportBean implements Serializable {
 				System.out.println("Nachname: " + nname);
 				System.out.println("Vorname: " + vname);
 				System.out.println("Geburtstag: " + geb);
-				System.out.println("(unused): " + empty);
 				System.out.println("Konfession: " + konf);
 
 				// User in DB einfügen
 				UserDatabaseHandler.addUser(klasse, nname, vname, geb, konf, lineNumber);
-				
+
 				System.out.println("--------------------------");
 
 				tokenNumber = 0;
 
 			}
 			reader.close();
-			
+
 		} catch (RollbackException e) {
 			logger.info("Import fehlgeschlagen\n" + e.getMessage());
 
@@ -139,8 +128,7 @@ public class ImportBean implements Serializable {
 
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Upload fehlgeschlagen", null);
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println("Error while reading CSV file " + e);
 		}
 
@@ -164,4 +152,3 @@ public class ImportBean implements Serializable {
 	}
 
 }
- 
