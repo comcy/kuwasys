@@ -97,6 +97,7 @@ public class UserBean {
 	 * @return username
 	 */
 	public String showUsername() {
+		UserDatabaseHandler.SQLConnection();
 		String username = UserDatabaseHandler.showUserFullName();
 		System.out.println("snap!");
 		return username;

@@ -18,7 +18,7 @@ body {
 	display: block;
 }
 
-li.open li.off a.off, li.open li.off a.on{
+li.open li.off a.off, li.open li.off a.on, li.open li.on a.on{
 	width:150px;
 	margin-left:-40px;
 	padding-left:10px;

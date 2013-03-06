@@ -1,5 +1,7 @@
 package de.schillerschule.kuwasys20.Database;
 
+
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.sql.Connection;
@@ -9,6 +11,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.*;
+
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
@@ -16,19 +22,32 @@ public class UserDatabaseHandler {
 
 	// Variablen
 	// Datenbank Verbindung
-	static String driver = "org.postgresql.Driver";
+/**	static String driver = "org.postgresql.Driver";
 	static String url = "jdbc:postgresql://localhost/kuwasys";
 	static String user = "ijcy";
 	static String password = "12kuwasys34";
-
+**/
 	static Connection connection;
 	static Statement statement;
 	static ResultSet result;
 	
-	public static void SQLConnection() throws ClassNotFoundException {
+	public static void SQLConnection() {
 		try {
+			
+			
+			
+			InitialContext cxt = new InitialContext();
+
+
+			DataSource ds = (DataSource) cxt.lookup( "java:/comp/env/jdbc/postgres" );
+			
+			connection = ds.getConnection();
+			
+			/**
 			Class.forName(driver);
 			connection = DriverManager.getConnection(url, user, password);
+			**/
+			
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT VERSION()");
 			if (result.next()) {
@@ -36,9 +55,10 @@ public class UserDatabaseHandler {
 			}
 		} catch (SQLException ex) {
 			System.out.println("Error during DB connection " + ex);
-		}
-		catch (ClassNotFoundException ex){
+			ex.printStackTrace();
+		} catch (NamingException ex) {
 			System.out.println("Error during DB connection " + ex);
+			ex.printStackTrace();
 		}
 	}
 
