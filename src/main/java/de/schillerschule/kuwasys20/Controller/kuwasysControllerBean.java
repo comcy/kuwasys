@@ -25,8 +25,6 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-import de.schillerschule.kuwasys20.Database.DatabaseHandler;
-
 /**
  * Bean für die gesamte Navigationsstruktur des Systems
  */
@@ -110,13 +108,26 @@ public class kuwasysControllerBean {
 	 * @return Facelet "csvimport"
 	 */
 	public String importCSV(){
-		DatabaseHandler.SQLConnection(); // Datenbankverbindung herstellen
     	return "csvimport";
     }
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	// -------------------getter & setter
-
-	public String getName() {
+	/*public String getName() {
 		return name;
 	}
 
@@ -130,6 +141,6 @@ public class kuwasysControllerBean {
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
-	}
+	}*/
 
 }

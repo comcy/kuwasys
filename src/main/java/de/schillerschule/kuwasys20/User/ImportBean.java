@@ -17,6 +17,7 @@ import javax.validation.ConstraintViolationException;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.hibernate.tool.hbm2ddl.ImportScriptException;
 
+import de.schillerschule.kuwasys20.Database.DatabaseHandlerBean;
 import de.schillerschule.kuwasys20.Database.UserDatabaseHandler;
 
 /**
@@ -38,7 +39,6 @@ public class ImportBean implements Serializable {
 	 * Führt einen Import mit der hochgeladenen Datei durch.
 	 */
 	public void doImport() {
-		// TODO DEBUG
 		logger.info("File type: " + file.getContentType());
 		logger.info("File name: " + file.getName());
 		logger.info("File size: " + file.getSize() + " bytes");
@@ -66,6 +66,10 @@ public class ImportBean implements Serializable {
 			// Aufbau der CSV Datei:
 			// (1) 'Klasse', (2) 'Nachname', (3) 'Vorname', (4) 'Geburtsdatum',
 			// (5) 'EMPTY' (6) 'Religionsunterricht'
+			
+			// Datenbankverbindung herstellen
+			UserDatabaseHandler.SQLConnection();
+			
 			System.out.println("--------------------------");
 			line = reader.readLine(); // erste Zeile überspringen
 			while ((line = reader.readLine()) != null) {
@@ -97,7 +101,6 @@ public class ImportBean implements Serializable {
 					}
 				}
 
-				// TODO DEBUG
 				System.out.println("#" + lineNumber);
 				System.out.println("Klasse: " + klasse);
 				System.out.println("Nachname: " + nname);
@@ -106,9 +109,9 @@ public class ImportBean implements Serializable {
 				System.out.println("(unused): " + empty);
 				System.out.println("Konfession: " + konf);
 
-				// Datenbank Insert
+				// User in DB einfügen
 				UserDatabaseHandler.addUser(klasse, nname, vname, geb, konf, lineNumber);
-
+				
 				System.out.println("--------------------------");
 
 				tokenNumber = 0;

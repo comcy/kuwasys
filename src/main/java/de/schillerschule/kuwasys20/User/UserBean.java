@@ -3,8 +3,10 @@ package de.schillerschule.kuwasys20.User;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
+import de.schillerschule.kuwasys20.Database.UserDatabaseHandler;
+
 /**
- * Klasse zum Anlegen von neuen Usern im System
+ * Klasse für User-Handling im System
  * 
  * @author cy
  * 
@@ -84,9 +86,20 @@ public class UserBean {
 	 */
 	public String send() {
 
-		// SQL Statement um User in DB einzufügen
+		// TODO SQL Aufruf um User in DB einzufügen
 
 		return "useraddsuccess";
+	}
+
+	/**
+	 * Username des aktuellen Users zurückgeben
+	 * 
+	 * @return username
+	 */
+	public String showUsername() {
+		String username = UserDatabaseHandler.showUserFullName();
+		System.out.println("snap!");
+		return username;
 	}
 
 }
