@@ -25,6 +25,8 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
+import de.schillerschule.kuwasys20.Database.DatabaseHandler;
+
 /**
  * Bean für die gesamte Navigationsstruktur des Systems
  */
@@ -117,7 +119,8 @@ public class kuwasysControllerBean {
 	 * @return Facelet "courses"
 	 */
 	public String courses(){
-    	return "courses";
+    	DatabaseHandler.listCourses();
+		return "courses";
     }	
 	
 	

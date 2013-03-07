@@ -14,34 +14,42 @@
 		                headerClass="standardTable_SortHeader"
 		                footerClass="standardTable_Footer"
 		                rowClasses="standardTable_Row1,standardTable_Row2"
-		                var="car"
+		                var="course"
 		                sortable="true"
-		                value="#{autosortlist.cars}"
-		                sortColumn="#{autosortlist.sortColumn}"
-		                sortAscending="#{autosortlist.sortAscending}"
-		                preserveDataModel="true"
-		                preserveSort="true">
-		
-		            <t:column defaultSorted="true">
-		                <f:facet name="header">
-		                    <h:outputText value="ID" />
-		                </f:facet>
-		                <h:outputText value="#{car.id}" />
-		            </t:column>
+		                value="#{courseBean.courses}"
+		                preserveDataModel="true">
 		
 		            <t:column>
 		                <f:facet name="header">
-		                    <h:outputText value="#{example_messages['sort_cartype']}" />
+		                    <h:outputText value="id" />
 		                </f:facet>
-		                <h:outputText value="#{car.type}" />
+		                <h:outputText value="#{course._id}" />
 		            </t:column>
-		
 		            <t:column>
 		                <f:facet name="header">
-		                    <h:outputText value="#{example_messages['sort_carcolor']}" />
+		                    <h:outputText value="Kursname" />
 		                </f:facet>
-		                <h:outputText value="#{car.color}" />
+		                <h:outputText value="#{course._name}" />
 		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Fächerverbund" />
+		                </f:facet>
+		                <h:outputText value="#{course._faecherverbund}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Kurslehrer" />
+		                </f:facet>
+		                <h:outputText value="#{course._kurslehrer}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Termin" />
+		                </f:facet>
+		                <h:outputText value="#{course._termin}" />
+		            </t:column>		
+
 		
 		        </t:dataTable>
 		    </h:form>

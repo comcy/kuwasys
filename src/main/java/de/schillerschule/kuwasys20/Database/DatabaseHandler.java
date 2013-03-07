@@ -1,5 +1,7 @@
 package de.schillerschule.kuwasys20.Database;
 
+import de.schillerschule.kuwasys20.Course.*;
+
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.sql.Connection;
@@ -7,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -243,5 +247,21 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 
+	}
+	
+	public static void listCourses() {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT * FROM course");
+			while(result.next()){
+				System.out.println(result.getInt(1)+result.getString(2)+result.getString(3)+ result.getString(4)+ result.getInt(5));
+				CourseBean.addCourse(new CourseBean.Course(result.getInt(1),result.getString(2),result.getString(3), result.getString(4), result.getInt(5)));
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
 	}
 }
