@@ -17,7 +17,7 @@ import javax.validation.ConstraintViolationException;
 import org.apache.myfaces.custom.fileupload.UploadedFile;
 import org.hibernate.tool.hbm2ddl.ImportScriptException;
 
-import de.schillerschule.kuwasys20.Database.UserDatabaseHandler;
+import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 
 /**
  * Managed Bean für den Upload von CSV-Dokumenten zum Import von Schülern.
@@ -98,7 +98,7 @@ public class ImportBean implements Serializable {
 				System.out.println("Konfession: " + konf);
 
 				// User in DB einfügen
-				UserDatabaseHandler.addUser(klasse, nname, vname, geb, konf, lineNumber);
+				DatabaseHandler.addUser(klasse, nname, vname, geb, konf, lineNumber);
 
 				System.out.println("--------------------------");
 

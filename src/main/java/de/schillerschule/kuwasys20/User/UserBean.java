@@ -3,7 +3,7 @@ package de.schillerschule.kuwasys20.User;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
-import de.schillerschule.kuwasys20.Database.UserDatabaseHandler;
+import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 
 /**
  * Klasse für User-Handling im System
@@ -97,7 +97,7 @@ public class UserBean {
 	 * @return username
 	 */
 	public String showUsername() {
-		String username = UserDatabaseHandler.showUserFullName();
+		String username = DatabaseHandler.showUserFullName();
 		System.out.println("snap!");
 		return username;
 	}

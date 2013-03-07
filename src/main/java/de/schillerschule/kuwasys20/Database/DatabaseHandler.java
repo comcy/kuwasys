@@ -15,7 +15,7 @@ import javax.sql.*;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
-public class UserDatabaseHandler {
+public class DatabaseHandler {
 
 
 	static Connection connection;
