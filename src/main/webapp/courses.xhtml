@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">Kurse</ui:define>
+	<ui:define name="content">
+	        <h1>Kursübersicht</h1>
+	        <h:form>
+		        <t:dataTable id="data"
+		                styleClass="standardTable"
+		                headerClass="standardTable_SortHeader"
+		                footerClass="standardTable_Footer"
+		                rowClasses="standardTable_Row1,standardTable_Row2"
+		                var="car"
+		                sortable="true"
+		                value="#{autosortlist.cars}"
+		                sortColumn="#{autosortlist.sortColumn}"
+		                sortAscending="#{autosortlist.sortAscending}"
+		                preserveDataModel="true"
+		                preserveSort="true">
+		
+		            <t:column defaultSorted="true">
+		                <f:facet name="header">
+		                    <h:outputText value="ID" />
+		                </f:facet>
+		                <h:outputText value="#{car.id}" />
+		            </t:column>
+		
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="#{example_messages['sort_cartype']}" />
+		                </f:facet>
+		                <h:outputText value="#{car.type}" />
+		            </t:column>
+		
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="#{example_messages['sort_carcolor']}" />
+		                </f:facet>
+		                <h:outputText value="#{car.color}" />
+		            </t:column>
+		
+		        </t:dataTable>
+		    </h:form>
+
+	        
+	</ui:define>
+</ui:composition>

@@ -111,7 +111,14 @@ public class kuwasysControllerBean {
     	return "csvimport";
     }
 	
-	
+	/**
+	 * Kursübersicht anzeigen
+	 * 
+	 * @return Facelet "courses"
+	 */
+	public String courses(){
+    	return "courses";
+    }	
 	
 	
 	
