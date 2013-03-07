@@ -1,11 +1,8 @@
 package de.schillerschule.kuwasys20.Database;
 
-
-
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,28 +17,21 @@ import javax.faces.context.FacesContext;
 
 public class UserDatabaseHandler {
 
-	// Variablen
-	// Datenbank Verbindung
-/**	static String driver = "org.postgresql.Driver";
-	static String url = "jdbc:postgresql://localhost/kuwasys";
-	static String user = "ijcy";
-	static String password = "12kuwasys34";
-**/
+
 	static Connection connection;
 	static Statement statement;
 	static ResultSet result;
-	
+
 	public static void SQLConnection() {
 		try {
-			
-			
-			
+
 			InitialContext cxt = new InitialContext();
 
+			DataSource ds = (DataSource) cxt
+					.lookup("java:/comp/env/jdbc/postgres");
 
-			DataSource ds = (DataSource) cxt.lookup( "java:/comp/env/jdbc/postgres" );
-			
 			connection = ds.getConnection();
+			System.out.println("DB open");
 			
 			/**
 			Class.forName(driver);
@@ -57,6 +47,16 @@ public class UserDatabaseHandler {
 			System.out.println("Error during DB connection " + ex);
 			ex.printStackTrace();
 		} catch (NamingException ex) {
+			System.out.println("Error during DB connection " + ex);
+			ex.printStackTrace();
+		}
+	}
+	
+	public static void SQLConnectionClose() {
+		try {
+			connection.close();
+			System.out.println("DB close");
+		} catch (SQLException ex) {
 			System.out.println("Error during DB connection " + ex);
 			ex.printStackTrace();
 		}
@@ -208,6 +208,7 @@ public class UserDatabaseHandler {
 	}
 
 	public static String showUserFullName() {
+		SQLConnection();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = fc.getExternalContext();
 		ResultSet rs = null;
@@ -230,6 +231,7 @@ public class UserDatabaseHandler {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		SQLConnectionClose();
 		return vorName + " " + nachName;
 	}
 
