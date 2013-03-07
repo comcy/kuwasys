@@ -52,8 +52,7 @@ public class ImportBean implements Serializable {
 		String nname = ""; // (2)
 		String vname = ""; // (3)
 		String geb = ""; // (4)
-		String empty = ""; // (5)
-		String konf = ""; // (6)
+		String konf = ""; // (5)
 
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -64,11 +63,11 @@ public class ImportBean implements Serializable {
 
 			// CSV zeilenweise lesen
 			// Aufbau der CSV Datei:
-			// (1) 'Klasse', (2) 'Nachname', (3) 'Vorname', (4) 'Geburtsdatum',
-			// (5) 'EMPTY' (6) 'Religionsunterricht'
+			// (1) 'Klasse', (2) 'Nachname', (3) 'Vorname', 
+			//(4) 'Geburtsdatum', (5) 'Religionsunterricht'
 
 			// Datenbankverbindung herstellen
-			UserDatabaseHandler.SQLConnection();
+			//UserDatabaseHandler.SQLConnection();
 
 			System.out.println("--------------------------");
 			line = reader.readLine(); // erste Zeile überspringen
