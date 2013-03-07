@@ -26,18 +26,9 @@ public class UserDatabaseHandler {
 		try {
 
 			InitialContext cxt = new InitialContext();
-
-			DataSource ds = (DataSource) cxt
-					.lookup("java:/comp/env/jdbc/postgres");
-
+			DataSource ds = (DataSource) cxt.lookup("java:/comp/env/jdbc/postgres");
 			connection = ds.getConnection();
 			System.out.println("DB open");
-			
-			/**
-			Class.forName(driver);
-			connection = DriverManager.getConnection(url, user, password);
-			**/
-			
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT VERSION()");
 			if (result.next()) {
