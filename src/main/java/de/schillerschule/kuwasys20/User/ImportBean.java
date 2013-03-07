@@ -53,6 +53,7 @@ public class ImportBean implements Serializable {
 		String vname = ""; // (3)
 		String geb = ""; // (4)
 		String konf = ""; // (5)
+		String role = "schueler"; // (6)
 
 		try {
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
@@ -64,10 +65,11 @@ public class ImportBean implements Serializable {
 			// CSV zeilenweise lesen
 			// Aufbau der CSV Datei:
 			// (1) 'Klasse', (2) 'Nachname', (3) 'Vorname', 
-			//(4) 'Geburtsdatum', (5) 'Religionsunterricht'
+			// (4) 'Geburtsdatum', (5) 'Religionsunterricht'
+			// (6) 'schueler' -> nur für diese Import möglich
 
 			// Datenbankverbindung herstellen
-			//UserDatabaseHandler.SQLConnection();
+			DatabaseHandler.SQLConnection();
 
 			System.out.println("--------------------------");
 			line = reader.readLine(); // erste Zeile überspringen
@@ -98,7 +100,7 @@ public class ImportBean implements Serializable {
 				System.out.println("Konfession: " + konf);
 
 				// User in DB einfügen
-				DatabaseHandler.addUser(klasse, nname, vname, geb, konf, lineNumber);
+				DatabaseHandler.addUser(klasse, nname, vname, geb, konf, role);
 
 				System.out.println("--------------------------");
 
@@ -106,6 +108,7 @@ public class ImportBean implements Serializable {
 
 			}
 			reader.close();
+			DatabaseHandler.SQLConnectionClose();
 
 		} catch (RollbackException e) {
 			logger.info("Import fehlgeschlagen\n" + e.getMessage());
@@ -136,16 +139,27 @@ public class ImportBean implements Serializable {
 	}
 
 	// Get-Methoden
+	/**
+	 * 
+	 * @return
+	 */
 	public String getFileName() {
 		return fileName;
 	}
 
-	// Get-Methoden
+	/**
+	 * 
+	 * @return
+	 */
 	public UploadedFile getFile() {
 		return file;
 	}
 
 	// Set-Methoden
+	/**
+	 * 
+	 * @param file
+	 */
 	public void setFile(UploadedFile file) {
 		this.file = file;
 	}

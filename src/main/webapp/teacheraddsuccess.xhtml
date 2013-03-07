@@ -5,16 +5,15 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 
-	<ui:define name="title">Schülerverwaltung</ui:define>
+	<ui:define name="title">Lehrerverwaltung</ui:define>
 	<ui:define name="content">
-		<h1>Schüler erfolgreich hinzugefügt!</h1>
-		<h:form id="useraddsuccess">
+		<h1>Lehrer erfolgreich hinzugefügt!</h1>
+		<h:form id="teacheraddsuccess">
 
 			<h:outputText
-				value="Der Schüler #{userBean.name} #{userBean.lastname} wurde erfolgreich angelegt!" />
+				value="Der Lehrer #{teacherBean.name} #{teacherBean.lastname} wurde erfolgreich angelegt!" />
 
 			<!-- TODO PDF GENERIERUNG FÜR ZUGANGSDATEN -->
 		</h:form>
 	</ui:define>
 </ui:composition>
-

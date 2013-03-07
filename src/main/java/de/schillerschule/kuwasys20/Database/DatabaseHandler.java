@@ -58,7 +58,7 @@ public class DatabaseHandler {
 	 * Vor- und Nachnamen
 	 * 
 	 **/
-	public static String createUsername(String vname, String nname, int count) {
+	public static String createUsername(String vname, String nname) {
 
 		// Marker für aktuellen Usernamen
 		boolean isCurrentUsername = true;
@@ -113,11 +113,15 @@ public class DatabaseHandler {
 	}
 
 	/**
-	 * 
-	 * Fügt Daten des aktuellen Users in die Datenbank hinzu
+	 * Fügt Datein eines neuen Users (Schüler oder Lehrer) in die Datenbank ein
+	 * @param klasse
+	 * @param nname
+	 * @param vname
+	 * @param geb
+	 * @param konf
 	 */
 	public static void addUser(String klasse, String nname, String vname,
-			String geb, String konf, int count) {
+			String geb, String konf, String role) {
 
 		// Marker für aktuelle Userdaten
 		boolean isCurrentUser = true;
@@ -128,16 +132,11 @@ public class DatabaseHandler {
 		String gebDB = "";
 
 		// Username und Passwort generieren
-		String username = createUsername(vname, nname, count);
+		String username = createUsername(vname, nname);
 		String passwort = createPassword();
 
-		// feste Rolle 'schueler' zuweisen
-		String role = "schueler";
-
 		try {
-			// Check ob users_username bereits vorhanden:
-			// Class.forName(driver);
-			// connection = DriverManager.getConnection(url, user, password);
+			//SQLConnection();
 			statement = connection.createStatement();
 			result = statement
 					.executeQuery("SELECT users_nachname, users_vorname, users_geburtstag FROM users "
@@ -191,7 +190,8 @@ public class DatabaseHandler {
 
 				// User in DB Rolle zuweisen
 				addRole(username, role);
-
+				
+				//SQLConnectionClose();
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -203,7 +203,6 @@ public class DatabaseHandler {
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = fc.getExternalContext();
 		ResultSet rs = null;
-		// DatabaseHandler.SQLConnection();
 		PreparedStatement pst = null;
 		String stm = "Select users_nachname,users_vorname from users where users_username='"
 				+ externalContext.getUserPrincipal().getName() + "'";

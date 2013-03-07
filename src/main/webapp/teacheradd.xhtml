@@ -6,22 +6,38 @@
 
 	<ui:define name="title">Lehrerverwaltung</ui:define>
 	<ui:define name="content">
-	        <h1>Lehrer hinzufügen</h1>
-	        <h:form id="teacheradd">
-	            <h:panelGrid columns="2">
-	                <h:outputLabel for="name" value="Vorname"/>
-	                <h:inputText id="name" value="#{UserBean.name}" required="true"/>
+		<h1>Lehrer hinzufügen</h1>
+		<h:form id="teacheradd">
+			<h:panelGrid columns="2">
+				<h:outputLabel for="name" value="Vorname:" />
+				<h:inputText id="name" value="#{teacherBean.name}" required="true" />
 
-	                <h:outputLabel for="lastname" value="Nachname"/>
-	                <h:inputText id="lastname" value="#{UserBean.lastname}" required="true"/>
+				<h:outputLabel for="lastname" value="Nachname:" />
+				<h:inputText id="lastname" value="#{teacherBean.lastname}"
+					required="true" />
+					
+				<h:outputLabel for="klasse" value="Klasse:" />
+				<h:inputText id="klasse" value="#{teacherBean.klasse}"
+					required="true" />
+			</h:panelGrid>
+			<br/>
+			<h:outputLabel for="geb" value="Geburtsdatum:" />
+			
+			<h:panelGrid columns="2">
+				<h:outputLabel for="gebDay" value="Tag:" />
+				<h:inputText id="gebDay" value="#{teacherBean.gebDay}"
+					required="true" />
 
-	                <h:outputLabel for="geb" value="Geburtsdatum"/>
-	                <h:inputText id="geb" value="#{addUserBean.geb}" required="true"/>
+				<h:outputLabel for="gebMonth" value="Monat:" />
+				<h:inputText id="gebMonth" value="#{teacherBean.gebMonth}"
+					required="true" />
 
-	                <h:commandButton value="Lehrer anlegen" action="#UserBean.send}"/>
-	                
-	                <h:messages showDetail="true" showSummary="false"/><h:messages showDetail="true" showSummary="false"/>
-	            </h:panelGrid>
-	        </h:form>
+				<h:outputLabel for="gebYear" value="Jahr" />
+				<h:inputText id="gebYear" value="#{teacherBean.gebYear}"
+					required="true" />
+			</h:panelGrid>
+			<h:commandButton value="Lehrer anlegen" action="#{teacherBean.sendTeacher}" />
+			<h:messages showDetail="true" showSummary="false" />
+		</h:form>
 	</ui:define>
 </ui:composition>

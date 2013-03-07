@@ -1,4 +1,4 @@
-package de.schillerschule.kuwasys20.User;
+package de.schillerschule.kuwasys20.Teacher;
 
 import java.io.Serializable;
 import java.util.logging.Logger;
@@ -7,37 +7,36 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
-import de.schillerschule.kuwasys20.Teacher.TeacherBean;
 
 /**
- * Klasse für User-Handling im System
+ * Klasse für Teacher-Handling im System
  * 
  * @author cy
  * 
  */
-@ManagedBean(name = "userBean")
+@ManagedBean(name = "teacherBean")
 @RequestScoped
-public class UserBean implements Serializable {
+public class TeacherBean implements Serializable {
 
 	private static Logger logger = Logger.getLogger(TeacherBean.class
 			.getCanonicalName());
 
-	private static final long serialVersionUID = 2L;
+	private static final long serialVersionUID = 1L;
 
 	// Property-Strings
 	private String name;
 	private String lastname;
-	private String konfession;
 	private String geb;
 	private String gebDay;
 	private String gebMonth;
 	private String gebYear;
 	private String klasse;
-
+	
 	// Default Strings: "schueler"
-	public static String role = "schueler";
+	public static String role = "lehrer";
+	public static String konfession = "N.A."; 
 
-	public UserBean() {
+	public TeacherBean() {
 	}
 
 	// Get-Methoden
@@ -57,15 +56,6 @@ public class UserBean implements Serializable {
 	 */
 	public String getLastname() {
 		return lastname;
-	}
-
-	/**
-	 * Konfession
-	 * 
-	 * @return konfession
-	 */
-	public String getKonfession() {
-		return konfession;
 	}
 
 	/**
@@ -104,15 +94,6 @@ public class UserBean implements Serializable {
 		return gebYear;
 	}
 
-	/**
-	 * Geburtstdatum Tag Jahr
-	 * 
-	 * @return geb
-	 */
-	public String getGeb() {
-		return geb;
-	}
-
 	// Set-Methoden
 	/**
 	 * Vorname
@@ -133,15 +114,6 @@ public class UserBean implements Serializable {
 	}
 
 	/**
-	 * Konfession
-	 * 
-	 * @param konfession
-	 */
-	public void setKonfession(String konfession) {
-		this.konfession = konfession;
-	}
-
-	/**
 	 * Klasse
 	 * 
 	 * @param klasse
@@ -155,7 +127,6 @@ public class UserBean implements Serializable {
 	 * 
 	 * @param gebDay
 	 *            , gebMonth, gebYear
-	 * 
 	 */
 	public void setGebDay(String gebDay) {
 		this.gebDay = gebDay;
@@ -172,39 +143,28 @@ public class UserBean implements Serializable {
 	public void setGeb(String geb) {
 		this.geb = geb;
 	}
-
+	
 	/**
 	 * Neuen User anlegen
 	 * 
 	 * @return Facelet "useraddsuccess"
 	 */
-	public String sendUser() {
+	public String sendTeacher() {
 
 		// DEBUG
 		System.out.println("Klasse: " + klasse);
 		System.out.println("Nachname: " + name);
 		System.out.println("Vorname: " + lastname);
 		System.out.println("Geburtstag: " + geb);
-		System.out.println("Konfession: " + konfession);
 		
 		geb = gebYear + gebMonth + gebDay; // Geburtstag formatieren
-
+		
 		DatabaseHandler.SQLConnection();
 		DatabaseHandler.addUser(klasse, lastname, name, geb, konfession, role);
 		DatabaseHandler.SQLConnectionClose();
 		
-		logger.info("Schüler: " + name + " " + lastname + " angelegt");
-		return "useraddsuccess";
-	}
-
-	/**
-	 * Username des aktuellen Users zurückgeben
-	 * 
-	 * @return username
-	 */
-	public String showUsername() {
-		String username = DatabaseHandler.showUserFullName();
-		return username;
+		logger.info("Lehrer: " + name + " " + lastname + " angelegt");
+		return "teacheraddsuccess";
 	}
 
 }

@@ -4,24 +4,41 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<ui:define name="title">User Kontrolle</ui:define>
+	<ui:define name="title">Schülerverwaltung</ui:define>
 	<ui:define name="content">
-	        <h1>User hinzufügen</h1>
-	        <h:form id="useradd">
-	            <h:panelGrid columns="2">
-	                <h:outputLabel for="name" value="Vorname"/>
-	                <h:inputText id="name" value="#{UserBean.name}" required="true"/>
+		<h1>Schüler hinzufügen</h1>
+		<h:form id="useradd">
+			<h:panelGrid columns="2">
+				<h:outputLabel for="name" value="Vorname:" />
+				<h:inputText id="name" value="#{userBean.name}" required="true" />
 
-	                <h:outputLabel for="lastname" value="Nachname"/>
-	                <h:inputText id="lastname" value="#{UserBean.lastname}" required="true"/>
+				<h:outputLabel for="lastname" value="Nachname:" />
+				<h:inputText id="lastname" value="#{userBean.lastname}"
+					required="true" />
+					
+				<h:outputLabel for="konfession" value="Konfession:" />
+				<h:inputText id="konfession" value="#{userBean.konfession}"
+					required="true" />	
+					
+				<h:outputLabel for="klasse" value="Klasse:" />
+				<h:inputText id="klasse" value="#{userBean.klasse}"
+					required="true" />	
+			</h:panelGrid>
+			<br/>
+			<h:outputLabel for="gebDay" value="Geburtsdatum:" />
+			
+			<h:panelGrid columns="2">
+				<h:outputLabel for="gebDay" value="Tag:" />
+				<h:inputText id="gebDay" value="#{userBean.gebDay}" required="true" />
 
-	                <h:outputLabel for="geb" value="Geburtsdatum"/>
-	                <h:inputText id="geb" value="#{UserBean.geb}" required="true"/>
+				<h:outputLabel for="gebMonth" value="Monat:" />
+				<h:inputText id="gebMonth" value="#{userBean.gebMonth}"	required="true" />
 
-	                <h:commandButton value="User anlegen" action="#{UserBean.send}"/>
-	                
-	                <h:messages showDetail="true" showSummary="false"/><h:messages showDetail="true" showSummary="false"/>
-	            </h:panelGrid>
-	        </h:form>
+				<h:outputLabel for="gebYear" value="Jahr" />
+				<h:inputText id="gebYear" value="#{userBean.gebYear}" required="true" />
+			</h:panelGrid>
+			<h:commandButton value="Schüler anlegen" action="#{userBean.sendUser}" />
+			<h:messages showDetail="true" showSummary="false" />
+		</h:form>
 	</ui:define>
 </ui:composition>
