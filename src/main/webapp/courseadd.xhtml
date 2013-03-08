@@ -18,20 +18,37 @@
 					required="true" />
 				
 				<h:outputLabel for="termin" value="Zeitpunkt" />
-				<h:panelGroup>
-					<t:selectOneRadio id="termin" value="#{courseBean.termin}" >
-		                <f:selectItem itemValue="1" itemLabel="Montag früh" />
-		                <f:selectItem itemValue="2" itemLabel="Montag spät" />
-		                <f:selectItem itemValue="3" itemLabel="Dienstag früh" />
-		                <f:selectItem itemValue="4" itemLabel="Dienstag spät" />
-		                <f:selectItem itemValue="5" itemLabel="Mittwoch früh" />
-		                <f:selectItem itemValue="6" itemLabel="Mittwoch spät" />
-		                <f:selectItem itemValue="7" itemLabel="Donnerstag früh" />
-		                <f:selectItem itemValue="9" itemLabel="Donnerstag spät" />
-		                <f:selectItem itemValue="10" itemLabel="Freitag früh" />
-		                <f:selectItem itemValue="11" itemLabel="Freitag spät" />
-	                </t:selectOneRadio>
-				</h:panelGroup>
+				    <h:panelGroup>
+			      <t:selectOneRadio id="termin" layout="spread" value="#{courseBean.termin}">
+			        <f:selectItem itemValue="1" itemLabel="Vormittag" />
+			        <f:selectItem itemValue="2" itemLabel="Nachmittag" />
+			        <f:selectItem itemValue="3" itemLabel="Vormittag" />
+			        <f:selectItem itemValue="4" itemLabel="Nachmittag" />
+			        <f:selectItem itemValue="5" itemLabel="Vormittag" />
+			        <f:selectItem itemValue="6" itemLabel="Nachmittag" />
+			        <f:selectItem itemValue="7" itemLabel="Vormittag" />
+			        <f:selectItem itemValue="8" itemLabel="Nachmittag" />
+			        <f:selectItem itemValue="9" itemLabel="Vormittag" />
+			        <f:selectItem itemValue="10" itemLabel="Nachmittag" />
+			      </t:selectOneRadio>
+			      <h:panelGrid columns="5">
+			      	<h:outputText value="Montag"/>
+			      	<h:outputText value="Dienstag"/>
+			      	<h:outputText value="Mittwoch"/>
+			      	<h:outputText value="Donnerstag"/>
+			      	<h:outputText value="Freitag"/>
+			        <t:radio for="termin" index="0" />
+			        <t:radio for="termin" index="1" />
+			        <t:radio for="termin" index="2" />
+			        <t:radio for="termin" index="3" />
+			        <t:radio for="termin" index="4" />
+			        <t:radio for="termin" index="5" />
+			        <t:radio for="termin" index="6" />
+			        <t:radio for="termin" index="7" />
+			        <t:radio for="termin" index="8" />
+			        <t:radio for="termin" index="9" />
+			      </h:panelGrid>
+			    </h:panelGroup>
 					
 				<h:outputLabel for="description" value="Beschreibung:" />
 				<h:inputText id="description" value="#{courseBean.beschreibung}" required="false" />
