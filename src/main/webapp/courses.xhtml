@@ -33,22 +33,28 @@
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
-		                    <h:outputText value="Fächerverbund" />
-		                </f:facet>
-		                <h:outputText value="#{course._faecherverbund}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
 		                    <h:outputText value="Kurslehrer" />
 		                </f:facet>
 		                <h:outputText value="#{course._kurslehrer}" />
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
+		                    <h:outputText value="Fächerverbund" />
+		                </f:facet>
+		                <h:outputText value="#{course._faecherverbund}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
 		                    <h:outputText value="Termin" />
 		                </f:facet>
 		                <h:outputText value="#{course._termin}" />
-		            </t:column>		
+		            </t:column>
+		            <t:column>
+			            <f:facet name="header">
+			                <h:outputText value="Beschreibung" />
+			            </f:facet>
+			            <h:outputText value="#{course._beschreibung}" />
+		            </t:column>			            	
 
 		
 		        </t:dataTable>

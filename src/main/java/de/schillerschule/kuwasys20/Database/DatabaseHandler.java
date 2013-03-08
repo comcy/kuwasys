@@ -254,13 +254,26 @@ public class DatabaseHandler {
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT * FROM course");
+			CourseBean.emptyCourses();
 			while(result.next()){
-				System.out.println(result.getInt(1)+result.getString(2)+result.getString(3)+ result.getString(4)+ result.getInt(5));
-				CourseBean.addCourse(new CourseBean.Course(result.getInt(1),result.getString(2),result.getString(3), result.getString(4), result.getInt(5)));
+				System.out.println(result.getInt("course_id")+result.getString("course_name")+ result.getInt("course_kurslehrer")+result.getString("course_faecherverbund")+ result.getInt("course_termin")+ result.getString("course_beschreibung"));
+				CourseBean.addToCourses(new CourseBean.Course(result.getInt("course_id"), result.getString("course_name"), result.getInt("course_kurslehrer"), result.getString("course_faecherverbund"), result.getInt("course_termin"), result.getString("course_beschreibung")));
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+			System.out.println("BÄÄÄÄÄÄÄÄ;");
 			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+	
+	public static void addCourse(String name, String faecherverbund, int kurslehrer, int termin, String beschreibung) {
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate("INSERT INTO course (course_name, course_faecherverbund, course_kurslehrer, course_termin, course_beschreibung)" + "VALUES ('" + name + "', '" + faecherverbund + "', "+ kurslehrer + ", " + termin + ", '"+ beschreibung + "');");
+			System.out.println(">>> INSERT COURSE"); // DEBUG
+		} catch (SQLException ex) {
+			ex.printStackTrace();
 		}
 		SQLConnectionClose();
 	}

@@ -124,7 +124,14 @@ public class kuwasysControllerBean {
     }	
 	
 	
-	
+	/**
+	 * Kurs hinzufügen
+	 * 
+	 * @return Facelet "courseadd"
+	 */
+	public String addCourse(){
+		return "courseadd";
+    }		
 	
 	
 	

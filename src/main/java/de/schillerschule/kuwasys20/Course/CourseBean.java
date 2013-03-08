@@ -6,6 +6,8 @@ import java.util.*;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
+import de.schillerschule.kuwasys20.Database.DatabaseHandler;
+
 @ManagedBean(name = "courseBean")
 @RequestScoped
 
@@ -17,6 +19,26 @@ import javax.faces.bean.RequestScoped;
 public class CourseBean{
 
 	private static List<Course> courses = new ArrayList<Course>();
+
+	private int id;
+	private String name;
+	private int kurslehrer;
+	private String faecherverbund;
+	private int termin;
+	private String beschreibung;
+	
+	public void addCourse(){
+		DatabaseHandler.addCourse(name, faecherverbund, 5/**kurslehrer**/, termin, beschreibung);
+	}
+	
+	public static void addToCourses(Course c){
+		courses.add(c);
+	}
+	public static void emptyCourses(){
+		courses.clear();
+	}
+	
+	
 	
 	public List<Course> getCourses() {
 		return courses;
@@ -24,11 +46,58 @@ public class CourseBean{
 
 	public void setCourses(List<Course> courses) {
 		CourseBean.courses = courses;
-	}
+	}	
 	
-	public static void addCourse(Course c){
-		courses.add(c);
+	public int getId() {
+		return id;
 	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getKurslehrer() {
+		return kurslehrer;
+	}
+
+	public void setKurslehrer(int kurslehrer) {
+		this.kurslehrer = kurslehrer;
+	}
+
+	public String getFaecherverbund() {
+		return faecherverbund;
+	}
+
+	public void setFaecherverbund(String faecherverbund) {
+		this.faecherverbund = faecherverbund;
+	}
+
+	public int getTermin() {
+		return termin;
+	}
+
+	public void setTermin(int termin) {
+		this.termin = termin;
+	}
+
+	
+	public String getBeschreibung() {
+		return beschreibung;
+	}
+
+	public void setBeschreibung(String beschreibung) {
+		this.beschreibung = beschreibung;
+	}
+
+
 	
 	public static class Course
 	    implements Serializable
@@ -39,18 +108,21 @@ public class CourseBean{
 		private static final long serialVersionUID = 1L;
 		private int _id;
 		private String _name;
-		private String _kurslehrer;
+		private int _kurslehrer;
 		private String _faecherverbund;
 		private int _termin;
+		private String _beschreibung;
 		
 		
-		public Course (int id, String name, String kurslehrer, String faecherverbund, int termin)
+		public Course (int id, String name, int kurslehrer, String faecherverbund, int termin, String beschreibung)
 		{
 		    _id = id;
 		    _name = name;
 		    _kurslehrer = kurslehrer;
 		    _faecherverbund = faecherverbund;
 		    _termin = termin;
+		    _beschreibung= beschreibung;
+		    
 		}
 		
 		public int get_id() {
@@ -69,11 +141,11 @@ public class CourseBean{
 			this._name = _name;
 		}
 		
-		public String get_kurslehrer() {
+		public int get_kurslehrer() {
 			return _kurslehrer;
 		}
 		
-		public void set_kurslehrer(String _kurslehrer) {
+		public void set_kurslehrer(int _kurslehrer) {
 			this._kurslehrer = _kurslehrer;
 		}
 		
@@ -91,6 +163,14 @@ public class CourseBean{
 		
 		public void set_termin(int _termin) {
 			this._termin = _termin;
+		}
+
+		public String get_beschreibung() {
+			return _beschreibung;
+		}
+
+		public void set_beschreibung(String _beschreibung) {
+			this._beschreibung = _beschreibung;
 		}
 	}
 }

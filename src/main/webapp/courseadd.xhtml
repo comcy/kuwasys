@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">Kursverwaltung</ui:define>
+	<ui:define name="content">
+		<h1>Kurs hinzufügen</h1>
+		<h:form id="courseadd">
+			<h:panelGrid columns="2">
+				<h:outputLabel for="name" value="Kursname:" />
+				<h:inputText id="name" value="#{courseBean.name}" required="true" />
+
+				<h:outputLabel for="bundle" value="Fächerverbund:" />
+				<h:inputText id="bundle" value="#{courseBean.faecherverbund}"
+					required="true" />
+				
+				<h:outputLabel for="termin" value="Zeitpunkt" />
+				<h:panelGroup>
+					<t:selectOneRadio id="termin" value="#{courseBean.termin}" >
+		                <f:selectItem itemValue="1" itemLabel="Montag früh" />
+		                <f:selectItem itemValue="2" itemLabel="Montag spät" />
+		                <f:selectItem itemValue="3" itemLabel="Dienstag früh" />
+		                <f:selectItem itemValue="4" itemLabel="Dienstag spät" />
+		                <f:selectItem itemValue="5" itemLabel="Mittwoch früh" />
+		                <f:selectItem itemValue="6" itemLabel="Mittwoch spät" />
+		                <f:selectItem itemValue="7" itemLabel="Donnerstag früh" />
+		                <f:selectItem itemValue="9" itemLabel="Donnerstag spät" />
+		                <f:selectItem itemValue="10" itemLabel="Freitag früh" />
+		                <f:selectItem itemValue="11" itemLabel="Freitag spät" />
+	                </t:selectOneRadio>
+				</h:panelGroup>
+					
+				<h:outputLabel for="description" value="Beschreibung:" />
+				<h:inputText id="description" value="#{courseBean.beschreibung}" required="false" />
+			</h:panelGrid>
+			<h:commandButton value="Kurs anlegen" action="#{courseBean.addCourse}" />
+			<h:messages showDetail="true" showSummary="false" />
+		</h:form>
+	</ui:define>
+</ui:composition>
