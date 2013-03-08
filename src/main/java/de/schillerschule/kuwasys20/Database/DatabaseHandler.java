@@ -10,27 +10,30 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
-
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.*;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 
 public class DatabaseHandler {
 
-
 	static Connection connection;
 	static Statement statement;
 	static ResultSet result;
+
+	private static FacesMessage messageName;
+	private static FacesMessage messageUsername;
+	private static FacesMessage messagePassword;
 
 	public static void SQLConnection() {
 		try {
 
 			InitialContext cxt = new InitialContext();
-			DataSource ds = (DataSource) cxt.lookup("java:/comp/env/jdbc/postgres");
+			DataSource ds = (DataSource) cxt
+					.lookup("java:/comp/env/jdbc/postgres");
 			connection = ds.getConnection();
 			System.out.println("DB open");
 			statement = connection.createStatement();
@@ -46,7 +49,7 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 	}
-	
+
 	public static void SQLConnectionClose() {
 		try {
 			connection.close();
@@ -110,14 +113,15 @@ public class DatabaseHandler {
 	public static String createPassword() {
 
 		SecureRandom random = new SecureRandom();
-		String passwort = new BigInteger(130, random).toString(32);
-		System.out.println("Passwort: " + passwort);
+		String password = new BigInteger(130, random).toString(32);
+		System.out.println("Passwort: " + password);
 
-		return passwort;
+		return password;
 	}
 
 	/**
 	 * Fügt Datein eines neuen Users (Schüler oder Lehrer) in die Datenbank ein
+	 * 
 	 * @param klasse
 	 * @param nname
 	 * @param vname
@@ -137,10 +141,9 @@ public class DatabaseHandler {
 
 		// Username und Passwort generieren
 		String username = createUsername(vname, nname);
-		String passwort = createPassword();
+		String password = createPassword();
 
 		try {
-			//SQLConnection();
 			statement = connection.createStatement();
 			result = statement
 					.executeQuery("SELECT users_nachname, users_vorname, users_geburtstag FROM users "
@@ -158,6 +161,10 @@ public class DatabaseHandler {
 			if ((nname.equals(nnameDB) && vname.equals(vnameDB) && geb
 					.equals(gebDB))) {
 				isCurrentUser = true;
+				messageName = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"Der User " + vname + " " + nname
+								+ " existiert bereits!", null);
+
 				System.out.println(">>> User bereits in DB vorhanden!");
 			} else {
 				isCurrentUser = false;
@@ -189,17 +196,47 @@ public class DatabaseHandler {
 								+ username
 								+ "', "
 								+ "'"
-								+ passwort + "', " + "'" + role + "');");
+								+ password + "', " + "'" + role + "');");
 				System.out.println(">>> INSERT USER"); // DEBUG
 
 				// User in DB Rolle zuweisen
 				addRole(username, role);
-				
-				//SQLConnectionClose();
+
+				messageName = new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Der User " + vname + " " + nname
+								+ " wurde erfolgreich angelegt und erhielt "
+								+ "die Rolle '" + role + "'.", null);
+				messageUsername = new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Username: " + username + "", null);
+				messagePassword = new FacesMessage(FacesMessage.SEVERITY_INFO,
+						"Passwort: " + password + "", null);
+
 			}
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+
+		FacesContext.getCurrentInstance().addMessage("useraddsuccess_name",
+				messageName);
+		FacesContext.getCurrentInstance().addMessage("useraddsuccess_username",
+				messageUsername);
+		FacesContext.getCurrentInstance().addMessage("useraddsuccess_password",
+				messagePassword);
+
+		FacesContext.getCurrentInstance().addMessage("teacheraddsuccess_name",
+				messageName);
+		FacesContext.getCurrentInstance().addMessage("teacheraddsuccess_username",
+				messageUsername);
+		FacesContext.getCurrentInstance().addMessage("teacheraddsuccess_password",
+				messagePassword);
+		
+		callMessage();
+		
+	}
+	
+	public static void callMessage(){
+		FacesContext.getCurrentInstance().addMessage("csvimport",
+				messageName);
 	}
 
 	public static String showUserFullName() {
@@ -248,16 +285,26 @@ public class DatabaseHandler {
 		}
 
 	}
-	
+
 	public static void listCourses() {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT * FROM course");
 			CourseBean.emptyCourses();
-			while(result.next()){
-				System.out.println(result.getInt("course_id")+result.getString("course_name")+ result.getInt("course_kurslehrer")+result.getString("course_faecherverbund")+ result.getInt("course_termin")+ result.getString("course_beschreibung"));
-				CourseBean.addToCourses(new CourseBean.Course(result.getInt("course_id"), result.getString("course_name"), result.getInt("course_kurslehrer"), result.getString("course_faecherverbund"), result.getInt("course_termin"), result.getString("course_beschreibung")));
+			while (result.next()) {
+				System.out.println(result.getInt("course_id")
+						+ result.getString("course_name")
+						+ result.getInt("course_kurslehrer")
+						+ result.getString("course_faecherverbund")
+						+ result.getInt("course_termin")
+						+ result.getString("course_beschreibung"));
+				CourseBean.addToCourses(new CourseBean.Course(result
+						.getInt("course_id"), result.getString("course_name"),
+						result.getInt("course_kurslehrer"), result
+								.getString("course_faecherverbund"), result
+								.getInt("course_termin"), result
+								.getString("course_beschreibung")));
 			}
 		} catch (SQLException e) {
 			System.out.println("BÄÄÄÄÄÄÄÄ;");
@@ -265,12 +312,24 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 	}
-	
-	public static void addCourse(String name, String faecherverbund, int kurslehrer, int termin, String beschreibung) {
+
+	public static void addCourse(String name, String faecherverbund,
+			int kurslehrer, int termin, String beschreibung) {
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
-			statement.executeUpdate("INSERT INTO course (course_name, course_faecherverbund, course_kurslehrer, course_termin, course_beschreibung)" + "VALUES ('" + name + "', '" + faecherverbund + "', "+ kurslehrer + ", " + termin + ", '"+ beschreibung + "');");
+			statement
+					.executeUpdate("INSERT INTO course (course_name, course_faecherverbund, course_kurslehrer, course_termin, course_beschreibung)"
+							+ "VALUES ('"
+							+ name
+							+ "', '"
+							+ faecherverbund
+							+ "', "
+							+ kurslehrer
+							+ ", "
+							+ termin
+							+ ", '"
+							+ beschreibung + "');");
 			System.out.println(">>> INSERT COURSE"); // DEBUG
 		} catch (SQLException ex) {
 			ex.printStackTrace();

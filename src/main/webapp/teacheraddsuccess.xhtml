@@ -7,13 +7,24 @@
 
 	<ui:define name="title">Lehrerverwaltung</ui:define>
 	<ui:define name="content">
-		<h1>Lehrer erfolgreich hinzugefügt!</h1>
-		<h:form id="teacheraddsuccess">
+		<h1>Lehrerverwaltungsinformationen</h1>
 
-			<h:outputText
-				value="Der Lehrer #{teacherBean.name} #{teacherBean.lastname} wurde erfolgreich angelegt!" />
+			<h:form id="teacheraddsuccess_name">
+				<h3><h:message globalOnly="true" for="teacheraddsuccess_name" infoStyle="color: green;"
+					errorStyle="color: red;" /></h3>
+			</h:form>
+			<br />
+
+			<h:form id="teacheraddsuccess_username">
+				<h3><h:message globalOnly="true" for="teacheraddsuccess_username"
+					infoStyle="color: green;" errorStyle="color: red;" /></h3>
+			</h:form>
+			
+			<h:form id="teacheraddsuccess_password">
+				<h3><h:message globalOnly="true" for="teacheraddsuccess_password"
+					infoStyle="color: green;" errorStyle="color: red;" /></h3>
+			</h:form>
 
 			<!-- TODO PDF GENERIERUNG FÜR ZUGANGSDATEN -->
-		</h:form>
 	</ui:define>
 </ui:composition>

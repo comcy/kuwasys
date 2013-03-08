@@ -34,6 +34,8 @@ public class ImportBean implements Serializable {
 	private String fileName;
 	private UploadedFile file;
 
+	private FacesMessage message;
+
 	/**
 	 * Führt einen Import mit der hochgeladenen Datei durch.
 	 */
@@ -42,8 +44,8 @@ public class ImportBean implements Serializable {
 		logger.info("File name: " + file.getName());
 		logger.info("File size: " + file.getSize() + " bytes");
 
-		FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO,
-				"Import erfolgreich", null);
+		message = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				"Import erfolgreich!", null);
 
 		// Stringvariablen für ausgelesene Daten
 		String line = "";
@@ -131,11 +133,15 @@ public class ImportBean implements Serializable {
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 					"Upload fehlgeschlagen", null);
 		} catch (Exception e) {
-			System.out.println("Error while reading CSV file " + e);
+			logger.info("Upload fehlgeschlagen\n" + e.getMessage());
+
+			message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Upload fehlgeschlagen", null);
 		}
 
 		FacesContext.getCurrentInstance().addMessage("csvimport", message);
 
+		//return "csvimportsuccess";
 	}
 
 	// Get-Methoden

@@ -8,24 +8,23 @@
 	<ui:define name="title">Schülerverwaltung</ui:define>
 	<ui:define name="content">
 		<h1>Schülerverwaltungsinformationen</h1>
-
+			<h2>Der Import wurde durchgeführt:</h2>
+			
 			<h:form id="useraddsuccess_name">
-			<h3><h:message globalOnly="true" for="useraddsuccess_name" infoStyle="color: green;"
+			<h3><h:messages for="useraddsuccess_name" infoStyle="color: green;"
 					errorStyle="color: red;" /></h3>
 			</h:form><br/>
 			
 			<h:form id="useraddsuccess_username">
-			<h3><h:message globalOnly="true" for="useraddsuccess_username" infoStyle="color: green;"
+			<h3><h:message for="useraddsuccess_username" infoStyle="color: green;"
 					errorStyle="color: red;" /></h3>
 			</h:form>
 			
 			<h:form id="useraddsuccess_password">
-			<h3><h:message globalOnly="true" for="useraddsuccess_password" infoStyle="color: green;"
+			<h3><h:message for="useraddsuccess_password" infoStyle="color: green;"
 					errorStyle="color: red;" /></h3>
 			</h:form>
-		
-		<!-- TODO PDF GENERIERUNG FÜR ZUGANGSDATEN -->
-		
+
+			<!-- TODO PDF GENERIERUNG FÜR ZUGANGSDATEN -->
 	</ui:define>
 </ui:composition>
-

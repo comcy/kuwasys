@@ -12,27 +12,42 @@
 	<ui:define name="content">
 
 		<h1>Schülerliste importieren</h1>
-		<h:panelGroup>Bitte wählen Sie eine CSV-Datei für den Import aus.</h:panelGroup>
+		<h:panelGroup>Bitte wählen Sie eine CSV-Datei für den Import aus:</h:panelGroup>
+		<br />
 
 		<h:form id="csvimport" enctype="multipart/form-data" name="csvimport">
 			<h:panelGroup layout="block">
-				<t:inputFileUpload id="file" value="#{importBean.file}" required="true" requiredMessage="Bitte eine Datei auswählen!" />
+				<t:inputFileUpload id="file" value="#{importBean.file}"
+					required="true" requiredMessage="Bitte eine Datei auswählen!" />
 
 				<h:commandButton value="Importieren" action="#{importBean.doImport}" />
-				
-				<h:message for="file" infoStyle="color: red;" />
-				
-				<h:message for="csvimport" infoStyle="color: green;"
-					errorStyle="color: red;" />
+				<br />
+
+
 			</h:panelGroup>
+			<h:message for="csvimport" infoStyle="color: green;"
+				errorStyle="color: red;" />
+			<h:message for="file" infoStyle="color: red;"
+				errorStyle="color: red;" />
+			<br />
 		</h:form>
 
-		<p>Die Daten werden beim Klick auf den Button "Importieren" automatisch in die Datenbank importiert.</p><br/>
-		<p>Bitte beachten Sie, dass die CSV-Datei die folgenden Struktur aufweist:</p>
+		<!-- <h:form id="csvimport_name">
+			<h3>
+				<h:messages for="csvimport_name" infoStyle="color: green;" errorStyle="color: red;" />
+			</h3>
+		</h:form> -->
+		<br />
+				
+		<p>Die Daten werden beim Klick auf den Button "Importieren"
+			automatisch in die Datenbank importiert.</p>
+		<br />
+		<p>Bitte beachten Sie, dass die CSV-Datei die folgenden Struktur
+			aufweist:</p>
 		<p>'Klasse','Nachname','Vorname','Geburtsdatum','Konfession'</p>
 		<p>Zeichensatz: ISO-8859-1</p>
 		<p>Feldtrenner: " , " (Bsp.: 'Wort','Wort',...)</p>
 		<p>Texttrenner: " ' " (Bsp.: 'Wort')</p>
 	</ui:define>
 
-</ui:composition> 
+</ui:composition>
