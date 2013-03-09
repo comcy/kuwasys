@@ -39,6 +39,37 @@ public class kuwasysControllerBean {
 	private String lastname;
 	private String temp;
 
+	private static int phase;
+	private static int tertial;	
+	private static int year;
+	
+	public int getPhase() {
+		return kuwasysControllerBean.phase;
+	}
+
+	public static void setPhase(int phase) {
+		kuwasysControllerBean.phase = phase;
+	}
+
+	public int getTertial() {
+		return kuwasysControllerBean.tertial;
+	}
+
+	public static void setTertial(int tertial) {
+		kuwasysControllerBean.tertial = tertial;
+	}
+	
+	public int getYear() {
+		return kuwasysControllerBean.year;
+	}
+
+	public static void setYear(int year) {
+		kuwasysControllerBean.year = year;
+	}
+	
+	
+	
+
 	public kuwasysControllerBean() {
 	}
 
@@ -54,7 +85,21 @@ public class kuwasysControllerBean {
 		return "page2.jsf";
 	}
 
+	
+	public String systemPhase(){
+		switch (phase) {
+		case 1: return "Kursplanung";
+		case 2: return "Kurswahl";
+		case 3: return "Unterricht";
+		default: return "";
+		}
+		
+	}
+	
 	public String userRole() {
+		
+		DatabaseHandler.systemState();
+		
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (context.getExternalContext().isUserInRole("admin"))
 			return "Admin";
@@ -118,7 +163,7 @@ public class kuwasysControllerBean {
 	 * 
 	 * @return Facelet "courses"
 	 */
-	public String courses(){
+	public static String courses(){
     	DatabaseHandler.listCourses();
 		return "courses";
     }	
@@ -133,7 +178,23 @@ public class kuwasysControllerBean {
 		return "courseadd";
     }		
 	
-	
+	/**
+	 * Systemstatus anzeigen
+	 * 
+	 * @return Facelet "system"
+	 */
+	public String system(){
+		return "system";
+    }		
+	/**
+	 * Systemphase setzen
+	 * 
+	 * @return Facelet "phaseset"
+	 */
+	public String phaseSet(){
+		return "phaseset";
+    }		
+		
 	
 	
 	

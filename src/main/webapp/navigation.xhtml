@@ -16,9 +16,12 @@
 						<t:navigationMenuItem value=" - hinzufügen" id="teacheradd" action="#{kuwasys.addTeacher}" visibleOnUserRole="admin"/>
 					</t:navigationMenuItem>
 					<t:navigationMenuItem value="Klasse" id="klasse" action="#{kuwasys.home}" visibleOnUserRole="lehrer"/>
-					<t:navigationMenuItem value="Kurse" id="kurse" action="#{kuwasys.courses}" visibleOnUserRole="lehrer,schueler">
+					<t:navigationMenuItem value="Kurse" id="kurse" action="#{kuwasys.courses}" visibleOnUserRole="admin,lehrer,schueler">
 						<t:navigationMenuItem value=" - hinzufügen" id="courseadd" action="#{kuwasys.addCourse}" visibleOnUserRole="admin,lehrer"/>
 					</t:navigationMenuItem>
+					<t:navigationMenuItem value="System" id="system" action="#{kuwasys.system}" visibleOnUserRole="admin">
+						<t:navigationMenuItem value=" - Phase setzen" id="system_phaseset" action="#{kuwasys.phaseSet}" visibleOnUserRole="admin"/>
+					</t:navigationMenuItem>					
 					<t:navigationMenuItem value="Einstellungen" id="einstellungen" action="#{kuwasys.home}" visibleOnUserRole="admin,lehrer,schueler">
 						<t:navigationMenuItem value=" - Passwort ändern" id="changepw" action="#{addUserBean.home}" visibleOnUserRole="admin,lehrer,schueler"/>
 					</t:navigationMenuItem>

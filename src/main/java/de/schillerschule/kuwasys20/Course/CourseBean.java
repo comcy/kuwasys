@@ -6,6 +6,7 @@ import java.util.*;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
+import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 
 @ManagedBean(name = "courseBean")
@@ -27,8 +28,9 @@ public class CourseBean{
 	private int termin;
 	private String beschreibung;
 	
-	public void addCourse(){
+	public String addCourse(){
 		DatabaseHandler.addCourse(name, faecherverbund, 5/**kurslehrer**/, termin, beschreibung);
+		return kuwasysControllerBean.courses();
 	}
 	
 	public static void addToCourses(Course c){

@@ -1,5 +1,6 @@
 package de.schillerschule.kuwasys20.Database;
 
+import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Course.*;
 
 import java.math.BigInteger;
@@ -307,7 +308,6 @@ public class DatabaseHandler {
 								.getString("course_beschreibung")));
 			}
 		} catch (SQLException e) {
-			System.out.println("BÄÄÄÄÄÄÄÄ;");
 			e.printStackTrace();
 		}
 		SQLConnectionClose();
@@ -336,4 +336,21 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 	}
+	
+	public static void systemState() {
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT * FROM system;");	
+			if (result.next()){
+				kuwasysControllerBean.setPhase(result.getInt("system_phase"));
+				kuwasysControllerBean.setTertial(result.getInt("system_tertial"));
+				kuwasysControllerBean.setYear(result.getInt("system_jahr"));
+			}
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+	
 }

@@ -12,7 +12,13 @@
 <h:outputStylesheet library="css" name="style.css"/>
 	<t:div id="container">
 		<h:graphicImage library="img" name="header.jpg" alt="HeaderImage"/>
-		<t:div id="titlebar"><h:panelGrid columns="3" style="text-align:right;width:980px;"><ui:insert name="title" /><div style="width:100px"/><h:outputText style="color:lightgray;" rendered="#{kuwasys.userRole()==null?false:true}" value="#{userBean.showUsername()} | #{request.remoteUser} &#8834; #{kuwasys.userRole()}"/></h:panelGrid></t:div>
+		<t:div id="titlebar">
+			<h:panelGrid columns="3" style="text-align:right; width:980px;">
+				<ui:insert name="title" />
+				<h:outputText style="color:lightgray;" rendered="#{kuwasys.userRole()==null?false:true}" value="Schuljahr #{kuwasys.year}/#{kuwasys.year+1} | Tertial: #{kuwasys.tertial}"/>
+				<h:outputText style="color:lightgray;" rendered="#{kuwasys.userRole()==null?false:true}" value="#{userBean.showUsername()} | #{request.remoteUser} &#8834; #{kuwasys.userRole()}"/>
+			</h:panelGrid>
+		</t:div>
 		<h:panelGrid columns="2">
 		<ui:include src="/navigation.xhtml"/>
 		<t:div id="content"><ui:insert name="content" /></t:div>
