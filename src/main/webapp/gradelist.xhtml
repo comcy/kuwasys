@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">Kurse</ui:define>
+	<ui:define name="content">
+	        <h1>Kursübersicht</h1>
+	        <h:form>
+		        <t:dataTable id="data"
+		                styleClass="standardTable"
+		                headerClass="standardTable_SortHeader"
+		                footerClass="standardTable_Footer"
+		                rowClasses="standardTable_Row1,standardTable_Row2"
+		                var="gradelist"
+		                sortable="true"
+		                value="#{gradelistBean.gradelist}"
+		                preserveDataModel="true">
+		
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="id" />
+		                </f:facet>
+		                <h:outputText value="#{gradelist._id}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Note" />
+		                </f:facet>
+		                <h:outputText value="#{gradelist._note}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Bemerkung" />
+		                </f:facet>
+		                <h:outputText value="#{gradelist._bemerkung}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="User" />
+		                </f:facet>
+		                <h:outputText value="#{gradelist._userid}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Kurs" />
+		                </f:facet>
+		                <h:outputText value="#{gradelist._kursid}" />
+		            </t:column>  	
+		
+		        </t:dataTable>
+		    </h:form>
+
+	        
+	</ui:define>
+</ui:composition>

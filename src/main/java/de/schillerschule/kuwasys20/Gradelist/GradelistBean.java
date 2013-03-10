@@ -19,23 +19,23 @@ public class GradelistBean{
 	private int id;
 	private int note;
 	private String bemerkung;
-	private int usersid;
+	private int userid;
 	private int kursid;
 	
 	public String addToGradelist(){
-		DatabaseHandler.addToGradelist(note, bemerkung, usersid, kursid);
-		return kuwasysControllerBean.gradelist();
+		DatabaseHandler.addToGradelist(note, bemerkung, userid, kursid);
+		return kuwasysControllerBean.goGradelist();
 	}
 	
-	public static void addToGradelist(Gradelist n){
-		gradelist.add(c);
+	public static void addToGradelist(Grades g){
+		gradelist.add(g);
 	}
 	public static void emptyGradelist(){
 		gradelist.clear();
 	}
 	
-	public void setGradelist(List<Gradelist> gradelist) {
-		GradelistBean.grades = grades;
+	public void setGradelist(List<Grades> gradelist) {
+		GradelistBean.gradelist = gradelist;
 	}	
 	
 	// Set-Methoden
@@ -52,7 +52,7 @@ public class GradelistBean{
 	}
 
 	public void setUsersid(int usersid) {
-		this.usersid = usersid;
+		this.userid = usersid;
 	}
 	
 	public void setKursid(int kursid) {
@@ -73,7 +73,7 @@ public class GradelistBean{
 	}
 	
 	public int getUsersid() {
-		return usersid;
+		return userid;
 	}
 
 	public int getKursid() {
@@ -92,14 +92,14 @@ public class GradelistBean{
 		private int _id;
 		private int _note;
 		private String _bemerkung;
-		private int _usersid;
+		private int _userid;
 		private int _kursid;
 	
-		public Gradelist (int id, int note, String bemerkung, int usersid, int kursid) {
+		public Grades (int id, int note, String bemerkung, int usersid, int kursid) {
 		    _id = id;
 		    _note = note;
 		    _bemerkung = bemerkung;
-		    _usersid = usersid;
+		    _userid = usersid;
 		    _kursid = kursid;
 		    
 		}
@@ -118,7 +118,7 @@ public class GradelistBean{
 		}
 		
 		public void set_usersid(int _usersid) {
-			this._usersid = _usersid;
+			this._userid = _usersid;
 		}
 		
 		public void set_kursid(int _kursid) {
@@ -139,7 +139,7 @@ public class GradelistBean{
 		}
 		
 		public int get_userid() {
-			return _usersid;
+			return _userid;
 		}
 		
 		public int get_kursid() {

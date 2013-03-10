@@ -18,7 +18,11 @@
 					<t:navigationMenuItem value="Klasse" id="klasse" action="#{kuwasys.goHome}" visibleOnUserRole="lehrer"/>
 					<t:navigationMenuItem value="Kurse" id="kurse" action="#{kuwasys.goCourses}" visibleOnUserRole="admin,lehrer,schueler">
 						<t:navigationMenuItem value=" - hinzufügen" id="courseadd" action="#{kuwasys.goAddCourse}" visibleOnUserRole="admin,lehrer"/>
+						<t:navigationMenuItem value=" - einschreiben" id="gradelistadd" action="#{kuwasys.goAddGradelist}" visibleOnUserRole="schueler"/>
 					</t:navigationMenuItem>
+					
+					<t:navigationMenuItem value="Notenübersicht" id="notenübersicht" action="#{kuwasys.goGradelist}" visibleOnUserRole="schueler"/>
+					
 					<t:navigationMenuItem value="System" id="system" action="#{kuwasys.goSystem}" visibleOnUserRole="admin">
 						<t:navigationMenuItem value=" - Phase setzen" id="system_phaseset" action="#{kuwasys.goPhaseSet}" visibleOnUserRole="admin"/>
 						<t:navigationMenuItem value=" - nächstes Tertial" id="system_tertialnext" action="#{kuwasys.goTertialNext}" visibleOnUserRole="admin"/>
