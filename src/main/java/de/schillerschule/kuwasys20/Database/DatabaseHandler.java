@@ -409,6 +409,7 @@ public class DatabaseHandler {
 	 */
 	public static void listGradelist() {
 		SQLConnection();
+		System.out.println("Zeuch mir die Nodalischd!");
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT * FROM gradelist");
