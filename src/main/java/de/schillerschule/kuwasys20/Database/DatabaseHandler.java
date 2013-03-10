@@ -278,6 +278,40 @@ public class DatabaseHandler {
 		return vorName + " " + nachName;
 	}
 
+	
+	/**
+	 * Gibt ID des angemeldeten User zurück
+	 * 
+	 * @param 
+	 */
+	
+	public static int getUserId(){
+		int id = 0;
+		SQLConnection();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = fc.getExternalContext();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "Select users_id from users where users_username='"
+				+ externalContext.getUserPrincipal().getName() + "'";
+		try {
+			pst = connection.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+
+				id = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+		
+		return id;
+	}
+	
+
 	/**
 	 * Gibt gegebenem User die gegebenen Rechte
 	 * 
