@@ -30,7 +30,7 @@ public class CourseBean{
 	
 	public String addCourse(){
 		DatabaseHandler.addCourse(name, faecherverbund, 5/**kurslehrer**/, termin, beschreibung);
-		return kuwasysControllerBean.courses();
+		return kuwasysControllerBean.goCourses();
 	}
 	
 	public static void addToCourses(Course c){

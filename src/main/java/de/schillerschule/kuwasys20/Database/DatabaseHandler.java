@@ -353,4 +353,27 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 	
+	public static void commitPhase(int p){
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE system SET system_phase="+p+";");	
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+
+	public static void commitTertial(int tertial, int year) {
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE system SET system_jahr="+year+", system_tertial="+tertial+";");	
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+		
+	}
+	
 }

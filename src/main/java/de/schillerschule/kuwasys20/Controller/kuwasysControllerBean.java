@@ -42,6 +42,7 @@ public class kuwasysControllerBean {
 	private static int phase;
 	private static int tertial;	
 	private static int year;
+	private int phaseChanged;
 	
 	public int getPhase() {
 		return kuwasysControllerBean.phase;
@@ -50,6 +51,16 @@ public class kuwasysControllerBean {
 	public static void setPhase(int phase) {
 		kuwasysControllerBean.phase = phase;
 	}
+	
+	public int getPhaseChanged() {
+		phaseChanged=phase;
+		return phaseChanged;
+	}
+
+	public void setPhaseChanged(int phase) {
+		phaseChanged = phase;
+	}
+	
 
 	public int getTertial() {
 		return kuwasysControllerBean.tertial;
@@ -91,9 +102,25 @@ public class kuwasysControllerBean {
 		case 1: return "Kursplanung";
 		case 2: return "Kurswahl";
 		case 3: return "Unterricht";
-		default: return "";
+		default: return "ÜNGÜLTIG!";
 		}
 		
+	}
+	
+	public String phaseCommit(){
+		DatabaseHandler.commitPhase(phaseChanged);
+		return goSystem();
+	}
+	
+	public String nextTertial(){
+		tertial++;
+		if (tertial > 3){
+			year++;
+			tertial=1;
+		}
+		DatabaseHandler.commitTertial(tertial, year);
+		return goSystem();
+			
 	}
 	
 	public String userRole() {
@@ -111,7 +138,7 @@ public class kuwasysControllerBean {
 			return null;
 	}
 
-	public String logout() throws IOException {
+	public String goLogout() throws IOException {
 		ExternalContext ec = FacesContext.getCurrentInstance()
 				.getExternalContext();
 		ec.invalidateSession();
@@ -122,12 +149,29 @@ public class kuwasysControllerBean {
 	}
 
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	 // Navigationsaufrufe 
 	/**
 	 * 
 	 * @return
 	 */
-	public String home() {
+	public String goHome() {
 		return "kuwasys";
 	}
 	
@@ -136,7 +180,7 @@ public class kuwasysControllerBean {
 	 * 
 	 * @return Facelet "useradd"
 	 */
-	public String addUser() {
+	public String goAddUser() {
 		return "useradd";
 	}
 	
@@ -145,7 +189,7 @@ public class kuwasysControllerBean {
 	 * 
 	 * @return Facelet "teacheradd"
 	 */
-	public String addTeacher() {
+	public String goAddTeacher() {
 		return "teacheradd";
 	}
 
@@ -154,7 +198,7 @@ public class kuwasysControllerBean {
 	 * 
 	 * @return Facelet "csvimport"
 	 */
-	public String importCSV(){
+	public String goImportCSV(){
     	return "csvimport";
     }
 	
@@ -163,7 +207,7 @@ public class kuwasysControllerBean {
 	 * 
 	 * @return Facelet "courses"
 	 */
-	public static String courses(){
+	public static String goCourses(){
     	DatabaseHandler.listCourses();
 		return "courses";
     }	
@@ -174,7 +218,7 @@ public class kuwasysControllerBean {
 	 * 
 	 * @return Facelet "courseadd"
 	 */
-	public String addCourse(){
+	public String goAddCourse(){
 		return "courseadd";
     }		
 	
@@ -183,7 +227,7 @@ public class kuwasysControllerBean {
 	 * 
 	 * @return Facelet "system"
 	 */
-	public String system(){
+	public String goSystem(){
 		return "system";
     }		
 	/**
@@ -191,11 +235,18 @@ public class kuwasysControllerBean {
 	 * 
 	 * @return Facelet "phaseset"
 	 */
-	public String phaseSet(){
+	public String goPhaseSet(){
 		return "phaseset";
     }		
 		
-	
+	/**
+	 * Systemtertial inkrementieren
+	 * 
+	 * @return Facelet "tertialnext"
+	 */
+	public String goTertialNext(){
+		return "tertialnext";
+    }	
 	
 	
 	
