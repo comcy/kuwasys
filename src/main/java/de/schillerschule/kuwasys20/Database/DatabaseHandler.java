@@ -2,6 +2,7 @@ package de.schillerschule.kuwasys20.Database;
 
 import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Course.*;
+import de.schillerschule.kuwasys20.Gradelist.GradelistBean;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -29,11 +30,10 @@ public class DatabaseHandler {
 	private static FacesMessage messageUsername;
 	private static FacesMessage messagePassword;
 
-	
 	/**
 	 * SQL METHODEN - DB CONNECTION
 	 */
-	
+
 	public static void SQLConnection() {
 		try {
 
@@ -66,12 +66,10 @@ public class DatabaseHandler {
 		}
 	}
 
-	
 	/**
 	 * USER METHODEN
 	 */
-	
-	
+
 	/**
 	 * createUsername: zum automatischen erstellen des Usernamens aus dem echten
 	 * Vor- und Nachnamen
@@ -237,18 +235,17 @@ public class DatabaseHandler {
 
 		FacesContext.getCurrentInstance().addMessage("teacheraddsuccess_name",
 				messageName);
-		FacesContext.getCurrentInstance().addMessage("teacheraddsuccess_username",
-				messageUsername);
-		FacesContext.getCurrentInstance().addMessage("teacheraddsuccess_password",
-				messagePassword);
-		
+		FacesContext.getCurrentInstance().addMessage(
+				"teacheraddsuccess_username", messageUsername);
+		FacesContext.getCurrentInstance().addMessage(
+				"teacheraddsuccess_password", messagePassword);
+
 		callMessage();
-		
+
 	}
-	
-	public static void callMessage(){
-		FacesContext.getCurrentInstance().addMessage("csvimport",
-				messageName);
+
+	public static void callMessage() {
+		FacesContext.getCurrentInstance().addMessage("csvimport", messageName);
 	}
 
 	public static String showUserFullName() {
@@ -315,7 +312,8 @@ public class DatabaseHandler {
 	/**
 	 * Gibt gegebenem User die gegebenen Rechte
 	 * 
-	 * @param username, role
+	 * @param username
+	 *            , role
 	 */
 	public static void addRole(String username, String role) {
 
@@ -334,7 +332,7 @@ public class DatabaseHandler {
 	/**
 	 * COURSE METHODEN
 	 */
-	
+
 	public static void listCourses() {
 		SQLConnection();
 		try {
@@ -384,19 +382,20 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 	}
-	
+
 	/**
 	 * SYSTEM METHODEN
 	 */
-	
+
 	public static void systemState() {
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM system;");	
-			if (result.next()){
+			result = statement.executeQuery("SELECT * FROM system;");
+			if (result.next()) {
 				kuwasysControllerBean.setPhase(result.getInt("system_phase"));
-				kuwasysControllerBean.setTertial(result.getInt("system_tertial"));
+				kuwasysControllerBean.setTertial(result
+						.getInt("system_tertial"));
 				kuwasysControllerBean.setYear(result.getInt("system_jahr"));
 			}
 		} catch (SQLException ex) {
@@ -404,32 +403,29 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 	}
-	
 
-	
-	
 	/**
 	 * GRADELIST METHODEN
 	 */
 	public static void listGradelist() {
 		SQLConnection();
+		System.out.println("Zeuch mir die Nodalischd!");
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM course");
+			result = statement.executeQuery("SELECT * FROM gradelist");
 			CourseBean.emptyCourses();
 			while (result.next()) {
-				System.out.println(result.getInt("course_id")
-						+ result.getString("course_name")
-						+ result.getInt("course_kurslehrer")
-						+ result.getString("course_faecherverbund")
-						+ result.getInt("course_termin")
-						+ result.getString("course_beschreibung"));
-				CourseBean.addToCourses(new CourseBean.Course(result
-						.getInt("course_id"), result.getString("course_name"),
-						result.getInt("course_kurslehrer"), result
-								.getString("course_faecherverbund"), result
-								.getInt("course_termin"), result
-								.getString("course_beschreibung")));
+				System.out.println(result.getInt("gradelist_id")
+						+ result.getInt("gradelist_note")
+						+ result.getString("gradelist_bemerkung")
+						+ result.getInt("gradelist_userid")
+						+ result.getInt("gradelist_kursid"));
+				GradelistBean.addToGradelist(new GradelistBean.Grades(result
+						.getInt("gradelist_id"), result
+						.getInt("gradelist_note"), result
+						.getString("gradelist_bemerkung"), result
+						.getInt("gradelist_userid"), result
+						.getInt("gradelist_kursid")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -437,37 +433,35 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 
-	public static void addToGradelist(int note, String bemerkung,
-			int usersid, int kursid) {
+	public static void addToGradelist(int note, String bemerkung, int userid,
+			int kursid) {
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
 			statement
-					.executeUpdate("INSERT INTO course (course_name, course_faecherverbund, course_kurslehrer, course_termin, course_beschreibung)"
-							+ "VALUES ('"
+					.executeUpdate("INSERT INTO gradelist (gradelist_note, gradelist_bemerkung, gradelist_userid, gradelist_kursid)"
+							+ "VALUES ("
 							+ note
-							+ "', '"
-							+ faecherverbund
-							+ "', "
-							+ kurslehrer
-							+ ", "
-							+ termin
 							+ ", '"
-							+ beschreibung + "');");
-			System.out.println(">>> INSERT COURSE"); // DEBUG
+							+ bemerkung
+							+ "', "
+							+ userid
+							+ ", "
+							+ kursid
+							+ ");");
+			System.out.println(">>> INSERT GRADELIST"); // DEBUG
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 		SQLConnectionClose();
 	}
-	
-	
 
-	public static void commitPhase(int p){
+	public static void commitPhase(int p) {
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
-			statement.executeUpdate("UPDATE system SET system_phase="+p+";");	
+			statement
+					.executeUpdate("UPDATE system SET system_phase=" + p + ";");
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -478,12 +472,13 @@ public class DatabaseHandler {
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
-			statement.executeUpdate("UPDATE system SET system_jahr="+year+", system_tertial="+tertial+";");	
+			statement.executeUpdate("UPDATE system SET system_jahr=" + year
+					+ ", system_tertial=" + tertial + ";");
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 		SQLConnectionClose();
-		
+
 	}
-	
+
 }
