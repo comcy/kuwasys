@@ -192,13 +192,6 @@ public class kuwasysControllerBean {
 	 * GRADELIST FACES
 	 */
 	
-	/**
-	 * Notenlisten anzeigen
-	 * @return
-	 */
-	public String gradelist(){
-		return "gradelist";
-	}
 
 
 	/**
