@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">Kurswahlsystem Admin</ui:define>
+	<ui:define name="content">
+		<h1>System in nächstes Tertial versetzen</h1>
+		<h2>ACHTUNG!</h2>
+     	<h:outputText value="hiermit wird das aktuelle Tertial (#{kuwasys.tertial} im Schuljahr 20#{kuwasys.year}/#{kuwasys.year+1} ) abgeschlossen und kann nicht mehr verändert werden!"/>
+		<h:form id="nextTertial">
+			<h:commandButton value="FEUER!" action="#{kuwasys.nextTertial()}" />
+			<h:messages showDetail="true" showSummary="false" />
+		</h:form>
+	</ui:define>
+</ui:composition>

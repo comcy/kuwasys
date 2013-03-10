@@ -61,8 +61,7 @@ public class kuwasysControllerBean {
 	public void setPhaseChanged(int phase) {
 		phaseChanged = phase;
 	}
-	
-	
+
 
 	public int getTertial() {
 		return kuwasysControllerBean.tertial;
@@ -240,6 +239,7 @@ public class kuwasysControllerBean {
 	public String goPhaseSet(){
 		return "phaseset";
     }		
+
 	
 	/**
 	 * GRADELIST FACES
@@ -252,7 +252,7 @@ public class kuwasysControllerBean {
 	public String gradelist(){
 		return "gradelist"
 	}
-		
+
 	/**
 	 * Systemtertial inkrementieren
 	 * 

@@ -371,6 +371,7 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 	
+
 	
 	
 	/**
@@ -427,6 +428,7 @@ public class DatabaseHandler {
 	}
 	
 	
+
 	public static void commitPhase(int p){
 		try {
 			SQLConnection();

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">Kurswahlsystem Status</ui:define>
+	<ui:define name="content">
+		<h1>Systemphase setzen</h1>
+     	<h:outputText value=""/>
+		<h:form id="phaseset">
+			<h:outputLabel for="phase" value="Tertial #{kuwasys.tertial} im Schuljahr 20#{kuwasys.year}/#{kuwasys.year+1} in Phase" />
+			<h:panelGroup>
+				<t:selectOneRadio id="phase" layout="pageDirection" value="#{kuwasys.phaseChanged}">
+				  <f:selectItem itemValue="1" itemLabel="Kursplanung" />
+				  <f:selectItem itemValue="2" itemLabel="Kurswahl" />
+				  <f:selectItem itemValue="3" itemLabel="Unterricht" />
+				</t:selectOneRadio>
+			</h:panelGroup>	
+			<h:commandButton value="versetzen" action="#{kuwasys.phaseCommit()}" />
+			<h:messages showDetail="true" showSummary="false" />
+		</h:form>
+	</ui:define>
+</ui:composition>
