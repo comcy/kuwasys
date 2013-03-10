@@ -1,3 +1,21 @@
+/*
+ * Licensed to the Apache Software Foundation (ASF) under one
+ * or more contributor license agreements.  See the NOTICE file
+ * distributed with this work for additional information
+ * regarding copyright ownership.  The ASF licenses this file
+ * to you under the Apache License, Version 2.0 (the
+ * "License"); you may not use this file except in compliance
+ * with the License.  You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing,
+ * software distributed under the License is distributed on an
+ * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+ * KIND, either express or implied.  See the License for the
+ * specific language governing permissions and limitations
+ * under the License.
+ */
 package de.schillerschule.kuwasys20.Controller;
 
 import java.io.IOException;
@@ -16,11 +34,15 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 @RequestScoped
 public class kuwasysControllerBean {
 
+	// properties
+	private String name;
+	private String lastname;
+	private String temp;
+
 	private static int phase;
 	private static int tertial;	
 	private static int year;
 	private int phaseChanged;
-	
 	
 	public int getPhase() {
 		return kuwasysControllerBean.phase;
@@ -57,9 +79,25 @@ public class kuwasysControllerBean {
 		kuwasysControllerBean.year = year;
 	}
 	
+	
+	
+
 	public kuwasysControllerBean() {
 	}
 
+	/**
+	 * Method that is backed to a submit button of a form.
+	 */
+	public String send() {
+		// do real logic, return a string which will be used for the navigation
+		// system of JSF
+		temp = name;
+		name = lastname;
+		lastname = temp;
+		return "page2.jsf";
+	}
+
+	
 	public String systemPhase(){
 		switch (phase) {
 		case 1: return "Kursplanung";
@@ -112,7 +150,25 @@ public class kuwasysControllerBean {
 		return null;
 	}
 
-	// Navigationsaufrufe 
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	 // Navigationsaufrufe 
 	/**
 	 * 
 	 * @return
@@ -185,6 +241,19 @@ public class kuwasysControllerBean {
 		return "phaseset";
     }		
 
+	
+	/**
+	 * GRADELIST FACES
+	 */
+	
+	/**
+	 * Notenlisten anzeigen
+	 * @return
+	 */
+	public String gradelist(){
+		return "gradelist";
+	}
+
 	/**
 	 * Systemtertial inkrementieren
 	 * 
@@ -194,25 +263,28 @@ public class kuwasysControllerBean {
 		return "tertialnext";
     }	
 	
-	/**
-	 * GRADELIST FACES
-	 */
 	
-	/**
-	 * Notenlisten anzeigen
-	 * @return Facelet "gradelist" 
-	 */
-	public static String goGradelist(){
-		DatabaseHandler.listGradelist();
-		return "gradelist";
-	}
 	
-	/**
-	 * In Kurs einschreiben
-	 * @return Facelet "gradelistadd" 
-	 */
-	public String goAddGradelist(){
-		DatabaseHandler.listGradelist();
-		return "gradelistadd";
+	
+	
+	
+	
+	
+	// -------------------getter & setter
+	/*public String getName() {
+		return name;
 	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getLastname() {
+		return lastname;
+	}
+
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}*/
+
 }
