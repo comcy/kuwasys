@@ -120,6 +120,7 @@ public class kuwasysControllerBean {
 			tertial=1;
 		}
 		DatabaseHandler.commitTertial(tertial, year);
+		DatabaseHandler.commitPhase(1);
 		return goSystem();
 			
 	}
@@ -250,7 +251,7 @@ public class kuwasysControllerBean {
 	 * @return
 	 */
 	public String gradelist(){
-		return "gradelist"
+		return "gradelist";
 	}
 
 	/**
