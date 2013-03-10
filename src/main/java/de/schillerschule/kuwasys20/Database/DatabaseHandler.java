@@ -29,6 +29,11 @@ public class DatabaseHandler {
 	private static FacesMessage messageUsername;
 	private static FacesMessage messagePassword;
 
+	
+	/**
+	 * SQL METHODEN - DB CONNECTION
+	 */
+	
 	public static void SQLConnection() {
 		try {
 
@@ -61,6 +66,12 @@ public class DatabaseHandler {
 		}
 	}
 
+	
+	/**
+	 * USER METHODEN
+	 */
+	
+	
 	/**
 	 * createUsername: zum automatischen erstellen des Usernamens aus dem echten
 	 * Vor- und Nachnamen
@@ -270,8 +281,7 @@ public class DatabaseHandler {
 	/**
 	 * Gibt gegebenem User die gegebenen Rechte
 	 * 
-	 * @param username
-	 *            , role
+	 * @param username, role
 	 */
 	public static void addRole(String username, String role) {
 
@@ -287,6 +297,10 @@ public class DatabaseHandler {
 
 	}
 
+	/**
+	 * COURSE METHODEN
+	 */
+	
 	public static void listCourses() {
 		SQLConnection();
 		try {
@@ -337,6 +351,10 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 	
+	/**
+	 * SYSTEM METHODEN
+	 */
+	
 	public static void systemState() {
 		try {
 			SQLConnection();
@@ -351,6 +369,85 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 		SQLConnectionClose();
+	}
+	
+	
+	
+	/**
+	 * GRADELIST METHODEN
+	 */
+	public static void listGradelist() {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT * FROM course");
+			CourseBean.emptyCourses();
+			while (result.next()) {
+				System.out.println(result.getInt("course_id")
+						+ result.getString("course_name")
+						+ result.getInt("course_kurslehrer")
+						+ result.getString("course_faecherverbund")
+						+ result.getInt("course_termin")
+						+ result.getString("course_beschreibung"));
+				CourseBean.addToCourses(new CourseBean.Course(result
+						.getInt("course_id"), result.getString("course_name"),
+						result.getInt("course_kurslehrer"), result
+								.getString("course_faecherverbund"), result
+								.getInt("course_termin"), result
+								.getString("course_beschreibung")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+
+	public static void addToGradelist(int note, String bemerkung,
+			int usersid, int kursid) {
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement
+					.executeUpdate("INSERT INTO course (course_name, course_faecherverbund, course_kurslehrer, course_termin, course_beschreibung)"
+							+ "VALUES ('"
+							+ note
+							+ "', '"
+							+ faecherverbund
+							+ "', "
+							+ kurslehrer
+							+ ", "
+							+ termin
+							+ ", '"
+							+ beschreibung + "');");
+			System.out.println(">>> INSERT COURSE"); // DEBUG
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+	
+	
+	public static void commitPhase(int p){
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE system SET system_phase="+p+";");	
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+
+	public static void commitTertial(int tertial, int year) {
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE system SET system_jahr="+year+", system_tertial="+tertial+";");	
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+		
 	}
 	
 }
