@@ -34,8 +34,8 @@ public class TeacherBean {
 	private String gebMonth;
 	private String gebYear;
 	private String klasse;
-	private static final String rolle = "lehrer";
-	private static final String konfession = "N.A."; 
+	private String rolle;
+	private String konfession; 
 	
 	public TeacherBean() {
 	}
@@ -72,7 +72,12 @@ public class TeacherBean {
 		this.nachname = nachname;
 	}
 
-	public static String getRolle() {
+	public void  setRolle(String rolle) {
+		rolle = "lehrer";
+		this.rolle = rolle;
+	}
+	
+	public String getRolle() {
 		return rolle;
 	}
 	
@@ -90,6 +95,15 @@ public class TeacherBean {
 
 	public void setKlasse(String klasse) {
 		this.klasse = klasse;
+	}
+	
+	public String getKonfession() {
+		return konfession;
+	}
+
+	public void setKonfession(String konfession) {
+		konfession = "N.A.";
+		this.konfession = konfession;
 	}
 	
 	// Helfer für Geburtstag Splitting
@@ -171,10 +185,10 @@ public class TeacherBean {
 		private String _klasse;
 		private String _username;
 		private String _passwort;
-		private static String _rolle = "lehrer";
-		private static String _konfession = "N.A.";
+		private String _rolle;
+		private String _konfession;
 		
-		public Teacher (int id, String nachname, String vorname, String geburtstag, String klasse, String username, String passwort, String rolle, String konfession) {
+		public Teacher (int id, String vorname, String nachname, String geburtstag, String konfession, String klasse, String username, String passwort, String rolle) {
 		   
 			_id = id;
 			_nachname = nachname;
@@ -187,12 +201,6 @@ public class TeacherBean {
 			_konfession = konfession;
 			
 		}
-		
-		/*public String showClass() {
-			DatabaseHandler.addToUsers(klasse, nachname, vorname, geburtstag, _konfession, _rolle DatabaseHandler.getUserId(),
-					_id);
-			return kuwasysControllerBean.goClasses();
-		*/
 		
 		public int get_id() {
 			return _id;
@@ -254,9 +262,18 @@ public class TeacherBean {
 			return _rolle;
 		}
 		
-		public static String getKonfession() {
+		public void set_rolle(String _rolle) {
+			_rolle = "lehrer";
+			this._rolle = _rolle;
+		}
+		
+		public String get_konfession() {
 			return _konfession;
 		}
 
+		public void set_konfession(String _konfession) {
+			_konfession = "lehrer";
+			this._konfession = _konfession;
+		}
 	}
 }

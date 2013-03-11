@@ -41,7 +41,7 @@ public class UserBean implements Serializable {
 	private String gebMonth;
 	private String gebYear;
 
-	private static final String rolle = "schueler";
+	private String rolle;
 
 	public UserBean() {
 	}
@@ -118,7 +118,12 @@ public class UserBean implements Serializable {
 		this.passwort = passwort;
 	}
 
-	public static String getRolle() {
+	public void setRolle(String rolle){
+		rolle = "schueler";
+		this.rolle = rolle;
+	}
+	
+	public String getRolle() {
 		return rolle;
 	}
 
@@ -215,7 +220,7 @@ public class UserBean implements Serializable {
 		private String _klasse;
 		private String _username;
 		private String _passwort;
-		private static String _rolle = "schueler"; // default
+		private String _rolle; // default
 
 		public User(int id, String vorname, String nachname, String geburtstag,
 				String konfession, String klasse, String username,
@@ -301,6 +306,11 @@ public class UserBean implements Serializable {
 			this._passwort = _passwort;
 		}
 
+		public void set_rolle(String _rolle){
+			_rolle = "schueler";
+			this._rolle = _rolle;
+		}
+		
 		public String get_rolle() {
 			return _rolle;
 		}

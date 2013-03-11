@@ -107,8 +107,7 @@ public class kuwasysControllerBean {
 		ExternalContext ec = FacesContext.getCurrentInstance()
 				.getExternalContext();
 		ec.invalidateSession();
-		ec.redirect("kuwasys.jsf"); // Or whatever servlet mapping you use
-		// redirect() invokes FacesContext.responseComplete() for you
+		ec.redirect("kuwasys.jsf");
 
 		return null;
 	}
@@ -141,10 +140,12 @@ public class kuwasysControllerBean {
 	}
 	
 	public static String goUsers() {
+		DatabaseHandler.listUsers();
 		return "users";
 	}
 	
 	public static String goTeachers() {
+		DatabaseHandler.listTeachers();
 		return "teachers";
 	}
 
@@ -180,9 +181,9 @@ public class kuwasysControllerBean {
 	 */
 	public static String goClasses(){
 		FacesContext context = FacesContext.getCurrentInstance();
-		// TODO admin
+		if (context.getExternalContext().isUserInRole("admin"))
+			DatabaseHandler.listClasses();
 		if (context.getExternalContext().isUserInRole("lehrer"))
-			//ODER: ID
 			DatabaseHandler.listClassesTeacher(DatabaseHandler.getUserId());
 		return "classes";
     }

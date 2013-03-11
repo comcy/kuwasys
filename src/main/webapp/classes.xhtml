@@ -9,6 +9,7 @@
 	<ui:define name="content">
 	        <h1>Klassenübersicht</h1>
 	        <h:form>
+	        <h2>Klasse: <h:outputText value="#{users._klasse}" /></h2>
 		        <t:dataTable id="data"
 		                styleClass="standardTable"
 		                headerClass="standardTable_SortHeader"
@@ -20,7 +21,7 @@
 		                preserveDataModel="true">
 		
 		            <t:column>
-		                <f:facet name="header">
+		                <f:facet name="header" >
 		                    <h:outputText value="ID" />
 		                </f:facet>
 		                <h:outputText value="#{users._id}" />

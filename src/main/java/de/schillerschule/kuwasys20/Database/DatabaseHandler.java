@@ -406,10 +406,9 @@ public class DatabaseHandler {
 
 	public static void listUsers() {
 		SQLConnection();
-		System.out.println("Zeuch mir die User!");
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM users");
+			result = statement.executeQuery("SELECT * FROM users WHERE users_rolle = 'schueler';");
 			UserBean.emptyUsers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")
@@ -466,13 +465,15 @@ public class DatabaseHandler {
 
 	/**
 	 * TEACHER METHODEN
+
 	 */
+	
+	// Lehreransicht
 	public static void listTeachers() {
 		SQLConnection();
-		System.out.println("Zeuch mir die User!");
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM users");
+			result = statement.executeQuery("SELECT * FROM users WHERE users_rolle = 'lehrer';");
 			TeacherBean.emptyTeachers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")
@@ -484,7 +485,7 @@ public class DatabaseHandler {
 						+ result.getString("users_username")
 						+ result.getString("users_passwort")
 						+ result.getString("users_rolle"));
-				UserBean.addToUsers(new UserBean.User(
+				TeacherBean.addToTeachers(new TeacherBean.Teacher(
 						result.getInt("users_id"), result
 								.getString("users_vorname"), result
 								.getString("users_nachname"), result
@@ -527,6 +528,8 @@ public class DatabaseHandler {
 
 	}
 		
+	// Klassenansichte
+	
 	public static void listClassesTeacher(int id) {
 		SQLConnection();
 		try {
@@ -566,6 +569,39 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 
+	public static void listClasses() {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT * FROM users");
+			UserBean.emptyUsers();
+			while (result.next()) {
+				System.out.println(result.getInt("users_id")
+						+ result.getString("users_vorname")
+						+ result.getString("users_nachname")
+						+ result.getString("users_geburtstag")
+						+ result.getString("users_konfession")
+						+ result.getString("users_klasse")
+						+ result.getString("users_username")
+						+ result.getString("users_passwort")
+						+ result.getString("users_rolle"));
+				UserBean.addToUsers(new UserBean.User(
+						result.getInt("users_id"), result
+								.getString("users_vorname"), result
+								.getString("users_nachname"), result
+								.getString("users_geburtstag"), result
+								.getString("users_konfession"), result
+								.getString("users_klasse"), result
+								.getString("users_username"), result
+								.getString("users_passwort"), result
+								.getString("users_rolle")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+	
 	/**
 	 * COURSE METHODEN
 	 */
@@ -583,8 +619,8 @@ public class DatabaseHandler {
 						+ result.getString("course_faecherverbund")
 						+ result.getInt("course_termin")
 						+ result.getString("course_beschreibung"));
-				CourseBean.addToCourses(new CourseBean.Course(result
-						.getInt("course_id"), result.getString("course_name"),
+				CourseBean.addToCourses(new CourseBean.Course(
+						result.getInt("course_id"), result.getString("course_name"),
 						result.getInt("course_kurslehrer"), result
 								.getString("course_faecherverbund"), result
 								.getInt("course_termin"), result
