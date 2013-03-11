@@ -5,6 +5,9 @@ import java.util.*;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+import javax.faces.model.SelectItem;
 
 import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
@@ -20,16 +23,33 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 public class CourseBean{
 
 	private static List<Course> courses = new ArrayList<Course>();
-
+	private static List<Course> studentCourses = new ArrayList<Course>();
+	private static List<Course> studentCoursesChosen = new ArrayList<Course>();
+	private static ArrayList<SelectItem> alleKonfessionen = new ArrayList<SelectItem>();
+	
 	private int id;
 	private String name;
-	private int kurslehrer;
+	private int kurslehrer = 0;
+	private String kurslehrerName;
 	private String faecherverbund;
 	private int termin;
 	private String beschreibung;
+	private ArrayList<String> konfessionen = new ArrayList<String>();
+	
+	
+	
+	
+	public CourseBean(){
+		DatabaseHandler.populateAllConfessions();
+	}
+	
 	
 	public String addCourse(){
-		DatabaseHandler.addCourse(name, faecherverbund, 5/**kurslehrer**/, termin, beschreibung);
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context.getExternalContext().isUserInRole("lehrer")){
+			kurslehrer = DatabaseHandler.getUserId();
+		}
+		DatabaseHandler.addCourse(name, faecherverbund, kurslehrer, termin, beschreibung, konfessionen);
 		return kuwasysControllerBean.goCourses();
 	}
 	
@@ -40,7 +60,52 @@ public class CourseBean{
 		courses.clear();
 	}
 	
+	public static void addToStudentCourses(Course c){
+		studentCourses.add(c);
+	}
+	public static void emptyStudentCourses(){
+		studentCourses.clear();
+	}
 	
+	public static void addToStudentCoursesChosen(Course c){
+		studentCoursesChosen.add(c);
+	}
+	public static void emptyStudentCoursesChosen(){
+		studentCoursesChosen.clear();
+	}
+	
+	
+	public void confessionSelectionChanged(ValueChangeEvent evt){
+		
+		Object[] selectedValues = (Object[]) evt.getNewValue();
+
+        if (selectedValues.length == 0)
+            konfessionen.clear();
+        else{
+            for (int i = 0; i < selectedValues.length; i++){
+                konfessionen.add((String) selectedValues[i]);
+            }
+        }
+        for (String S : konfessionen)
+        	System.out.println(S);
+	}
+	
+	public static void addToAllConfessions(String reli){
+		alleKonfessionen.add(new SelectItem(reli));
+	}	
+	
+	public static void clearAllConfessions(){
+		alleKonfessionen.clear();
+	}
+	
+	
+	
+	
+	
+	/**
+	 * GETTER & SETTER
+	 * 
+	 */
 	
 	public List<Course> getCourses() {
 		return courses;
@@ -74,6 +139,16 @@ public class CourseBean{
 		this.kurslehrer = kurslehrer;
 	}
 
+	public String getKurslehrerName() {
+		return kurslehrerName;
+	}
+
+
+	public void setKurslehrerName(String kurslehrerName) {
+		this.kurslehrerName = kurslehrerName;
+	}
+
+
 	public String getFaecherverbund() {
 		return faecherverbund;
 	}
@@ -100,7 +175,20 @@ public class CourseBean{
 	}
 
 
-	
+
+
+	public  ArrayList<SelectItem> getAlleKonfessionen() {
+		return alleKonfessionen;
+	}
+
+
+	public static void setAlleKonfessionen(ArrayList<SelectItem> alleKonfessionen) {
+		CourseBean.alleKonfessionen = alleKonfessionen;
+	}
+
+
+
+
 	public static class Course
 	    implements Serializable
 	{
@@ -111,6 +199,7 @@ public class CourseBean{
 		private int _id;
 		private String _name;
 		private int _kurslehrer;
+		private String _kurslehrerName;
 		private String _faecherverbund;
 		private int _termin;
 		private String _beschreibung;
@@ -121,6 +210,7 @@ public class CourseBean{
 		    _id = id;
 		    _name = name;
 		    _kurslehrer = kurslehrer;
+		    _kurslehrerName = DatabaseHandler.showUserFullName(kurslehrer);
 		    _faecherverbund = faecherverbund;
 		    _termin = termin;
 		    _beschreibung= beschreibung;
@@ -173,6 +263,14 @@ public class CourseBean{
 
 		public void set_beschreibung(String _beschreibung) {
 			this._beschreibung = _beschreibung;
+		}
+
+		public String get_kurslehrerName() {
+			return _kurslehrerName;
+		}
+
+		public void set_kurslehrerName(String _kurslehrerName) {
+			this._kurslehrerName = _kurslehrerName;
 		}
 	}
 }
