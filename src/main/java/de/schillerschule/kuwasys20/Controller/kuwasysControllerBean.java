@@ -174,14 +174,16 @@ public class kuwasysControllerBean {
     }	
 	
 	/**
-	 * Kursübersicht anzeigen
+	 * Klassen eines Lehrers anzeigen (eigene) 
 	 * 
 	 * @return Facelet "courses"
 	 */
 	public static String goClasses(){
 		FacesContext context = FacesContext.getCurrentInstance();
+		// TODO admin
 		if (context.getExternalContext().isUserInRole("lehrer"))
-			DatabaseHandler.listClassesTeacher(DatabaseHandler.getUserUsername());
+			//ODER: ID
+			DatabaseHandler.listClassesTeacher(DatabaseHandler.getUserId());
 		return "classes";
     }
 		

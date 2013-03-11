@@ -14,7 +14,7 @@
 		                headerClass="standardTable_SortHeader"
 		                footerClass="standardTable_Footer"
 		                rowClasses="standardTable_Row1,standardTable_Row2"
-		                var="teacher"
+		                var="teachers"
 		                sortable="true"
 		                value="#{teacherBean.teachers}"
 		                preserveDataModel="true">
@@ -23,55 +23,55 @@
 		                <f:facet name="header">
 		                    <h:outputText value="ID" />
 		                </f:facet>
-		                <h:outputText value="#{teacher._id}" />
+		                <h:outputText value="#{teachers._id}" />
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Vorname" />
 		                </f:facet>
-		                <h:outputText value="#{teacher._vorname}" />
+		                <h:outputText value="#{teachers._vorname}" />
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Nachname" />
 		                </f:facet>
-		                <h:outputText value="#{teacher._nachname}" />
+		                <h:outputText value="#{teachers._nachname}" />
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Geburtstag" />
 		                </f:facet>
-		                <h:outputText value="#{teacher._geburtstag}" />
+		                <h:outputText value="#{teachers._geburtstag}" />
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Konfession" />
 		                </f:facet>
-		                <h:outputText value="#{teacher._konfession}" />
+		                <h:outputText value="#{teachers._konfession}" />
 		            </t:column> 
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Klasse" />
 		                </f:facet>
-		                <h:outputText value="#{teacher._klasse}" />
+		                <h:outputText value="#{teachers._klasse}" />
 		            </t:column>  	
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Username" />
 		                </f:facet>
-		                <h:outputText value="#{teacher._username}" />
+		                <h:outputText value="#{teachers._username}" />
 		            </t:column> 
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Passwort" />
 		                </f:facet>
-		                <h:outputText value="#{teacher._passwort}" />
+		                <h:outputText value="#{teachers._passwort}" />
 		            </t:column> 
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Rolle" />
 		                </f:facet>
-		                <h:outputText value="#{teacher._rolle}" />
+		                <h:outputText value="#{teachers._rolle}" />
 		            </t:column> 
 		
 		        </t:dataTable>

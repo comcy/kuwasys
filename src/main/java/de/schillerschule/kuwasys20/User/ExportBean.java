@@ -1,7 +1,9 @@
 package de.schillerschule.kuwasys20.User;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.PrintWriter;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
@@ -32,7 +34,8 @@ public class ExportBean implements Serializable {
 
 			OutputStream output = ec.getResponseOutputStream();
 			// TODO the Output
-
+			
+				
 			fc.responseComplete();
 		} catch (IOException ex) {
 			System.out.println("File Export Error: " + ex);

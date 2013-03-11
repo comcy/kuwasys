@@ -14,11 +14,7 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 
 @ManagedBean(name = "courseBean")
 @RequestScoped
-/**
- * DOCUMENT ME!
- * @author Thomas Spiegl (latest modification by $Author: grantsmith $)
- * @version $Revision: 472610 $ $Date: 2006-11-08 14:46:34 -0500 (miÃ©, 08 nov 2006) $
- */
+
 public class CourseBean {
 
 	private static List<Course> courses = new ArrayList<Course>();

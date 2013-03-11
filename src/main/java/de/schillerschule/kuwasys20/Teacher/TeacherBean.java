@@ -188,6 +188,12 @@ public class TeacherBean {
 			
 		}
 		
+		/*public String showClass() {
+			DatabaseHandler.addToUsers(klasse, nachname, vorname, geburtstag, _konfession, _rolle DatabaseHandler.getUserId(),
+					_id);
+			return kuwasysControllerBean.goClasses();
+		*/
+		
 		public int get_id() {
 			return _id;
 		}

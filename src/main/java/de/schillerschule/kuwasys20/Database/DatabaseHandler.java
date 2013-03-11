@@ -124,7 +124,7 @@ public class DatabaseHandler {
 		vname = vname.substring(0, 2);
 		nname = nname.substring(0, 3);
 		while (isCurrentUsername) {
-			for (int i = 0; i < 1000; i++) {
+			for (int i = 1; i < 1000; i++) {
 				username = nname + vname + i;
 
 				// Prüfen ob erstellter Name in DB schon vorhanden
@@ -209,6 +209,7 @@ public class DatabaseHandler {
 			if ((nname.equals(nnameDB) && vname.equals(vnameDB) && geb
 					.equals(gebDB))) {
 				isCurrentUser = true;
+				// TODO DOPPELTE NAMENBELEGUNG GEHT NICHT!!! (Username/Pw ausgabe verhindern)
 				messageName = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 						"Der User " + vname + " " + nname
 								+ " existiert bereits!", null);
@@ -374,28 +375,11 @@ public class DatabaseHandler {
 	}
 	
 	public static String getUserUsername(){
-		String username = "";
-		SQLConnection();
+		
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = fc.getExternalContext();
-		ResultSet rs = null;
-		PreparedStatement pst = null;
-		String stm = "Select users_username from users where users_username='"
-				+ externalContext.getUserPrincipal().getName() + "'";
-		try {
-			pst = connection.prepareStatement(stm);
-			pst.execute();
-			rs = pst.getResultSet();
-
-			while (rs.next()) {
-
-				username = rs.getString(1);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		SQLConnectionClose();
-
+		String username = "" + externalContext.getUserPrincipal().getName();
+		
 		return username;
 	}
 
@@ -542,9 +526,44 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 
 	}
-	
-	public static void listClassesTeacher() {
-
+		
+	public static void listClassesTeacher(int id) {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement
+					.executeQuery("SELECT * " +
+									"FROM users " +
+									"WHERE users_klasse = ( " + 
+											"SELECT users_klasse FROM users " +
+											"WHERE users_id = " + id + ") " +
+									"AND users_rolle != 'lehrer';");
+			UserBean.emptyUsers();
+			while (result.next()) {
+				System.out.println(result.getInt("users_id")
+						+ result.getString("users_vorname")
+						+ result.getString("users_nachname")
+						+ result.getString("users_geburtstag")
+						+ result.getString("users_konfession")
+						+ result.getString("users_username")
+						+ result.getString("users_passwort")
+						+ result.getString("users_klasse")
+						+ result.getString("users_rolle"));
+				UserBean.addToUsers(new UserBean.User(
+						result.getInt("users_id"), result
+								.getString("users_vorname"), result
+								.getString("users_nachname"), result
+								.getString("users_geburtstag"), result
+								.getString("users_konfession"), result
+								.getString("users_klasse"), result
+								.getString("users_username"), result
+								.getString("users_passwort"), result
+								.getString("users_rolle")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
 	}
 
 	/**
@@ -728,44 +747,12 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 
-	public static void listClassesTeacher(String klasse) {
-		SQLConnection();
-		try {
-			statement = connection.createStatement();
-			result = statement
-					.executeQuery("SELECT * FROM users WHERE users_klasse="
-							+ klasse + ";");
-			UserBean.emptyUsers();
-			while (result.next()) {
-				System.out.println(result.getInt("users_id")
-						+ result.getString("users_vorname")
-						+ result.getInt("users_nachname")
-						+ result.getString("users_geburtstag")
-						+ result.getInt("users_konfession")
-						+ result.getString("users_username")
-						+ result.getString("users_passwort"));
-				UserBean.addToUsers(new UserBean.User(
-						result.getInt("users_id"), result
-								.getString("users_vorname"), result
-								.getString("users_nachname"), result
-								.getString("users_geburtstag"), result
-								.getString("users_konfession"), result
-								.getString("users_klasse"), result
-								.getString("users_username"), result
-								.getString("users_passwort"), result
-								.getString("users_rolle")));
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		SQLConnectionClose();
-	}
-
 	/**
 	 * SYSTEM METHODEN
 	 */
 
 	public static void systemState() {
+
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
@@ -782,9 +769,35 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 
+	public static void commitPhase(int p) {
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement
+					.executeUpdate("UPDATE system SET system_phase=" + p + ";");
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+
+	public static void commitTertial(int tertial, int year) {
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE system SET system_jahr=" + year
+					+ ", system_tertial=" + tertial + ";");
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+
+	}
+	
 	/**
 	 * GRADELIST METHODEN
 	 */
+
 	public static void listGradelist() {
 		SQLConnection();
 		System.out.println("Zeuch mir die Nodalischd!");
@@ -831,29 +844,6 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 
-	public static void commitPhase(int p) {
-		try {
-			SQLConnection();
-			statement = connection.createStatement();
-			statement
-					.executeUpdate("UPDATE system SET system_phase=" + p + ";");
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		SQLConnectionClose();
-	}
 
-	public static void commitTertial(int tertial, int year) {
-		try {
-			SQLConnection();
-			statement = connection.createStatement();
-			statement.executeUpdate("UPDATE system SET system_jahr=" + year
-					+ ", system_tertial=" + tertial + ";");
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		SQLConnectionClose();
-
-	}
 
 }

@@ -14,7 +14,7 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 
 public class GradelistBean{
 
-	private static List<Grades> gradelist = new ArrayList<Grades>();
+	private static List<Grades> gradelists = new ArrayList<Grades>();
 
 	private int id;
 	private int note;
@@ -28,15 +28,19 @@ public class GradelistBean{
 	}
 	
 	public static void addToGradelist(Grades g){
-		gradelist.add(g);
+		gradelists.add(g);
 	}
 	public static void emptyGradelist(){
-		gradelist.clear();
+		gradelists.clear();
 	}
 	
-	public void setGradelist(List<Grades> gradelist) {
-		GradelistBean.gradelist = gradelist;
+	public void setGradelists(List<Grades> gradelist) {
+		GradelistBean.gradelists = gradelist;
 	}	
+	
+	public List<Grades> getGradelists() {
+		return gradelists;
+	}
 	
 	// Set-Methoden
 	public void setId(int id) {
@@ -78,10 +82,6 @@ public class GradelistBean{
 
 	public int getKursid() {
 		return kursid;
-	}
-
-	public List<Grades> getGradelist() {
-		return gradelist;
 	}
 	
 	public static class Grades implements Serializable {

@@ -231,7 +231,7 @@ public class UserBean implements Serializable {
 			_passwort = passwort;
 			_rolle = rolle;
 		}
-
+		
 		public String editUser() {
 			DatabaseHandler.editUser(_username);
 			return kuwasysControllerBean.goUsereditor();
