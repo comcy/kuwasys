@@ -24,7 +24,13 @@
 				<h3><h:message globalOnly="true" for="teacheraddsuccess_password"
 					infoStyle="color: green;" errorStyle="color: red;" /></h3>
 			</h:form>
+			
+			<h:form>
+				<h:commandButton 	value="Weiteren Lehrer hinzufügen" 
+									action="#{kuwasys.goAddTeacher}"></h:commandButton>
+				<h:commandButton 	value="PDF generieren" 
+									action="#{exportBean.download}"></h:commandButton>					
+			</h:form>
 
-			<!-- TODO PDF GENERIERUNG FÜR ZUGANGSDATEN -->
 	</ui:define>
 </ui:composition>

@@ -15,12 +15,9 @@ public class ExportBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	public String getMimeType(){
-		return null;
+	public String download() {
 
-	}
-	
-	public void download(String filename) {
+		String filename = "download.pdf";
 
 		try {
 			FacesContext fc = FacesContext.getCurrentInstance();
@@ -35,10 +32,12 @@ public class ExportBean implements Serializable {
 
 			OutputStream output = ec.getResponseOutputStream();
 			// TODO the Output
+
 			fc.responseComplete();
 		} catch (IOException ex) {
 			System.out.println("File Export Error: " + ex);
 
 		}
+		return "users";
 	}
 }
