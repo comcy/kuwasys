@@ -14,19 +14,18 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 
 @ManagedBean(name = "courseBean")
 @RequestScoped
-
 /**
  * DOCUMENT ME!
  * @author Thomas Spiegl (latest modification by $Author: grantsmith $)
  * @version $Revision: 472610 $ $Date: 2006-11-08 14:46:34 -0500 (miÃ©, 08 nov 2006) $
  */
-public class CourseBean{
+public class CourseBean {
 
 	private static List<Course> courses = new ArrayList<Course>();
 	private static List<Course> studentCourses = new ArrayList<Course>();
 	private static List<Course> studentCoursesChosen = new ArrayList<Course>();
 	private static ArrayList<SelectItem> alleKonfessionen = new ArrayList<SelectItem>();
-	
+
 	private int id;
 	private String name;
 	private int kurslehrer = 0;
@@ -35,86 +34,81 @@ public class CourseBean{
 	private int termin;
 	private String beschreibung;
 	private ArrayList<String> konfessionen = new ArrayList<String>();
-	
-	
-	
-	
-	public CourseBean(){
+
+	public CourseBean() {
 		DatabaseHandler.populateAllConfessions();
 	}
-	
-	
-	public String addCourse(){
+
+	public String addCourse() {
 		FacesContext context = FacesContext.getCurrentInstance();
-		if (context.getExternalContext().isUserInRole("lehrer")){
+		if (context.getExternalContext().isUserInRole("lehrer")) {
 			kurslehrer = DatabaseHandler.getUserId();
 		}
-		DatabaseHandler.addCourse(name, faecherverbund, kurslehrer, termin, beschreibung, konfessionen);
+		DatabaseHandler.addCourse(name, faecherverbund, kurslehrer, termin,
+				beschreibung, konfessionen);
 		return kuwasysControllerBean.goCourses();
 	}
-	
-	public static void addToCourses(Course c){
+
+	public static void addToCourses(Course c) {
 		courses.add(c);
 	}
-	public static void emptyCourses(){
+
+	public static void emptyCourses() {
 		courses.clear();
 	}
-	
-	public static void addToStudentCourses(Course c){
+
+	public static void addToStudentCourses(Course c) {
 		studentCourses.add(c);
 	}
-	public static void emptyStudentCourses(){
+
+	public static void emptyStudentCourses() {
 		studentCourses.clear();
 	}
-	
-	public static void addToStudentCoursesChosen(Course c){
+
+	public static void addToStudentCoursesChosen(Course c) {
 		studentCoursesChosen.add(c);
 	}
-	public static void emptyStudentCoursesChosen(){
+
+	public static void emptyStudentCoursesChosen() {
 		studentCoursesChosen.clear();
 	}
-	
-	
-	public void confessionSelectionChanged(ValueChangeEvent evt){
-		
+
+	public void confessionSelectionChanged(ValueChangeEvent evt) {
+
 		Object[] selectedValues = (Object[]) evt.getNewValue();
 
-        if (selectedValues.length == 0)
-            konfessionen.clear();
-        else{
-            for (int i = 0; i < selectedValues.length; i++){
-                konfessionen.add((String) selectedValues[i]);
-            }
-        }
-        for (String S : konfessionen)
-        	System.out.println(S);
+		if (selectedValues.length == 0)
+			konfessionen.clear();
+		else {
+			for (int i = 0; i < selectedValues.length; i++) {
+				konfessionen.add((String) selectedValues[i]);
+			}
+		}
+		for (String S : konfessionen)
+			System.out.println(S);
 	}
-	
-	public static void addToAllConfessions(String reli){
+
+	public static void addToAllConfessions(String reli) {
 		alleKonfessionen.add(new SelectItem(reli));
-	}	
-	
-	public static void clearAllConfessions(){
+	}
+
+	public static void clearAllConfessions() {
 		alleKonfessionen.clear();
 	}
-	
-	
-	
-	
-	
+
 	/**
 	 * GETTER & SETTER
 	 * 
 	 */
-	
+
 	public List<Course> getCourses() {
 		return courses;
 	}
 
 	public void setCourses(List<Course> courses) {
 		CourseBean.courses = courses;
-	}	
-	
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -143,11 +137,9 @@ public class CourseBean{
 		return kurslehrerName;
 	}
 
-
 	public void setKurslehrerName(String kurslehrerName) {
 		this.kurslehrerName = kurslehrerName;
 	}
-
 
 	public String getFaecherverbund() {
 		return faecherverbund;
@@ -165,7 +157,6 @@ public class CourseBean{
 		this.termin = termin;
 	}
 
-	
 	public String getBeschreibung() {
 		return beschreibung;
 	}
@@ -174,24 +165,16 @@ public class CourseBean{
 		this.beschreibung = beschreibung;
 	}
 
-
-
-
-	public  ArrayList<SelectItem> getAlleKonfessionen() {
+	public ArrayList<SelectItem> getAlleKonfessionen() {
 		return alleKonfessionen;
 	}
 
-
-	public static void setAlleKonfessionen(ArrayList<SelectItem> alleKonfessionen) {
+	public static void setAlleKonfessionen(
+			ArrayList<SelectItem> alleKonfessionen) {
 		CourseBean.alleKonfessionen = alleKonfessionen;
 	}
 
-
-
-
-	public static class Course
-	    implements Serializable
-	{
+	public static class Course implements Serializable {
 		/**
 		 * serial id for serialisation versioning
 		 */
@@ -203,61 +186,61 @@ public class CourseBean{
 		private String _faecherverbund;
 		private int _termin;
 		private String _beschreibung;
-		
-		
-		public Course (int id, String name, int kurslehrer, String faecherverbund, int termin, String beschreibung)
-		{
-		    _id = id;
-		    _name = name;
-		    _kurslehrer = kurslehrer;
-		    _kurslehrerName = DatabaseHandler.showUserFullName(kurslehrer);
-		    _faecherverbund = faecherverbund;
-		    _termin = termin;
-		    _beschreibung= beschreibung;
-		    
+
+		public Course(int id, String name, int kurslehrer,
+				String faecherverbund, int termin, String beschreibung) {
+			_id = id;
+			_name = name;
+			_kurslehrer = kurslehrer;
+			_kurslehrerName = DatabaseHandler.showUserFullName(kurslehrer);
+			_faecherverbund = faecherverbund;
+			_termin = termin;
+			_beschreibung = beschreibung;
+
 		}
-		
-		public String attendCourse(){
-			DatabaseHandler.addToGradelist(0, "", DatabaseHandler.getUserId(), _id);
+
+		public String attendCourse() {
+			DatabaseHandler.addToGradelist(0, "", DatabaseHandler.getUserId(),
+					_id);
 			return kuwasysControllerBean.goCourses();
 		}
-		
+
 		public int get_id() {
 			return _id;
 		}
-		
+
 		public void set_id(int _id) {
 			this._id = _id;
 		}
-		
+
 		public String get_name() {
 			return _name;
 		}
-		
+
 		public void set_name(String _name) {
 			this._name = _name;
 		}
-		
+
 		public int get_kurslehrer() {
 			return _kurslehrer;
 		}
-		
+
 		public void set_kurslehrer(int _kurslehrer) {
 			this._kurslehrer = _kurslehrer;
 		}
-		
+
 		public String get_faecherverbund() {
 			return _faecherverbund;
 		}
-		
+
 		public void set_faecherverbund(String _faecherverbund) {
 			this._faecherverbund = _faecherverbund;
 		}
-		
+
 		public int get_termin() {
 			return _termin;
 		}
-		
+
 		public void set_termin(int _termin) {
 			this._termin = _termin;
 		}

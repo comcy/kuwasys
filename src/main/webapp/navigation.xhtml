@@ -15,7 +15,7 @@
 					<t:navigationMenuItem value="Lehrer verwalten" id="lehrer" action="#{kuwasys.goTeachers}" visibleOnUserRole="admin">
 						<t:navigationMenuItem value=" - hinzufügen" id="teacheradd" action="#{kuwasys.goAddTeacher}" visibleOnUserRole="admin"/>
 					</t:navigationMenuItem>
-					<t:navigationMenuItem value="Klasse" id="klasse" action="#{kuwasys.goHome}" visibleOnUserRole="lehrer"/>
+					<t:navigationMenuItem value="Klasse" id="klasse" action="#{kuwasys.goClasses}" visibleOnUserRole="lehrer"/>
 					<t:navigationMenuItem value="Kurse" id="kurse" action="#{kuwasys.goCourses}" visibleOnUserRole="admin,lehrer,schueler">
 						<t:navigationMenuItem value=" - hinzufügen" id="courseadd" action="#{kuwasys.goAddCourse}" visibleOnUserRole="admin,lehrer"/>
 						<t:navigationMenuItem value=" - einschreiben" id="gradelistadd" action="#{kuwasys.goAddGradelist}" visibleOnUserRole="schueler"/>

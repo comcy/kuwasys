@@ -43,10 +43,6 @@ public class UserBean implements Serializable {
 
 	private static final String rolle = "schueler";
 
-	private String name;
-	private String lastname;
-	private String geb;
-
 	public UserBean() {
 	}
 
@@ -139,10 +135,6 @@ public class UserBean implements Serializable {
 		return gebYear;
 	}
 
-	public String getGeb() {
-		return geb;
-	}
-
 	public void setGebDay(String gebDay) {
 		this.gebDay = gebDay;
 	}
@@ -164,9 +156,9 @@ public class UserBean implements Serializable {
 
 		// DEBUG
 		System.out.println("Klasse: " + klasse);
-		System.out.println("Nachname: " + name);
-		System.out.println("Vorname: " + lastname);
-		System.out.println("Geburtstag: " + geb);
+		System.out.println("Nachname: " + vorname);
+		System.out.println("Vorname: " + nachname);
+		System.out.println("Geburtstag: " + geburtstag);
 		System.out.println("Konfession: " + konfession);
 
 		geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
@@ -189,19 +181,20 @@ public class UserBean implements Serializable {
 		String username = DatabaseHandler.showUserFullName();
 		return username;
 	}
-	
-	public String addToUsers(){
-		DatabaseHandler.addToTeachers(klasse, nachname, vorname, geburtstag, konfession, rolle);
+
+	public String addToUsers() {
+		DatabaseHandler.addToTeachers(klasse, nachname, vorname, geburtstag,
+				konfession, rolle);
 		return kuwasysControllerBean.goUsers();
 	}
 
 	public static void addToUsers(User user) {
 		users.add(user);
 	}
-	
+
 	public static void emptyUsers() {
 		users.clear();
-		
+
 	}
 
 	/**
@@ -215,7 +208,7 @@ public class UserBean implements Serializable {
 		private static final long serialVersionUID = 1L;
 
 		private int _id;
-		private String _nachame;
+		private String _nachname;
 		private String _vorname;
 		private String _geburtstag;
 		private String _konfession;
@@ -224,12 +217,12 @@ public class UserBean implements Serializable {
 		private String _passwort;
 		private static String _rolle = "schueler"; // default
 
-		public User(int id, String nachname, String vorname,
-				String geburtstag, String konfession, String klasse,
-				String username, String passwort, String rolle) {
+		public User(int id, String vorname, String nachname, String geburtstag,
+				String konfession, String klasse, String username,
+				String passwort, String rolle) {
 
 			_id = id;
-			_nachame = nachname;
+			_nachname = nachname;
 			_vorname = vorname;
 			_geburtstag = geburtstag;
 			_konfession = konfession;
@@ -237,6 +230,11 @@ public class UserBean implements Serializable {
 			_username = username;
 			_passwort = passwort;
 			_rolle = rolle;
+		}
+
+		public String editUser() {
+			DatabaseHandler.editUser(_username);
+			return kuwasysControllerBean.goUsereditor();
 		}
 
 		public int get_id() {
@@ -247,12 +245,12 @@ public class UserBean implements Serializable {
 			this._id = _id;
 		}
 
-		public String get_nachame() {
-			return _nachame;
+		public String get_nachname() {
+			return _nachname;
 		}
 
-		public void set_nachame(String _nachame) {
-			this._nachame = _nachame;
+		public void set_nachname(String _nachname) {
+			this._nachname = _nachname;
 		}
 
 		public String get_vorname() {

@@ -5,51 +5,63 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
 
-	<ui:define name="title">Kurse</ui:define>
+	<ui:define name="title">Klasse</ui:define>
 	<ui:define name="content">
-	        <h1>Notenübersicht</h1>
+	        <h1>Klassenübersicht</h1>
 	        <h:form>
 		        <t:dataTable id="data"
 		                styleClass="standardTable"
 		                headerClass="standardTable_SortHeader"
 		                footerClass="standardTable_Footer"
 		                rowClasses="standardTable_Row1,standardTable_Row2"
-		                var="gradelist"
+		                var="user"
 		                sortable="true"
-		                value="#{gradelistBean.gradelist}"
+		                value="#{userBean.users}"
 		                preserveDataModel="true">
 		
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="ID" />
 		                </f:facet>
-		                <h:outputText value="#{gradelist._id}" />
+		                <h:outputText value="#{user._id}" />
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
-		                    <h:outputText value="Note" />
+		                    <h:outputText value="Vorname" />
 		                </f:facet>
-		                <h:outputText value="#{gradelist._note}" />
+		                <h:outputText value="#{user._vorname}" />
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
-		                    <h:outputText value="Bemerkung" />
+		                    <h:outputText value="Nachname" />
 		                </f:facet>
-		                <h:outputText value="#{gradelist._bemerkung}" />
+		                <h:outputText value="#{user._nachname}" />
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
-		                    <h:outputText value="User" />
+		                    <h:outputText value="Geburtstag" />
 		                </f:facet>
-		                <h:outputText value="#{gradelist._userid}" />
+		                <h:outputText value="#{user._geburtstag}" />
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
-		                    <h:outputText value="Kurs" />
+		                    <h:outputText value="Konfession" />
 		                </f:facet>
-		                <h:outputText value="#{gradelist._kursid}" />
-		            </t:column>  	
-		
+		                <h:outputText value="#{user._konfession}" />
+		            </t:column>
+		            <t:column>
+			            <f:facet name="header">
+			                <h:outputText value="Username" />
+			            </f:facet>
+			            <h:outputText value="#{user._username}" />
+		            </t:column>			            	
+		            <t:column>
+			            <f:facet name="header">
+			                <h:outputText value="Passwort" />
+			            </f:facet>
+			            <h:outputText value="#{user._passwort}" />
+		            </t:column>			            	
+
 		        </t:dataTable>
 		    </h:form>
 

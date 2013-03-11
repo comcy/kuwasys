@@ -172,6 +172,18 @@ public class kuwasysControllerBean {
 			DatabaseHandler.listCoursesStudent(DatabaseHandler.getUserId());
 		return "courses";
     }	
+	
+	/**
+	 * Kursübersicht anzeigen
+	 * 
+	 * @return Facelet "courses"
+	 */
+	public static String goClasses(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context.getExternalContext().isUserInRole("lehrer"))
+			DatabaseHandler.listClassesTeacher(DatabaseHandler.getUserUsername());
+		return "classes";
+    }
 		
 	/**
 	 * Kurs hinzufügen
@@ -230,6 +242,11 @@ public class kuwasysControllerBean {
 		DatabaseHandler.listCoursesAttendable(DatabaseHandler.getUserId());
 		return "gradelistadd";
 	}
+	
+	public static String goUsereditor(){
+		return "usereditor";
+	}
+	
 }
 
 

@@ -61,6 +61,7 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 	}
+
 	public static void SQLConnection2() {
 		try {
 
@@ -92,6 +93,7 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 	}
+
 	public static void SQLConnectionClose2() {
 		try {
 			connection2.close();
@@ -278,6 +280,10 @@ public class DatabaseHandler {
 
 	}
 
+	public static void editUser(String username) {
+
+	}
+
 	public static String showUserFullName() {
 		SQLConnection2();
 		FacesContext fc = FacesContext.getCurrentInstance();
@@ -330,7 +336,7 @@ public class DatabaseHandler {
 		System.out.println(vorName + " " + nachName);
 		return vorName + " " + nachName;
 	}
-	
+
 	/**
 	 * Gibt ID des angemeldeten User zurück
 	 * 
@@ -363,6 +369,37 @@ public class DatabaseHandler {
 		return id;
 	}
 
+	public static void getUserClass() {
+
+	}
+	
+	public static String getUserUsername(){
+		String username = "";
+		SQLConnection();
+		FacesContext fc = FacesContext.getCurrentInstance();
+		ExternalContext externalContext = fc.getExternalContext();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "Select users_username from users where users_username='"
+				+ externalContext.getUserPrincipal().getName() + "'";
+		try {
+			pst = connection.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+
+				username = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+
+		return username;
+	}
+
+	
 	/**
 	 * Gibt gegebenem User die gegebenen Rechte
 	 * 
@@ -443,22 +480,6 @@ public class DatabaseHandler {
 
 	}
 
-	public static void commitCourse(int userid, int kursid) {
-		// TODO user und kurs in notenliste einfügen
-		try {
-			SQLConnection();
-			statement = connection.createStatement();
-			statement
-					.executeUpdate("INSERT INTO gradelist (gradelist_userid, gradelist_kursid) VALUES ("
-							+ userid + "," + kursid + ");");
-		} catch (SQLException ex) {
-			System.out.println("SQL Error: " + ex);
-		}
-		SQLConnectionClose();
-	}
-
-
-
 	/**
 	 * TEACHER METHODEN
 	 */
@@ -521,6 +542,10 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 
 	}
+	
+	public static void listClassesTeacher() {
+
+	}
 
 	/**
 	 * COURSE METHODEN
@@ -553,8 +578,9 @@ public class DatabaseHandler {
 	}
 
 	public static void addCourse(String name, String faecherverbund,
-			int kurslehrer, int termin, String beschreibung, ArrayList<String> konfessionen) {
-		int id=0;
+			int kurslehrer, int termin, String beschreibung,
+			ArrayList<String> konfessionen) {
+		int id = 0;
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
@@ -570,57 +596,60 @@ public class DatabaseHandler {
 							+ termin
 							+ ", '"
 							+ beschreibung + "');");
-			if (!konfessionen.isEmpty()){
-				result=statement.executeQuery("SELECT course_id FROM course WHERE course_name='"
-							+name
-							+"' AND course_faecherverbund='"
-							+faecherverbund
-							+"' AND course_kurslehrer="
-							+kurslehrer
-							+" AND course_termin="
-							+termin
-							+";");
+			if (!konfessionen.isEmpty()) {
+				result = statement
+						.executeQuery("SELECT course_id FROM course WHERE course_name='"
+								+ name
+								+ "' AND course_faecherverbund='"
+								+ faecherverbund
+								+ "' AND course_kurslehrer="
+								+ kurslehrer
+								+ " AND course_termin="
+								+ termin
+								+ ";");
 				if (result.next())
 					id = result.getInt("course_id");
 				for (String k : konfessionen)
-					statement.executeUpdate("INSERT INTO course_religion (course_religion_id, course_religion_konfession) VALUES ("
-							+id
-							+",'"
-							+k
-							+"');");
+					statement
+							.executeUpdate("INSERT INTO course_religion (course_religion_id, course_religion_konfession) VALUES ("
+									+ id + ",'" + k + "');");
 			}
-			
+
 			System.out.println(">>> INSERT COURSE"); // DEBUG
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 		SQLConnectionClose();
 	}
-	
-	public static void populateAllConfessions(){
+
+	public static void populateAllConfessions() {
 		SQLConnection();
-		
+
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT DISTINCT users_konfession FROM users");
+			result = statement
+					.executeQuery("SELECT DISTINCT users_konfession FROM users");
 			CourseBean.clearAllConfessions();
 			while (result.next()) {
-				//System.out.println(result.getString("course_religion_konfession"));
-				CourseBean.addToAllConfessions(result.getString("users_konfession"));
+				// System.out.println(result.getString("course_religion_konfession"));
+				CourseBean.addToAllConfessions(result
+						.getString("users_konfession"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		SQLConnectionClose();
 	}
-	
+
 	public static void listCoursesStudent(int id) {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT gradelist.gradelist_kursid, " +
-					"course.course_id, gradelist.gradelist_userid, course.course_beschreibung, course.course_termin, course.course_faecherverbund, course.course_kurslehrer, course.course_name " +
-					"FROM  public.course, public.gradelist WHERE course.course_id = gradelist.gradelist_kursid AND gradelist.gradelist_userid="+id+";");
+			result = statement
+					.executeQuery("SELECT gradelist.gradelist_kursid, "
+							+ "course.course_id, gradelist.gradelist_userid, course.course_beschreibung, course.course_termin, course.course_faecherverbund, course.course_kurslehrer, course.course_name "
+							+ "FROM  public.course, public.gradelist WHERE course.course_id = gradelist.gradelist_kursid AND gradelist.gradelist_userid="
+							+ id + ";");
 			CourseBean.emptyCourses();
 			while (result.next()) {
 				System.out.println(result.getInt("course_id")
@@ -646,7 +675,9 @@ public class DatabaseHandler {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM course WHERE course_kurslehrer="+id+";");
+			result = statement
+					.executeQuery("SELECT * FROM course WHERE course_kurslehrer="
+							+ id + ";");
 			CourseBean.emptyCourses();
 			while (result.next()) {
 				System.out.println(result.getInt("course_id")
@@ -667,12 +698,15 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 	}
-	
+
 	public static void listCoursesAttendable(int id) {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("  SELECT * FROM course LEFT OUTER JOIN (SELECT gradelist_kursid FROM gradelist WHERE  (gradelist_userid="+id+"))as a on course.course_id=a.gradelist_kursid WHERE a.gradelist_kursid IS NULL;");
+			result = statement
+					.executeQuery("  SELECT * FROM course LEFT OUTER JOIN (SELECT gradelist_kursid FROM gradelist WHERE  (gradelist_userid="
+							+ id
+							+ "))as a on course.course_id=a.gradelist_kursid WHERE a.gradelist_kursid IS NULL;");
 			CourseBean.emptyCourses();
 			while (result.next()) {
 				System.out.println(result.getInt("course_id")
@@ -693,9 +727,40 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 	}
-	
-	
-	
+
+	public static void listClassesTeacher(String klasse) {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement
+					.executeQuery("SELECT * FROM users WHERE users_klasse="
+							+ klasse + ";");
+			UserBean.emptyUsers();
+			while (result.next()) {
+				System.out.println(result.getInt("users_id")
+						+ result.getString("users_vorname")
+						+ result.getInt("users_nachname")
+						+ result.getString("users_geburtstag")
+						+ result.getInt("users_konfession")
+						+ result.getString("users_username")
+						+ result.getString("users_passwort"));
+				UserBean.addToUsers(new UserBean.User(
+						result.getInt("users_id"), result
+								.getString("users_vorname"), result
+								.getString("users_nachname"), result
+								.getString("users_geburtstag"), result
+								.getString("users_konfession"), result
+								.getString("users_klasse"), result
+								.getString("users_username"), result
+								.getString("users_passwort"), result
+								.getString("users_rolle")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+
 	/**
 	 * SYSTEM METHODEN
 	 */
@@ -716,8 +781,6 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 	}
-	
-	
 
 	/**
 	 * GRADELIST METHODEN
