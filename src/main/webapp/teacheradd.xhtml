@@ -10,10 +10,10 @@
 		<h:form id="teacheradd">
 			<h:panelGrid columns="2">
 				<h:outputLabel for="name" value="Vorname:" />
-				<h:inputText id="name" value="#{teacherBean.name}" required="true" />
+				<h:inputText id="name" value="#{teacherBean.vorname}" required="true" />
 
 				<h:outputLabel for="lastname" value="Nachname:" />
-				<h:inputText id="lastname" value="#{teacherBean.lastname}"
+				<h:inputText id="lastname" value="#{teacherBean.nachname}"
 					required="true" />
 					
 				<h:outputLabel for="klasse" value="Klasse:" />
@@ -21,7 +21,7 @@
 					required="true" />
 			</h:panelGrid>
 			<br/>
-			<h:outputLabel for="geb" value="Geburtsdatum:" />
+			<h:outputLabel for="geburtstag" value="Geburtsdatum:" />
 			
 			<h:panelGrid columns="2">
 				<h:outputLabel for="gebDay" value="Tag:" />

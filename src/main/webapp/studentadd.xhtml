@@ -7,13 +7,13 @@
 	<ui:define name="title">Schülerverwaltung</ui:define>
 	<ui:define name="content">
 		<h1>Schüler hinzufügen</h1>
-		<h:form id="useradd">
+		<h:form id="studentadd">
 			<h:panelGrid columns="2">
 				<h:outputLabel for="name" value="Vorname:" />
-				<h:inputText id="name" value="#{userBean.name}" required="true" />
+				<h:inputText id="name" value="#{userBean.vorname}" required="true" />
 
 				<h:outputLabel for="lastname" value="Nachname:" />
-				<h:inputText id="lastname" value="#{userBean.lastname}"
+				<h:inputText id="lastname" value="#{userBean.nachname}"
 					required="true" />
 					
 				<h:outputLabel for="konfession" value="Konfession:" />

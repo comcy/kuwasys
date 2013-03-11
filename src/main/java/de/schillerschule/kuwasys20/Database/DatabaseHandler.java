@@ -3,6 +3,8 @@ package de.schillerschule.kuwasys20.Database;
 import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Course.*;
 import de.schillerschule.kuwasys20.Gradelist.GradelistBean;
+import de.schillerschule.kuwasys20.Teacher.TeacherBean;
+import de.schillerschule.kuwasys20.User.UserBean;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -226,12 +228,12 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 
-		FacesContext.getCurrentInstance().addMessage("useraddsuccess_name",
+		FacesContext.getCurrentInstance().addMessage("studentaddsuccess_name",
 				messageName);
-		FacesContext.getCurrentInstance().addMessage("useraddsuccess_username",
-				messageUsername);
-		FacesContext.getCurrentInstance().addMessage("useraddsuccess_password",
-				messagePassword);
+		FacesContext.getCurrentInstance().addMessage(
+				"studentaddsuccess_username", messageUsername);
+		FacesContext.getCurrentInstance().addMessage(
+				"studentaddsuccess_password", messagePassword);
 
 		FacesContext.getCurrentInstance().addMessage("teacheraddsuccess_name",
 				messageName);
@@ -240,12 +242,6 @@ public class DatabaseHandler {
 		FacesContext.getCurrentInstance().addMessage(
 				"teacheraddsuccess_password", messagePassword);
 
-		callMessage();
-
-	}
-
-	public static void callMessage() {
-		FacesContext.getCurrentInstance().addMessage("csvimport", messageName);
 	}
 
 	public static String showUserFullName() {
@@ -275,14 +271,13 @@ public class DatabaseHandler {
 		return vorName + " " + nachName;
 	}
 
-	
 	/**
 	 * Gibt ID des angemeldeten User zurück
 	 * 
-	 * @param 
+	 * @param
 	 */
-	
-	public static int getUserId(){
+
+	public static int getUserId() {
 		int id = 0;
 		SQLConnection();
 		FacesContext fc = FacesContext.getCurrentInstance();
@@ -304,10 +299,9 @@ public class DatabaseHandler {
 			e.printStackTrace();
 		}
 		SQLConnectionClose();
-		
+
 		return id;
 	}
-	
 
 	/**
 	 * Gibt gegebenem User die gegebenen Rechte
@@ -326,6 +320,143 @@ public class DatabaseHandler {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+
+	}
+
+	public static void listUsers() {
+		SQLConnection();
+		System.out.println("Zeuch mir die User!");
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT * FROM users");
+			UserBean.emptyUsers();
+			while (result.next()) {
+				System.out.println(result.getInt("users_id")
+						+ result.getString("users_vorname")
+						+ result.getString("users_nachname")
+						+ result.getString("users_geburtstag")
+						+ result.getString("users_konfession")
+						+ result.getString("users_klasse")
+						+ result.getString("users_username")
+						+ result.getString("users_passwort")
+						+ result.getString("users_rolle"));
+				UserBean.addToUsers(new UserBean.User(
+						result.getInt("users_id"), result
+								.getString("users_vorname"), result
+								.getString("users_nachname"), result
+								.getString("users_geburtstag"), result
+								.getString("users_konfession"), result
+								.getString("users_klasse"), result
+								.getString("users_username"), result
+								.getString("users_passwort"), result
+								.getString("users_rolle")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+
+	public static void addToUsers(String klasse, String nachname,
+			String vorname, String geburtstag, String konfession, String rolle) {
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement
+					.executeUpdate("INSERT INTO users (users_klasse, users_nachname,"
+							+ "users_vorname, users_geburtstag, users_konfession, users_rolle)"
+							+ "VALUES ("
+							+ klasse
+							+ ", '"
+							+ nachname
+							+ "', '"
+							+ vorname
+							+ "', '"
+							+ geburtstag
+							+ "', '"
+							+ konfession + "', '" + rolle + "');");
+			System.out.println(">>> INSERT USER"); // DEBUG
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+
+	}
+
+	public static void commitCourse(int userid, int kursid) {
+		// TODO user und kurs in notenliste einfügen
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement
+					.executeUpdate("INSERT INTO gradelist (gradelist_userid, gradelist_kursid) VALUES ("
+							+ userid + "," + kursid + ");");
+		} catch (SQLException ex) {
+			System.out.println("SQL Error: " + ex);
+		}
+		SQLConnectionClose();
+	}
+
+	/**
+	 * TEACHER METHODEN
+	 */
+	public static void listTeachers() {
+		SQLConnection();
+		System.out.println("Zeuch mir die User!");
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT * FROM users");
+			TeacherBean.emptyTeachers();
+			while (result.next()) {
+				System.out.println(result.getInt("users_id")
+						+ result.getString("users_vorname")
+						+ result.getString("users_nachname")
+						+ result.getString("users_geburtstag")
+						+ result.getString("users_konfession")
+						+ result.getString("users_klasse")
+						+ result.getString("users_username")
+						+ result.getString("users_passwort")
+						+ result.getString("users_rolle"));
+				UserBean.addToUsers(new UserBean.User(
+						result.getInt("users_id"), result
+								.getString("users_vorname"), result
+								.getString("users_nachname"), result
+								.getString("users_geburtstag"), result
+								.getString("users_konfession"), result
+								.getString("users_klasse"), result
+								.getString("users_username"), result
+								.getString("users_passwort"), result
+								.getString("users_rolle")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+
+	public static void addToTeachers(String klasse, String nachname,
+			String vorname, String geburtstag, String konfession, String rolle) {
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement
+					.executeUpdate("INSERT INTO users (users_klasse, users_nachname,"
+							+ "users_vorname, users_geburtstag, users_konfession, users_rolle)"
+							+ "VALUES ("
+							+ klasse
+							+ ", '"
+							+ nachname
+							+ "', '"
+							+ vorname
+							+ "', '"
+							+ geburtstag
+							+ "', '"
+							+ konfession + "', '" + rolle + "');");
+			System.out.println(">>> INSERT TEACHER"); // DEBUG
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
 
 	}
 
@@ -445,10 +576,7 @@ public class DatabaseHandler {
 							+ ", '"
 							+ bemerkung
 							+ "', "
-							+ userid
-							+ ", "
-							+ kursid
-							+ ");");
+							+ userid + ", " + kursid + ");");
 			System.out.println(">>> INSERT GRADELIST"); // DEBUG
 		} catch (SQLException ex) {
 			ex.printStackTrace();

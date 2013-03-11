@@ -128,7 +128,7 @@ public class kuwasysControllerBean {
 	 * @return Facelet "useradd"
 	 */
 	public String goAddUser() {
-		return "useradd";
+		return "studentadd";
 	}
 	
 	/**
@@ -138,6 +138,14 @@ public class kuwasysControllerBean {
 	 */
 	public String goAddTeacher() {
 		return "teacheradd";
+	}
+	
+	public static String goUsers() {
+		return "users";
+	}
+	
+	public static String goTeachers() {
+		return "teachers";
 	}
 
 	/**
@@ -185,14 +193,6 @@ public class kuwasysControllerBean {
 	public String goPhaseSet(){
 		return "phaseset";
     }		
-
-
-	
-	/**
-	 * GRADELIST FACES
-	 */
-	
-
 
 	/**
 	 * Systemtertial inkrementieren

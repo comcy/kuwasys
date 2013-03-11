@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">Lehrerverwaltung</ui:define>
+	<ui:define name="content">
+	        <h1>Lehrerübersicht</h1>
+	        <h:form>
+		        <t:dataTable id="data"
+		                styleClass="standardTable"
+		                headerClass="standardTable_SortHeader"
+		                footerClass="standardTable_Footer"
+		                rowClasses="standardTable_Row1,standardTable_Row2"
+		                var="teacher"
+		                sortable="true"
+		                value="#{teacherBean.teachers}"
+		                preserveDataModel="true">
+		
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="ID" />
+		                </f:facet>
+		                <h:outputText value="#{teacher._id}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Vorname" />
+		                </f:facet>
+		                <h:outputText value="#{teacher._vorname}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Nachname" />
+		                </f:facet>
+		                <h:outputText value="#{teacher._nachname}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Geburtstag" />
+		                </f:facet>
+		                <h:outputText value="#{teacher._geburtstag}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Konfession" />
+		                </f:facet>
+		                <h:outputText value="#{teacher._konfession}" />
+		            </t:column> 
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Klasse" />
+		                </f:facet>
+		                <h:outputText value="#{teacher._klasse}" />
+		            </t:column>  	
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Username" />
+		                </f:facet>
+		                <h:outputText value="#{teacher._username}" />
+		            </t:column> 
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Passwort" />
+		                </f:facet>
+		                <h:outputText value="#{teacher._passwort}" />
+		            </t:column> 
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Rolle" />
+		                </f:facet>
+		                <h:outputText value="#{teacher._rolle}" />
+		            </t:column> 
+		
+		        </t:dataTable>
+		    </h:form>
+	</ui:define>
+</ui:composition>

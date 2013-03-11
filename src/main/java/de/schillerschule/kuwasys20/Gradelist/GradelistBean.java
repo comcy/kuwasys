@@ -9,7 +9,7 @@ import javax.faces.bean.RequestScoped;
 import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 
-@ManagedBean(name = "notelistBean")
+@ManagedBean(name = "gradelistBean")
 @RequestScoped
 
 public class GradelistBean{

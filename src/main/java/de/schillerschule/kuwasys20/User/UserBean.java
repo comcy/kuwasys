@@ -1,13 +1,15 @@
 package de.schillerschule.kuwasys20.User;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
+import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
-import de.schillerschule.kuwasys20.Teacher.TeacherBean;
 
 /**
  * Klasse für User-Handling im System
@@ -19,144 +21,128 @@ import de.schillerschule.kuwasys20.Teacher.TeacherBean;
 @RequestScoped
 public class UserBean implements Serializable {
 
-	private static Logger logger = Logger.getLogger(TeacherBean.class
+	private static Logger logger = Logger.getLogger(UserBean.class
 			.getCanonicalName());
 
 	private static final long serialVersionUID = 2L;
 
-	// Property-Strings
-	private String name;
-	private String lastname;
+	private static List<User> users = new ArrayList<User>();
+
+	private int id;
+	private String nachname;
+	private String vorname;
+	private String geburtstag;
 	private String konfession;
-	private String geb;
+	private String klasse;
+	private String username;
+	private String passwort;
+
 	private String gebDay;
 	private String gebMonth;
 	private String gebYear;
-	private String klasse;
 
-	// Default Strings: "schueler"
-	public static String role = "schueler";
+	private static final String rolle = "schueler";
+
+	private String name;
+	private String lastname;
+	private String geb;
 
 	public UserBean() {
 	}
 
-	// Get-Methoden
-	/**
-	 * Vorname
-	 * 
-	 * @return name
-	 */
-	public String getName() {
-		return name;
+	public List<User> getUsers() {
+		return users;
 	}
 
-	/**
-	 * Nachname
-	 * 
-	 * @return lastname
-	 */
-	public String getLastname() {
-		return lastname;
+	public static void setUsers(List<User> users) {
+		UserBean.users = users;
 	}
 
-	/**
-	 * Konfession
-	 * 
-	 * @return konfession
-	 */
-	public String getKonfession() {
-		return konfession;
+	public int getId() {
+		return id;
 	}
 
-	/**
-	 * Klasse
-	 * 
-	 * @return klasse
-	 */
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getNachname() {
+		return nachname;
+	}
+
+	public void setNachname(String nachname) {
+		this.nachname = nachname;
+	}
+
+	public String getVorname() {
+		return vorname;
+	}
+
+	public void setVorname(String vorname) {
+		this.vorname = vorname;
+	}
+
 	public String getKlasse() {
 		return klasse;
 	}
 
-	/**
-	 * Geburtstdatum Tag
-	 * 
-	 * @return gebDay
-	 */
-	public String getGebDay() {
-		return gebDay;
-	}
-
-	/**
-	 * Geburtstdatum Monat
-	 * 
-	 * @return gebMonth
-	 */
-	public String getGebMonth() {
-		return gebMonth;
-	}
-
-	/**
-	 * Geburtstdatum Tag Jahr
-	 * 
-	 * @return gebYear
-	 */
-	public String getGebYear() {
-		return gebYear;
-	}
-
-	/**
-	 * Geburtstdatum Tag Jahr
-	 * 
-	 * @return geb
-	 */
-	public String getGeb() {
-		return geb;
-	}
-
-	// Set-Methoden
-	/**
-	 * Vorname
-	 * 
-	 * @param name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Nachname
-	 * 
-	 * @param lastname
-	 */
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	/**
-	 * Konfession
-	 * 
-	 * @param konfession
-	 */
-	public void setKonfession(String konfession) {
-		this.konfession = konfession;
-	}
-
-	/**
-	 * Klasse
-	 * 
-	 * @param klasse
-	 */
 	public void setKlasse(String klasse) {
 		this.klasse = klasse;
 	}
 
-	/**
-	 * Geburtsdatum
-	 * 
-	 * @param gebDay
-	 *            , gebMonth, gebYear
-	 * 
-	 */
+	public String getKonfession() {
+		return konfession;
+	}
+
+	public void setKonfession(String konfession) {
+		this.konfession = konfession;
+	}
+
+	public String getGeburtstag() {
+		return geburtstag;
+	}
+
+	public void setGeburtstag(String geburtstag) {
+		this.geburtstag = geburtstag;
+	}
+
+	public String getUsername() {
+		return username;
+	}
+
+	public void setUsername(String username) {
+		this.username = username;
+	}
+
+	public String getPasswort() {
+		return passwort;
+	}
+
+	public void setPasswort(String passwort) {
+		this.passwort = passwort;
+	}
+
+	public static String getRolle() {
+		return rolle;
+	}
+
+	// Helfer für Geburtstag Splitting
+	public String getGebDay() {
+		return gebDay;
+	}
+
+	public String getGebMonth() {
+		return gebMonth;
+	}
+
+	public String getGebYear() {
+		return gebYear;
+	}
+
+	public String getGeb() {
+		return geb;
+	}
+
 	public void setGebDay(String gebDay) {
 		this.gebDay = gebDay;
 	}
@@ -167,10 +153,6 @@ public class UserBean implements Serializable {
 
 	public void setGebYear(String gebYear) {
 		this.gebYear = gebYear;
-	}
-
-	public void setGeb(String geb) {
-		this.geb = geb;
 	}
 
 	/**
@@ -186,15 +168,16 @@ public class UserBean implements Serializable {
 		System.out.println("Vorname: " + lastname);
 		System.out.println("Geburtstag: " + geb);
 		System.out.println("Konfession: " + konfession);
-		
-		geb = gebYear + gebMonth + gebDay; // Geburtstag formatieren
+
+		geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
 
 		DatabaseHandler.SQLConnection();
-		DatabaseHandler.addUser(klasse, lastname, name, geb, konfession, role);
+		DatabaseHandler.addUser(klasse, nachname, vorname, geburtstag,
+				konfession, rolle);
 		DatabaseHandler.SQLConnectionClose();
-		
-		logger.info("Schüler: " + name + " " + lastname + " angelegt");
-		return "useraddsuccess";
+
+		logger.info("Schüler: " + vorname + " " + nachname + " angelegt");
+		return "studentaddsuccess";
 	}
 
 	/**
@@ -206,5 +189,122 @@ public class UserBean implements Serializable {
 		String username = DatabaseHandler.showUserFullName();
 		return username;
 	}
+	
+	public String addToUsers(){
+		DatabaseHandler.addToTeachers(klasse, nachname, vorname, geburtstag, konfession, rolle);
+		return kuwasysControllerBean.goUsers();
+	}
 
+	public static void addToUsers(User user) {
+		users.add(user);
+	}
+	
+	public static void emptyUsers() {
+		users.clear();
+		
+	}
+
+	/**
+	 * User-Klasse (Schüler)
+	 * 
+	 * @author cy
+	 * 
+	 */
+	public static class User implements Serializable {
+
+		private static final long serialVersionUID = 1L;
+
+		private int _id;
+		private String _nachame;
+		private String _vorname;
+		private String _geburtstag;
+		private String _konfession;
+		private String _klasse;
+		private String _username;
+		private String _passwort;
+		private static String _rolle = "schueler"; // default
+
+		public User(int id, String nachname, String vorname,
+				String geburtstag, String konfession, String klasse,
+				String username, String passwort, String rolle) {
+
+			_id = id;
+			_nachame = nachname;
+			_vorname = vorname;
+			_geburtstag = geburtstag;
+			_konfession = konfession;
+			_klasse = klasse;
+			_username = username;
+			_passwort = passwort;
+			_rolle = rolle;
+		}
+
+		public int get_id() {
+			return _id;
+		}
+
+		public void set_id(int _id) {
+			this._id = _id;
+		}
+
+		public String get_nachame() {
+			return _nachame;
+		}
+
+		public void set_nachame(String _nachame) {
+			this._nachame = _nachame;
+		}
+
+		public String get_vorname() {
+			return _vorname;
+		}
+
+		public void set_vorname(String _vorname) {
+			this._vorname = _vorname;
+		}
+
+		public String get_geburtstag() {
+			return _geburtstag;
+		}
+
+		public void set_geburtstag(String _geburtstag) {
+			this._geburtstag = _geburtstag;
+		}
+
+		public String get_konfession() {
+			return _konfession;
+		}
+
+		public void set_konfession(String _konfession) {
+			this._konfession = _konfession;
+		}
+
+		public String get_klasse() {
+			return _klasse;
+		}
+
+		public void set_klasse(String _klasse) {
+			this._klasse = _klasse;
+		}
+
+		public String get_username() {
+			return _username;
+		}
+
+		public void set_username(String _username) {
+			this._username = _username;
+		}
+
+		public String get_passwort() {
+			return _passwort;
+		}
+
+		public void set_passwort(String _passwort) {
+			this._passwort = _passwort;
+		}
+
+		public String get_rolle() {
+			return _rolle;
+		}
+	}
 }

@@ -8,11 +8,11 @@
 			<h:form>
 				<t:panelNavigation2 id="nav1" width="200px" layout="list" itemClass="off" activeItemClass="on" openItemClass="open" renderAll="false" expandAll="false">
 					<t:navigationMenuItem value="Startseite" id="home" action="#{kuwasys.goHome}" visibleOnUserRole="admin,lehrer,schueler"/>
-					<t:navigationMenuItem value="Schüler verwalten" id="schüler" action="#{kuwasys.goHome}" visibleOnUserRole="admin">
+					<t:navigationMenuItem value="Schüler verwalten" id="schüler" action="#{kuwasys.goUsers}" visibleOnUserRole="admin">
 						<t:navigationMenuItem value=" - importieren" id="csvimport" action="#{kuwasys.goImportCSV}" visibleOnUserRole="admin"/>
-						<t:navigationMenuItem value=" - hinzufügen" id="useradd" action="#{kuwasys.goAddUser}" visibleOnUserRole="admin"/>
+						<t:navigationMenuItem value=" - hinzufügen" id="studentadd" action="#{kuwasys.goAddUser}" visibleOnUserRole="admin"/>
 					</t:navigationMenuItem>
-					<t:navigationMenuItem value="Lehrer verwalten" id="lehrer" action="#{kuwasys.goHome}" visibleOnUserRole="admin">
+					<t:navigationMenuItem value="Lehrer verwalten" id="lehrer" action="#{kuwasys.goTeachers}" visibleOnUserRole="admin">
 						<t:navigationMenuItem value=" - hinzufügen" id="teacheradd" action="#{kuwasys.goAddTeacher}" visibleOnUserRole="admin"/>
 					</t:navigationMenuItem>
 					<t:navigationMenuItem value="Klasse" id="klasse" action="#{kuwasys.goHome}" visibleOnUserRole="lehrer"/>

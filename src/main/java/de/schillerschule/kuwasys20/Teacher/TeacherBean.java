@@ -1,133 +1,110 @@
 package de.schillerschule.kuwasys20.Teacher;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 
+import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 
 /**
- * Klasse für Teacher-Handling im System
+ * ManagedBean-Klasse für Teacher-Handling im System
  * 
  * @author cy
  * 
  */
 @ManagedBean(name = "teacherBean")
 @RequestScoped
-public class TeacherBean implements Serializable {
+public class TeacherBean {
 
 	private static Logger logger = Logger.getLogger(TeacherBean.class
 			.getCanonicalName());
+	
+	private static List<Teacher> teachers = new ArrayList<Teacher>();
 
-	private static final long serialVersionUID = 1L;
-
-	// Property-Strings
-	private String name;
-	private String lastname;
-	private String geb;
+	private int id;
+	private String vorname;
+	private String nachname;
+	private String geburtstag;
 	private String gebDay;
 	private String gebMonth;
 	private String gebYear;
 	private String klasse;
+	private static final String rolle = "lehrer";
+	private static final String konfession = "N.A."; 
 	
-	// Default Strings: "schueler"
-	public static String role = "lehrer";
-	public static String konfession = "N.A."; 
-
 	public TeacherBean() {
 	}
-
-	// Get-Methoden
-	/**
-	 * Vorname
-	 * 
-	 * @return name
-	 */
-	public String getName() {
-		return name;
+	
+	public List<Teacher> getTeachers() {
+		return teachers;
 	}
 
-	/**
-	 * Nachname
-	 * 
-	 * @return lastname
-	 */
-	public String getLastname() {
-		return lastname;
+	public static void setTeachers(List<Teacher> teachers) {
+		TeacherBean.teachers = teachers;
 	}
 
-	/**
-	 * Klasse
-	 * 
-	 * @return klasse
-	 */
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getVorname() {
+		return vorname;
+	}
+
+	public void setVorname(String vorname) {
+		this.vorname = vorname;
+	}
+
+	public String getNachname() {
+		return nachname;
+	}
+
+	public void setNachname(String nachname) {
+		this.nachname = nachname;
+	}
+
+	public static String getRolle() {
+		return rolle;
+	}
+	
+	public void setGeburtstag(String geburtstag) {
+		this.geburtstag = geburtstag;
+	}
+	
+	public String getGeburtstag() {
+		return geburtstag;
+	}
+	
 	public String getKlasse() {
 		return klasse;
 	}
 
-	/**
-	 * Geburtstdatum Tag
-	 * 
-	 * @return gebDay
-	 */
+	public void setKlasse(String klasse) {
+		this.klasse = klasse;
+	}
+	
+	// Helfer für Geburtstag Splitting
 	public String getGebDay() {
 		return gebDay;
 	}
 
-	/**
-	 * Geburtstdatum Monat
-	 * 
-	 * @return gebMonth
-	 */
 	public String getGebMonth() {
 		return gebMonth;
 	}
 
-	/**
-	 * Geburtstdatum Tag Jahr
-	 * 
-	 * @return gebYear
-	 */
 	public String getGebYear() {
 		return gebYear;
 	}
 
-	// Set-Methoden
-	/**
-	 * Vorname
-	 * 
-	 * @param name
-	 */
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	/**
-	 * Nachname
-	 * 
-	 * @param lastname
-	 */
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
-	}
-
-	/**
-	 * Klasse
-	 * 
-	 * @param klasse
-	 */
-	public void setKlasse(String klasse) {
-		this.klasse = klasse;
-	}
-
-	/**
-	 * Geburtsdatum
-	 * 
-	 * @param gebDay
-	 *            , gebMonth, gebYear
-	 */
 	public void setGebDay(String gebDay) {
 		this.gebDay = gebDay;
 	}
@@ -139,10 +116,7 @@ public class TeacherBean implements Serializable {
 	public void setGebYear(String gebYear) {
 		this.gebYear = gebYear;
 	}
-
-	public void setGeb(String geb) {
-		this.geb = geb;
-	}
+	////
 	
 	/**
 	 * Neuen User anlegen
@@ -153,18 +127,130 @@ public class TeacherBean implements Serializable {
 
 		// DEBUG
 		System.out.println("Klasse: " + klasse);
-		System.out.println("Nachname: " + name);
-		System.out.println("Vorname: " + lastname);
-		System.out.println("Geburtstag: " + geb);
+		System.out.println("Nachname: " + vorname);
+		System.out.println("Vorname: " + nachname);
+		System.out.println("Geburtstag: " + geburtstag);
 		
-		geb = gebYear + gebMonth + gebDay; // Geburtstag formatieren
+		geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
 		
 		DatabaseHandler.SQLConnection();
-		DatabaseHandler.addUser(klasse, lastname, name, geb, konfession, role);
+		DatabaseHandler.addUser(klasse, nachname, vorname, geburtstag, konfession, rolle);
 		DatabaseHandler.SQLConnectionClose();
 		
-		logger.info("Lehrer: " + name + " " + lastname + " angelegt");
+		logger.info("Lehrer: " + vorname + " " + nachname + " angelegt");
 		return "teacheraddsuccess";
 	}
+	
+	public static void emptyTeachers() {
+		teachers.clear();	
+	}
+	
+	public String addToTeachers(){
+		DatabaseHandler.addToTeachers(klasse, nachname, vorname, geburtstag, konfession, rolle);
+		return kuwasysControllerBean.goTeachers();
+	}
+	
+	public static void addToTeachers(Teacher teacher){
+		teachers.add(teacher);
+	}
+		
+	/**
+	 * Teacher-Klasse (Lehrer)
+	 * @author cy
+	 *
+	 */
+	
+	public static class Teacher implements Serializable {
+		
+		private static final long serialVersionUID = 1L;
+		
+		private int _id;
+		private String _nachname;
+		private String _vorname;
+		private String _geburtstag;
+		private String _klasse;
+		private String _username;
+		private String _passwort;
+		private static String _rolle = "lehrer";
+		private static String _konfession = "N.A.";
+		
+		public Teacher (int id, String nachname, String vorname, String geburtstag, String klasse, String username, String passwort, String rolle, String konfession) {
+		   
+			_id = id;
+			_nachname = nachname;
+			_vorname = vorname;
+			_geburtstag = geburtstag;
+			_klasse = klasse;
+			_username = username;
+			_passwort = passwort;
+			_rolle = rolle;
+			_konfession = konfession;
+			
+		}
+		
+		public int get_id() {
+			return _id;
+		}
+		
+		public void set_id(int _id) {
+			this._id = _id;
+		}
+		
+		public String get_nachname() {
+			return _nachname;
+		}
+		
+		public void set_nachame(String _nachname) {
+			this._nachname = _nachname;
+		}
+		
+		public String get_vorname() {
+			return _vorname;
+		}
+		
+		public void set_vorname(String _vorname) {
+			this._vorname = _vorname;
+		}
+		
+		public String get_geburtstag() {
+			return _geburtstag;
+		}
+		
+		public void set_geburtstag(String _geburtstag) {
+			this._geburtstag = _geburtstag;
+		}
+		
+		public String get_klasse() {
+			return _klasse;
+		}
+		
+		public void set_klasse(String _klasse) {
+			this._klasse = _klasse;
+		}
+		
+		public String get_username() {
+			return _username;
+		}
+		
+		public void set_username(String _username) {
+			this._username = _username;
+		}
+		
+		public String get_passwort() {
+			return _passwort;
+		}
+		
+		public void set_passwort(String _passwort) {
+			this._passwort = _passwort;
+		}
+		
+		public String get_rolle() {
+			return _rolle;
+		}
+		
+		public static String getKonfession() {
+			return _konfession;
+		}
 
+	}
 }
