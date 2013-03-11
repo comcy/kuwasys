@@ -13,6 +13,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -25,8 +26,11 @@ import javax.faces.context.FacesContext;
 public class DatabaseHandler {
 
 	static Connection connection;
+	static Connection connection2;
 	static Statement statement;
+	static Statement statement2;
 	static ResultSet result;
+	static ResultSet result2;
 
 	private static FacesMessage messageName;
 	private static FacesMessage messageUsername;
@@ -57,6 +61,27 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 	}
+	public static void SQLConnection2() {
+		try {
+
+			InitialContext cxt = new InitialContext();
+			DataSource ds = (DataSource) cxt
+					.lookup("java:/comp/env/jdbc/postgres");
+			connection2 = ds.getConnection();
+			System.out.println("DB2 open");
+			statement2 = connection2.createStatement();
+			result2 = statement2.executeQuery("SELECT VERSION()");
+			if (result2.next()) {
+				System.out.println(result2.getString(1)); // DEBUG - Connection
+			}
+		} catch (SQLException ex) {
+			System.out.println("Error during DB2 connection " + ex);
+			ex.printStackTrace();
+		} catch (NamingException ex) {
+			System.out.println("Error during DB2 connection " + ex);
+			ex.printStackTrace();
+		}
+	}
 
 	public static void SQLConnectionClose() {
 		try {
@@ -64,6 +89,15 @@ public class DatabaseHandler {
 			System.out.println("DB close");
 		} catch (SQLException ex) {
 			System.out.println("Error during DB connection " + ex);
+			ex.printStackTrace();
+		}
+	}
+	public static void SQLConnectionClose2() {
+		try {
+			connection2.close();
+			System.out.println("DB2 close");
+		} catch (SQLException ex) {
+			System.out.println("Error during DB2 connection " + ex);
 			ex.printStackTrace();
 		}
 	}
@@ -245,7 +279,7 @@ public class DatabaseHandler {
 	}
 
 	public static String showUserFullName() {
-		SQLConnection();
+		SQLConnection2();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = fc.getExternalContext();
 		ResultSet rs = null;
@@ -255,7 +289,7 @@ public class DatabaseHandler {
 		String vorName = "";
 		String nachName = "";
 		try {
-			pst = connection.prepareStatement(stm);
+			pst = connection2.prepareStatement(stm);
 			pst.execute();
 			rs = pst.getResultSet();
 
@@ -267,10 +301,36 @@ public class DatabaseHandler {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		SQLConnectionClose();
+		SQLConnectionClose2();
 		return vorName + " " + nachName;
 	}
 
+	public static String showUserFullName(int id) {
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "Select users_nachname,users_vorname from users where users_id="
+				+ id + ";";
+		String vorName = "";
+		String nachName = "";
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+
+				nachName = rs.getString(1);
+				vorName = rs.getString(2);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		System.out.println(vorName + " " + nachName);
+		return vorName + " " + nachName;
+	}
+	
 	/**
 	 * Gibt ID des angemeldeten User zurück
 	 * 
@@ -397,6 +457,8 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 
+
+
 	/**
 	 * TEACHER METHODEN
 	 */
@@ -491,7 +553,8 @@ public class DatabaseHandler {
 	}
 
 	public static void addCourse(String name, String faecherverbund,
-			int kurslehrer, int termin, String beschreibung) {
+			int kurslehrer, int termin, String beschreibung, ArrayList<String> konfessionen) {
+		int id=0;
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
@@ -507,9 +570,74 @@ public class DatabaseHandler {
 							+ termin
 							+ ", '"
 							+ beschreibung + "');");
+			if (!konfessionen.isEmpty()){
+				result=statement.executeQuery("SELECT course_id FROM course WHERE course_name='"
+							+name
+							+"' AND course_faecherverbund='"
+							+faecherverbund
+							+"' AND course_kurslehrer="
+							+kurslehrer
+							+" AND course_termin="
+							+termin
+							+";");
+				if (result.next())
+					id = result.getInt("course_id");
+				for (String k : konfessionen)
+					statement.executeUpdate("INSERT INTO course_religion (course_religion_id, course_religion_konfession) VALUES ("
+							+id
+							+",'"
+							+k
+							+"');");
+			}
+			
 			System.out.println(">>> INSERT COURSE"); // DEBUG
 		} catch (SQLException ex) {
 			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+	
+	public static void populateAllConfessions(){
+		SQLConnection();
+		
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT DISTINCT users_konfession FROM users");
+			CourseBean.clearAllConfessions();
+			while (result.next()) {
+				//System.out.println(result.getString("course_religion_konfession"));
+				CourseBean.addToAllConfessions(result.getString("users_konfession"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+	
+	public static void listStudentCourses(int id) {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT gradelist.gradelist_kursid, " +
+					"course.course_id, gradelist.gradelist_userid, course.course_beschreibung, course.course_termin, course.course_faecherverbund, course.course_kurslehrer, course.course_name " +
+					"FROM  public.course, public.gradelist WHERE course.course_id = gradelist.gradelist_kursid AND gradelist.gradelist_userid="+id+";");
+			CourseBean.emptyCourses();
+			while (result.next()) {
+				System.out.println(result.getInt("course_id")
+						+ result.getString("course_name")
+						+ result.getInt("course_kurslehrer")
+						+ result.getString("course_faecherverbund")
+						+ result.getInt("course_termin")
+						+ result.getString("course_beschreibung"));
+				CourseBean.addToCourses(new CourseBean.Course(result
+						.getInt("course_id"), result.getString("course_name"),
+						result.getInt("course_kurslehrer"), result
+								.getString("course_faecherverbund"), result
+								.getInt("course_termin"), result
+								.getString("course_beschreibung")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
 		SQLConnectionClose();
 	}
@@ -534,6 +662,8 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 	}
+	
+	
 
 	/**
 	 * GRADELIST METHODEN

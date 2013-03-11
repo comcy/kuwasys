@@ -163,7 +163,13 @@ public class kuwasysControllerBean {
 	 * @return Facelet "courses"
 	 */
 	public static String goCourses(){
-    	DatabaseHandler.listCourses();
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context.getExternalContext().isUserInRole("admin"))
+			DatabaseHandler.listCourses();
+		if (context.getExternalContext().isUserInRole("lehrer"))
+			DatabaseHandler.listCourses();
+		if (context.getExternalContext().isUserInRole("schueler"))
+			DatabaseHandler.listStudentCourses(DatabaseHandler.getUserId());
 		return "courses";
     }	
 		
