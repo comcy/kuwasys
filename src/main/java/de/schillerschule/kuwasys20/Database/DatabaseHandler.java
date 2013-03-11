@@ -674,7 +674,7 @@ public class DatabaseHandler {
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT * FROM gradelist");
-			CourseBean.emptyCourses();
+			GradelistBean.emptyGradelist();
 			while (result.next()) {
 				System.out.println(result.getInt("gradelist_id")
 						+ result.getInt("gradelist_note")
