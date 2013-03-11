@@ -614,7 +614,7 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 	
-	public static void listStudentCourses(int id) {
+	public static void listCoursesStudent(int id) {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
@@ -642,6 +642,60 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 
+	public static void listCoursesTeacher(int id) {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT * FROM course WHERE course_kurslehrer="+id+";");
+			CourseBean.emptyCourses();
+			while (result.next()) {
+				System.out.println(result.getInt("course_id")
+						+ result.getString("course_name")
+						+ result.getInt("course_kurslehrer")
+						+ result.getString("course_faecherverbund")
+						+ result.getInt("course_termin")
+						+ result.getString("course_beschreibung"));
+				CourseBean.addToCourses(new CourseBean.Course(result
+						.getInt("course_id"), result.getString("course_name"),
+						result.getInt("course_kurslehrer"), result
+								.getString("course_faecherverbund"), result
+								.getInt("course_termin"), result
+								.getString("course_beschreibung")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+	
+	public static void listCoursesAttendable(int id) {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery("  SELECT * FROM course LEFT OUTER JOIN (SELECT gradelist_kursid FROM gradelist WHERE  (gradelist_userid="+id+"))as a on course.course_id=a.gradelist_kursid WHERE a.gradelist_kursid IS NULL;");
+			CourseBean.emptyCourses();
+			while (result.next()) {
+				System.out.println(result.getInt("course_id")
+						+ result.getString("course_name")
+						+ result.getInt("course_kurslehrer")
+						+ result.getString("course_faecherverbund")
+						+ result.getInt("course_termin")
+						+ result.getString("course_beschreibung"));
+				CourseBean.addToCourses(new CourseBean.Course(result
+						.getInt("course_id"), result.getString("course_name"),
+						result.getInt("course_kurslehrer"), result
+								.getString("course_faecherverbund"), result
+								.getInt("course_termin"), result
+								.getString("course_beschreibung")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+	
+	
+	
 	/**
 	 * SYSTEM METHODEN
 	 */

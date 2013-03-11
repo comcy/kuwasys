@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">Kurse wählen</ui:define>
+	<ui:define name="content">
+	        <h1>Wählbare Kurse</h1>
+	        <h:form>
+		        <t:dataTable id="data"
+		                styleClass="standardTable"
+		                headerClass="standardTable_SortHeader"
+		                footerClass="standardTable_Footer"
+		                rowClasses="standardTable_Row1,standardTable_Row2"
+		                var="course"
+		                sortable="true"
+		                value="#{courseBean.courses}"
+		                preserveDataModel="true">
+		
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="id" />
+		                </f:facet>
+		                <h:outputText value="#{course._id}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Kursname" />
+		                </f:facet>
+		                <h:outputText value="#{course._name}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Kurslehrer" />
+		                </f:facet>
+		                <h:outputText value="#{course._kurslehrerName}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Fächerverbund" />
+		                </f:facet>
+		                <h:outputText value="#{course._faecherverbund}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Termin" />
+		                </f:facet>
+		                <h:outputText value="#{course._termin}" />
+		            </t:column>
+		            <t:column>
+			            <f:facet name="header">
+			                <h:outputText value="Beschreibung" />
+			            </f:facet>
+			            <h:outputText value="#{course._beschreibung}" />
+		            </t:column>			            	
+    				<h:column>
+     				   <h:commandLink value="Teilnehmen" action="#{course.attendCourse}" />
+  				    </h:column>
+		
+		        </t:dataTable>
+		    </h:form>
+
+	        
+	</ui:define>
+</ui:composition>

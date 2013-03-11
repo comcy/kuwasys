@@ -167,9 +167,9 @@ public class kuwasysControllerBean {
 		if (context.getExternalContext().isUserInRole("admin"))
 			DatabaseHandler.listCourses();
 		if (context.getExternalContext().isUserInRole("lehrer"))
-			DatabaseHandler.listCourses();
+			DatabaseHandler.listCoursesTeacher(DatabaseHandler.getUserId());
 		if (context.getExternalContext().isUserInRole("schueler"))
-			DatabaseHandler.listStudentCourses(DatabaseHandler.getUserId());
+			DatabaseHandler.listCoursesStudent(DatabaseHandler.getUserId());
 		return "courses";
     }	
 		
@@ -227,7 +227,7 @@ public class kuwasysControllerBean {
 	 * @return Facelet "gradelistadd" 
 	 */
 	public String goAddGradelist(){
-		DatabaseHandler.listGradelist();
+		DatabaseHandler.listCoursesAttendable(DatabaseHandler.getUserId());
 		return "gradelistadd";
 	}
 }

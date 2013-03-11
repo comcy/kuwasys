@@ -217,6 +217,11 @@ public class CourseBean{
 		    
 		}
 		
+		public String attendCourse(){
+			DatabaseHandler.addToGradelist(0, "", DatabaseHandler.getUserId(), _id);
+			return kuwasysControllerBean.goCourses();
+		}
+		
 		public int get_id() {
 			return _id;
 		}
