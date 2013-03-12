@@ -161,7 +161,7 @@ public class DatabaseHandler {
 	public static String createPassword() {
 
 		SecureRandom random = new SecureRandom();
-		String password = new BigInteger(130, random).toString(32);
+		String password = new BigInteger(32, random).toString(32);
 		System.out.println("Passwort: " + password);
 
 		return password;

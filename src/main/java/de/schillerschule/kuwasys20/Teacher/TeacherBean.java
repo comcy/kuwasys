@@ -160,7 +160,7 @@ public class TeacherBean {
 	}
 	
 	public String addToTeachers(){
-		DatabaseHandler.addToTeachers(klasse, nachname, vorname, geburtstag, konfession, rolle);
+		DatabaseHandler.addToTeachers(klasse, nachname, vorname, geburtstag, konfession, "lehrer");
 		return kuwasysControllerBean.goTeachers();
 	}
 	

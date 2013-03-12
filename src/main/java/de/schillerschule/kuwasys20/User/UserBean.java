@@ -170,7 +170,7 @@ public class UserBean implements Serializable {
 
 		DatabaseHandler.SQLConnection();
 		DatabaseHandler.addUser(klasse, nachname, vorname, geburtstag,
-				konfession, rolle);
+				konfession, "schueler");
 		DatabaseHandler.SQLConnectionClose();
 
 		logger.info("Schüler: " + vorname + " " + nachname + " angelegt");
