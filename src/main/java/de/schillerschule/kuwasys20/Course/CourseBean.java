@@ -76,6 +76,22 @@ public class CourseBean {
 		alleKonfessionen.clear();
 	}
 	
+	public boolean bundleChosen(String bundle){
+		if (bundle.equals("sport"))
+			return DatabaseHandler.sportChosen(DatabaseHandler.getUserId());
+		else if (bundle.equals("reli"))
+			return DatabaseHandler.reliChosen(DatabaseHandler.getUserId());
+		else
+			return DatabaseHandler.bundleChosen(DatabaseHandler.getUserId(), bundle);
+	}
+	
+	
+	public int isDateConflicting(){
+		for (int i=1; i<=10; i++)
+			if (DatabaseHandler.isDateConflicting(DatabaseHandler.getUserId(), i))
+				return i;
+		return 0;
+	}
 	
 	
 

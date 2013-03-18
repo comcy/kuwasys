@@ -755,7 +755,11 @@ public class DatabaseHandler {
 							+ "course.course_id, gradelist.gradelist_userid, course.course_beschreibung, course.course_termin, course.course_faecherverbund, course.course_kurslehrer, course.course_name, course.course_schuljahr, course.course_tertial, course.course_teilnehmerzahl, course.course_pflichtkurs, course.course_sport "
 							+ "FROM  public.course, public.gradelist " +
 							"WHERE course.course_id = gradelist.gradelist_kursid " +
-							"AND gradelist.gradelist_userid=" + id + "ORDER BY gradelist.gradelist_note" +
+							"AND gradelist.gradelist_userid=" + id +
+							"AND course.course_schuljahr="+kuwasysControllerBean.year+"" +
+							"AND course.course_tertial=" +kuwasysControllerBean.tertial + 
+							"AND gradelist.gradelist_note=0" +
+							"ORDER BY gradelist.gradelist_note" +
 							";");
 			CourseBean.emptyCourses();
 			while (result.next()) {
@@ -797,7 +801,7 @@ public class DatabaseHandler {
 							"AND gradelist_kursid=" + courseId + 
 							";");
 			while (result2.next()) {
-				grade = result2.getInt("gradelist_note");
+				grade = java.lang.Math.round(result2.getDouble("gradelist_note")*100)/100.;
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -988,7 +992,121 @@ public class DatabaseHandler {
 		return count;
 	}
 	
+	
+	public static boolean bundleChosen(int id, String bundle){
+		System.out.println("bundleChosen-"+id+bundle);
+		boolean chosen=false;
+		SQLConnection2();
+		try {
+			statement2= connection2.createStatement();
+			result2 = statement2.executeQuery(" SELECT COUNT(*) " +
+					"FROM course JOIN gradelist " +
+					"ON course.course_id=gradelist.gradelist_kursid " +
+					"WHERE gradelist_userid=" + id +
+					" AND course.course_faecherverbund='" + bundle + "' " +
+					"AND course.course_schuljahr=" +
+					kuwasysControllerBean.year + 
+					"AND course.course_tertial=" + 
+					kuwasysControllerBean.tertial +
+					"AND gradelist.gradelist_note=0" + 
+					";");
+			while (result2.next()) {
+				chosen=(result2.getInt(1)==1);					
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		
+		return chosen;
+	}
 
+	public static boolean sportChosen(int id){
+		System.out.println("sportChosen mit "+id);
+		boolean chosen=false;
+		SQLConnection2();
+		try {
+			statement2= connection2.createStatement();
+			result2 = statement2.executeQuery(" SELECT course_sport " +
+					"FROM course JOIN gradelist " +
+					"ON course.course_id=gradelist.gradelist_kursid " +
+					"WHERE gradelist_userid=" + id +
+					" AND course.course_sport" +
+					" AND course.course_schuljahr=" +
+					kuwasysControllerBean.year + 
+					" AND course.course_tertial=" + 
+					kuwasysControllerBean.tertial +
+					"AND gradelist.gradelist_note=0" + 
+					";");
+			while (result2.next()) {
+				chosen=(result2.getBoolean(1));
+				System.out.println("sportChosen-result"+chosen);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		
+		return chosen;
+	}
+	
+	public static boolean reliChosen(int id){
+		System.out.println("reliChosen "+id);
+		boolean chosen=false;
+		SQLConnection2();
+		try {
+			statement2= connection2.createStatement();
+			result2 = statement2.executeQuery(" SELECT * FROM gradelist JOIN " +
+					"(SELECT * FROM (SELECT * FROM users) as a JOIN " +
+					"(SELECT * FROM course JOIN course_religion " +
+					"ON course.course_id=course_religion.course_religion_id) AS b " +
+					"ON a.users_konfession=b.course_religion_konfession " +
+					"WHERE a.users_id="+id+") as c " +
+					"ON gradelist.gradelist_kursid=c.course_id " +
+					"WHERE gradelist.gradelist_userid="+id+
+					"AND c.course_schuljahr=" + kuwasysControllerBean.year + 
+					"AND c.course_tertial="+ kuwasysControllerBean.tertial +
+					"AND gradelist.gradelist_note=0" + 
+					";");
+			while (result2.next()) {
+				chosen=true;
+				System.out.println("sportChosen-result"+chosen);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		
+		return chosen;
+	}
+	
+	public static boolean isDateConflicting(int id,int date){
+		System.out.println("date conflicting "+date);
+		boolean conflicting = false;
+		SQLConnection2();
+		try {
+			statement2= connection2.createStatement();
+			result2 = statement2.executeQuery(" SELECT COUNT(*) FROM gradelist " +
+					"JOIN course ON gradelist.gradelist_kursid=course.course_id " +
+					"WHERE gradelist.gradelist_userid=" + id +
+					"AND course.course_termin=" + date +
+					"AND course.course_schuljahr=" + kuwasysControllerBean.year + 
+					"AND course.course_tertial="+ kuwasysControllerBean.tertial +
+					"AND gradelist.gradelist_note=0" + 
+					";");
+			while (result2.next()) {
+				if (result2.getInt(1)>1)
+					conflicting=true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		
+		return conflicting;
+	}
+	
+	
 	/**
 	 * SYSTEM METHODEN
 	 * @return 
@@ -1037,7 +1155,6 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 		SQLConnectionClose();
-
 	}
 	
 	/**

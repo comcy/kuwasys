@@ -8,15 +8,39 @@
 	<ui:define name="title">Kurse</ui:define>
 	<ui:define name="content">
 	        <h1>Kursübersicht</h1>
-	        <h:outputText value="Aktivierte Kurse bieten rechnerisch Platz für #{kuwasys.countPositions()} Schüler. (Terminüberschneidungen nicht einberechnet!)" rendered="#{kuwasys.userRole()=='Admin'}" /><br />
+	  
+	        <h:graphicImage library="img" name="Actions-dialog-ok-apply-icon.png" width="25px" alt="gut" rendered="#{(kuwasys.userRole()=='Schüler') and courseBean.courses.size()==6}"/>
+	        <h:outputText value="Du hast bereits #{courseBean.courses.size()} von 6 Kursen gewählt." rendered="#{kuwasys.userRole()=='Schüler'}" ></h:outputText>
+	        
+	       	<h:graphicImage library="img" name="Emotes-face-surprise-icon.png" width="25px" alt="oh" rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()!=0)}"/>	
+      		<h:outputText value="ACHTUNG! Terminüberschneidung an Termin: #{courseBean.isDateConflicting()}" style="font-weight:bold;color:red;" rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()!=0)}" />      
+	        
+	        
+	        <h:outputText value="Aktivierte Kurse bieten rechnerisch Platz für #{kuwasys.countPositions()} Schüler. (Terminüberschneidungen nicht einberechnet!)" rendered="#{kuwasys.userRole()=='Admin'}"><br /></h:outputText>
 	        <h:outputText value="Aktivierte Pflichtkurse: #{kuwasys.countEssential()}" rendered="#{kuwasys.userRole()=='Admin'}" />
+	 		
+	 		<h:panelGrid columns="6" rendered="#{kuwasys.userRole()=='Schüler'}" width="100%" style="font-weight:bold;">
+		    	<h:outputText value="WZG:"  />
+		    	<h:outputText value="MNT:"  />
+		    	<h:outputText value="WAG:"  />
+		    	<h:outputText value="MSG:"  />
+		    	<h:outputText value="Sport:"  />
+		    	<h:outputText value="Religion/Ethik:"  />
+		    	<h:graphicImage library="img" name="#{courseBean.bundleChosen('WZG')?'Actions-dialog-ok-apply-icon.png':'Actions-dialog-close-icon.png'}" width="25px" alt="kreuz"/>
+		    	<h:graphicImage library="img" name="#{courseBean.bundleChosen('MNT')?'Actions-dialog-ok-apply-icon.png':'Actions-dialog-close-icon.png'}" width="25px" alt="kreuz"/>
+		    	<h:graphicImage library="img" name="#{courseBean.bundleChosen('WAG')?'Actions-dialog-ok-apply-icon.png':'Actions-dialog-close-icon.png'}" width="25px" alt="kreuz"/>
+		    	<h:graphicImage library="img" name="#{courseBean.bundleChosen('MSG')?'Actions-dialog-ok-apply-icon.png':'Actions-dialog-close-icon.png'}" width="25px" alt="kreuz"/>
+		    	<h:graphicImage library="img" name="#{courseBean.bundleChosen('sport')?'Actions-dialog-ok-apply-icon.png':'Actions-dialog-close-icon.png'}" width="25px" alt="kreuz"/>
+		    	<h:graphicImage library="img" name="#{courseBean.bundleChosen('reli')?'Actions-dialog-ok-apply-icon.png':'Actions-dialog-close-icon.png'}" width="25px" alt="kreuz"/>
+      		</h:panelGrid>  
+	       
 	        <h:form>
 		        <t:dataTable id="data"
 		                styleClass="standardTable"
 		                headerClass="standardTable_SortHeader"
 		                footerClass="standardTable_Footer"
 		                var="course"
-		                sortable="true"
+		                sortable="false"
 		                value="#{courseBean.courses}"
 		                preserveDataModel="true">
 		
@@ -80,5 +104,6 @@
 		            </t:column>		
 		        </t:dataTable>
 		    </h:form>
+		    
 	</ui:define>
 </ui:composition>
