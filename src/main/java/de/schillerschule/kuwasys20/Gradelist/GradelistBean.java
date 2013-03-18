@@ -17,7 +17,7 @@ public class GradelistBean{
 	private static List<Grades> gradelists = new ArrayList<Grades>();
 
 	private int id;
-	private int note;
+	private double note;
 	private String bemerkung;
 	private int userid;
 	private int kursid;
@@ -47,7 +47,7 @@ public class GradelistBean{
 		this.id = id;
 	}
 	
-	public void setNote(int note) {
+	public void setNote(double note) {
 		this.note = note;
 	}
 	
@@ -68,7 +68,7 @@ public class GradelistBean{
 		return id;
 	}
 	
-	public int getNote() {
+	public double getNote() {
 		return note;
 	}
 	
@@ -90,12 +90,12 @@ public class GradelistBean{
 		
 		
 		private int _id;
-		private int _note;
+		private double _note;
 		private String _bemerkung;
 		private int _userid;
 		private int _kursid;
 	
-		public Grades (int id, int note, String bemerkung, int usersid, int kursid) {
+		public Grades (int id, double note, String bemerkung, int usersid, int kursid) {
 		    _id = id;
 		    _note = note;
 		    _bemerkung = bemerkung;
@@ -109,7 +109,7 @@ public class GradelistBean{
 			this._id = _id;
 		}
 		
-		public void set_note(int _note) {
+		public void set_note(double _note) {
 			this._note = _note;
 		}
 		
@@ -130,7 +130,7 @@ public class GradelistBean{
 			return _id;
 		}
 		
-		public int get_note() {
+		public double get_note() {
 			return _note;
 		}
 		

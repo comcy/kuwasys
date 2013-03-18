@@ -14,13 +14,15 @@
 				<h:inputText id="name" value="#{courseBean.name}" required="true" />
 
 				<h:outputLabel for="bundle" value="Fächerverbund:" />
-				<h:inputText id="bundle" value="#{courseBean.faecherverbund}"
-					required="true" />
+				<h:inputText id="bundle" value="#{courseBean.faecherverbund}" required="true" />
+				
+				<h:outputLabel for="positions" value="Teilnehmerzahl:" />
+				<h:inputText id="positions" value="#{courseBean.teilnehmerzahl}" required="true" />				
 					
 				<h:outputLabel for="kurslehrer" value="Kurslehrer:" rendered="#{kuwasys.userRole()=='Admin'}" />
 				<h:selectOneMenu id="kurslehrer" value="#{courseBean.kurslehrer}" required="true" rendered="#{kuwasys.userRole()=='Admin'}">
               		<t:selectItems value="#{selectItemsBean.carList}" var="Car" itemLabel="#{Car.type}" itemValue="#{Car.color}" />
-         		 </h:selectOneMenu>
+         		</h:selectOneMenu>
 				<h:outputLabel for="termin" value="Zeitpunkt" />
 				    <h:panelGroup>
 			      <t:selectOneRadio id="termin" layout="spread" value="#{courseBean.termin}">
@@ -42,19 +44,21 @@
 			      	<h:outputText value="Donnerstag"/>
 			      	<h:outputText value="Freitag"/>
 			        <t:radio for="termin" index="0" />
-			        <t:radio for="termin" index="1" />
 			        <t:radio for="termin" index="2" />
-			        <t:radio for="termin" index="3" />
 			        <t:radio for="termin" index="4" />
-			        <t:radio for="termin" index="5" />
 			        <t:radio for="termin" index="6" />
-			        <t:radio for="termin" index="7" />
 			        <t:radio for="termin" index="8" />
+			        <t:radio for="termin" index="1" />
+			        <t:radio for="termin" index="3" />
+			        <t:radio for="termin" index="5" />
+			        <t:radio for="termin" index="7" />
 			        <t:radio for="termin" index="9" />
 			      </h:panelGrid>
 			    </h:panelGroup>
 				<h:outputLabel for="description" value="Beschreibung:" />
-				<h:inputTextarea id="description" value="#{courseBean.beschreibung}" required="false" maximum="200" cols="50" rows="10"  />
+				<h:inputTextarea id="description" value="#{courseBean.beschreibung}" required="false" maximum="100" cols="50" rows="10"  />
+		        <h:outputLabel for="isSport" value="Sportkurs: " />
+		        <h:selectBooleanCheckbox id="isSport" value="#{courseBean.sport}" title="Sportkurs"/>
 				<h:outputLabel for="konfessionen" value="Religionsunterricht für: " />
 			    <t:selectManyPicklist id="konfessionen" valueChangeListener="#{courseBean.confessionSelectionChanged}">
 		        	<f:selectItems value="#{courseBean.alleKonfessionen}"/>

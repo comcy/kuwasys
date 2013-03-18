@@ -27,10 +27,13 @@ public class DatabaseHandler {
 
 	static Connection connection;
 	static Connection connection2;
+	static Connection connection3;
 	static Statement statement;
 	static Statement statement2;
+	static Statement statement3;
 	static ResultSet result;
 	static ResultSet result2;
+	static ResultSet result3;
 
 	private static FacesMessage messageName;
 	private static FacesMessage messageUsername;
@@ -51,7 +54,7 @@ public class DatabaseHandler {
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT VERSION()");
 			if (result.next()) {
-				System.out.println(result.getString(1)); // DEBUG - Connection
+				//System.out.println(result.getString(1)); // DEBUG - Connection
 			}
 		} catch (SQLException ex) {
 			System.out.println("Error during DB connection " + ex);
@@ -69,11 +72,11 @@ public class DatabaseHandler {
 			DataSource ds = (DataSource) cxt
 					.lookup("java:/comp/env/jdbc/postgres");
 			connection2 = ds.getConnection();
-			System.out.println("DB2 open");
+			System.out.println("   DB2 open");
 			statement2 = connection2.createStatement();
 			result2 = statement2.executeQuery("SELECT VERSION()");
 			if (result2.next()) {
-				System.out.println(result2.getString(1)); // DEBUG - Connection
+				//System.out.println(result2.getString(1)); // DEBUG - Connection
 			}
 		} catch (SQLException ex) {
 			System.out.println("Error during DB2 connection " + ex);
@@ -83,7 +86,29 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 	}
+	
+	public static void SQLConnection3() {
+		try {
 
+			InitialContext cxt = new InitialContext();
+			DataSource ds = (DataSource) cxt
+					.lookup("java:/comp/env/jdbc/postgres");
+			connection3 = ds.getConnection();
+			System.out.println("      DB3 open");
+			statement3 = connection3.createStatement();
+			result3 = statement3.executeQuery("SELECT VERSION()");
+			if (result3.next()) {
+				//System.out.println(result3.getString(1)); // DEBUG - Connection
+			}
+		} catch (SQLException ex) {
+			System.out.println("Error during DB3 connection " + ex);
+			ex.printStackTrace();
+		} catch (NamingException ex) {
+			System.out.println("Error during DB3 connection " + ex);
+			ex.printStackTrace();
+		}
+	}
+	
 	public static void SQLConnectionClose() {
 		try {
 			connection.close();
@@ -93,13 +118,24 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 	}
+	
 
 	public static void SQLConnectionClose2() {
 		try {
 			connection2.close();
-			System.out.println("DB2 close");
+			System.out.println("   DB2 close");
 		} catch (SQLException ex) {
 			System.out.println("Error during DB2 connection " + ex);
+			ex.printStackTrace();
+		}
+	}
+	
+	public static void SQLConnectionClose3() {
+		try {
+			connection3.close();
+			System.out.println("      DB3 close");
+		} catch (SQLException ex) {
+			System.out.println("Error during DB3 connection " + ex);
 			ex.printStackTrace();
 		}
 	}
@@ -286,6 +322,7 @@ public class DatabaseHandler {
 	}
 
 	public static String showUserFullName() {
+		System.out.println("schowUSerFullName");
 		SQLConnection2();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = fc.getExternalContext();
@@ -313,6 +350,7 @@ public class DatabaseHandler {
 	}
 
 	public static String showUserFullName(int id) {
+		System.out.println("schowUserFullName(id)");
 		SQLConnection2();
 		ResultSet rs = null;
 		PreparedStatement pst = null;
@@ -345,8 +383,9 @@ public class DatabaseHandler {
 	 */
 
 	public static int getUserId() {
+		System.out.println("getUserId");
 		int id = 0;
-		SQLConnection();
+		SQLConnection3();
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = fc.getExternalContext();
 		ResultSet rs = null;
@@ -354,7 +393,7 @@ public class DatabaseHandler {
 		String stm = "Select users_id from users where users_username='"
 				+ externalContext.getUserPrincipal().getName() + "'";
 		try {
-			pst = connection.prepareStatement(stm);
+			pst = connection3.prepareStatement(stm);
 			pst.execute();
 			rs = pst.getResultSet();
 
@@ -365,7 +404,7 @@ public class DatabaseHandler {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		SQLConnectionClose();
+		SQLConnectionClose3();
 
 		return id;
 	}
@@ -375,7 +414,7 @@ public class DatabaseHandler {
 	}
 	
 	public static String getUserUsername(){
-		
+		System.out.println("getUserUsermame");
 		FacesContext fc = FacesContext.getCurrentInstance();
 		ExternalContext externalContext = fc.getExternalContext();
 		String username = "" + externalContext.getUserPrincipal().getName();
@@ -620,11 +659,17 @@ public class DatabaseHandler {
 						+ result.getInt("course_termin")
 						+ result.getString("course_beschreibung"));
 				CourseBean.addToCourses(new CourseBean.Course(
-						result.getInt("course_id"), result.getString("course_name"),
-						result.getInt("course_kurslehrer"), result
-								.getString("course_faecherverbund"), result
-								.getInt("course_termin"), result
-								.getString("course_beschreibung")));
+						result.getInt("course_id"), 
+						result.getString("course_name"),
+						result.getInt("course_kurslehrer"), 
+						result.getString("course_faecherverbund"), 
+						result.getInt("course_termin"), 
+						result.getString("course_beschreibung"), 
+						result.getInt("course_schuljahr"), 
+						result.getInt("course_tertial"), 
+						result.getInt("course_teilnehmerzahl"),
+						result.getBoolean("course_pflichtkurs"),
+						result.getBoolean("course_sport")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -633,14 +678,14 @@ public class DatabaseHandler {
 	}
 
 	public static void addCourse(String name, String faecherverbund,
-			int kurslehrer, int termin, String beschreibung,
+			int kurslehrer, int termin, String beschreibung, int teilnehmerzahl, boolean sport,
 			ArrayList<String> konfessionen) {
 		int id = 0;
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
 			statement
-					.executeUpdate("INSERT INTO course (course_name, course_faecherverbund, course_kurslehrer, course_termin, course_beschreibung)"
+					.executeUpdate("INSERT INTO course (course_name, course_faecherverbund, course_kurslehrer, course_termin, course_beschreibung, course_teilnehmerzahl, course_sport)"
 							+ "VALUES ('"
 							+ name
 							+ "', '"
@@ -650,7 +695,12 @@ public class DatabaseHandler {
 							+ ", "
 							+ termin
 							+ ", '"
-							+ beschreibung + "');");
+							+ beschreibung 
+							+ "'," 
+							+ teilnehmerzahl 
+							+ "," 
+							+ sport 
+							+ ");");
 			if (!konfessionen.isEmpty()) {
 				result = statement
 						.executeQuery("SELECT course_id FROM course WHERE course_name='"
@@ -702,9 +752,11 @@ public class DatabaseHandler {
 			statement = connection.createStatement();
 			result = statement
 					.executeQuery("SELECT gradelist.gradelist_kursid, "
-							+ "course.course_id, gradelist.gradelist_userid, course.course_beschreibung, course.course_termin, course.course_faecherverbund, course.course_kurslehrer, course.course_name "
-							+ "FROM  public.course, public.gradelist WHERE course.course_id = gradelist.gradelist_kursid AND gradelist.gradelist_userid="
-							+ id + ";");
+							+ "course.course_id, gradelist.gradelist_userid, course.course_beschreibung, course.course_termin, course.course_faecherverbund, course.course_kurslehrer, course.course_name, course.course_schuljahr, course.course_tertial, course.course_teilnehmerzahl, course.course_pflichtkurs, course.course_sport "
+							+ "FROM  public.course, public.gradelist " +
+							"WHERE course.course_id = gradelist.gradelist_kursid " +
+							"AND gradelist.gradelist_userid=" + id + "ORDER BY gradelist.gradelist_note" +
+							";");
 			CourseBean.emptyCourses();
 			while (result.next()) {
 				System.out.println(result.getInt("course_id")
@@ -713,26 +765,54 @@ public class DatabaseHandler {
 						+ result.getString("course_faecherverbund")
 						+ result.getInt("course_termin")
 						+ result.getString("course_beschreibung"));
-				CourseBean.addToCourses(new CourseBean.Course(result
-						.getInt("course_id"), result.getString("course_name"),
-						result.getInt("course_kurslehrer"), result
-								.getString("course_faecherverbund"), result
-								.getInt("course_termin"), result
-								.getString("course_beschreibung")));
+				CourseBean.addToCourses(new CourseBean.Course(
+						result.getInt("course_id"), 
+						result.getString("course_name"),
+						result.getInt("course_kurslehrer"), 
+						result.getString("course_faecherverbund"), 
+						result.getInt("course_termin"), 
+						result.getString("course_beschreibung"), 
+						result.getInt("course_schuljahr"), 
+						result.getInt("course_tertial"), 
+						result.getInt("course_teilnehmerzahl"),
+						result.getBoolean("course_pflichtkurs"),
+						result.getBoolean("course_sport")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		SQLConnectionClose();
 	}
+	
+	public static double getCourseGrade(int userId, int courseId) {
+		System.out.println("getCourseGrade");
+		double grade = 0;
+		SQLConnection2();
+		try {
+			statement2 = connection2.createStatement();
+			result2 = statement2
+					.executeQuery("SELECT gradelist_note " +
+							"FROM gradelist " +
+							"WHERE gradelist_userid=" + userId + 
+							"AND gradelist_kursid=" + courseId + 
+							";");
+			while (result2.next()) {
+				grade = result2.getInt("gradelist_note");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		return grade;
+	}
+	
+	
 
 	public static void listCoursesTeacher(int id) {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			result = statement
-					.executeQuery("SELECT * FROM course WHERE course_kurslehrer="
-							+ id + ";");
+			result = statement.executeQuery("SELECT * FROM course WHERE course_kurslehrer="	+ id + ";");
 			CourseBean.emptyCourses();
 			while (result.next()) {
 				System.out.println(result.getInt("course_id")
@@ -741,12 +821,18 @@ public class DatabaseHandler {
 						+ result.getString("course_faecherverbund")
 						+ result.getInt("course_termin")
 						+ result.getString("course_beschreibung"));
-				CourseBean.addToCourses(new CourseBean.Course(result
-						.getInt("course_id"), result.getString("course_name"),
-						result.getInt("course_kurslehrer"), result
-								.getString("course_faecherverbund"), result
-								.getInt("course_termin"), result
-								.getString("course_beschreibung")));
+				CourseBean.addToCourses(new CourseBean.Course(
+						result.getInt("course_id"), 
+						result.getString("course_name"),
+						result.getInt("course_kurslehrer"), 
+						result.getString("course_faecherverbund"), 
+						result.getInt("course_termin"), 
+						result.getString("course_beschreibung"), 
+						result.getInt("course_schuljahr"), 
+						result.getInt("course_tertial"), 
+						result.getInt("course_teilnehmerzahl"),
+						result.getBoolean("course_pflichtkurs"),
+						result.getBoolean("course_sport")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -759,9 +845,16 @@ public class DatabaseHandler {
 		try {
 			statement = connection.createStatement();
 			result = statement
-					.executeQuery("  SELECT * FROM course LEFT OUTER JOIN (SELECT gradelist_kursid FROM gradelist WHERE  (gradelist_userid="
-							+ id
-							+ "))as a on course.course_id=a.gradelist_kursid WHERE a.gradelist_kursid IS NULL;");
+					.executeQuery("  SELECT * FROM course LEFT OUTER JOIN " +
+							"(SELECT gradelist_kursid, gradelist_note FROM gradelist " +
+							"WHERE  (gradelist_userid=" +
+							id +
+							"))as a " +
+							"ON course.course_id=a.gradelist_kursid " +
+							"WHERE a.gradelist_kursid IS NULL " +
+							"AND course.course_schuljahr="+kuwasysControllerBean.year+"" +
+							"AND course.course_tertial=" +kuwasysControllerBean.tertial +
+							";");
 			CourseBean.emptyCourses();
 			while (result.next()) {
 				System.out.println(result.getInt("course_id")
@@ -770,25 +863,139 @@ public class DatabaseHandler {
 						+ result.getString("course_faecherverbund")
 						+ result.getInt("course_termin")
 						+ result.getString("course_beschreibung"));
-				CourseBean.addToCourses(new CourseBean.Course(result
-						.getInt("course_id"), result.getString("course_name"),
-						result.getInt("course_kurslehrer"), result
-								.getString("course_faecherverbund"), result
-								.getInt("course_termin"), result
-								.getString("course_beschreibung")));
+				CourseBean.addToCourses(new CourseBean.Course(
+						result.getInt("course_id"), 
+						result.getString("course_name"),
+						result.getInt("course_kurslehrer"), 
+						result.getString("course_faecherverbund"), 
+						result.getInt("course_termin"), 
+						result.getString("course_beschreibung"), 
+						result.getInt("course_schuljahr"), 
+						result.getInt("course_tertial"), 
+						result.getInt("course_teilnehmerzahl"),
+						result.getBoolean("course_pflichtkurs"),
+						result.getBoolean("course_sport")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		SQLConnectionClose();
 	}
+	
+	public static int countCourseParticipants(int id) {
+		SQLConnection3();
+		int participants = 0;
+		try {
+			statement3 = connection3.createStatement();
+			result3 = statement3
+					.executeQuery(" SELECT COUNT(gradelist.gradelist_kursid) " +
+							"FROM course JOIN gradelist " +
+							"ON gradelist.gradelist_kursid=course.course_id " +
+							"WHERE course.course_id=" + id +
+							"AND course.course_schuljahr="+kuwasysControllerBean.year+"" +
+							"AND course.course_tertial=" +kuwasysControllerBean.tertial +
+							";");
+			while (result3.next()) {
+				participants = result3.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose3();
+		return participants;
+	}
+		
+	
+	public static void activateCourse(int id){
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE course SET course_schuljahr="+kuwasysControllerBean.year+", course_tertial="+kuwasysControllerBean.tertial+" WHERE course_id="+id+";");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+
+	public static void deActivateCourse(int id){
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			if (kuwasysControllerBean.tertial>1)
+				statement.executeUpdate("UPDATE course SET course_schuljahr="+kuwasysControllerBean.year+", course_tertial="+(kuwasysControllerBean.tertial-1)+" WHERE course_id="+id+";");
+			else
+				statement.executeUpdate("UPDATE course SET course_schuljahr="+(kuwasysControllerBean.year-1)+", course_tertial=3 WHERE course_id="+id+";");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}	
+
+	
+	public static void toggleEssentialCourse(int id){
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE course SET course_pflichtkurs=NOT course_pflichtkurs WHERE course_id="+id+";");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}	
+	
+	
+	public static int countPositions(){
+		int free = 0;
+		SQLConnection();
+		try {
+			statement= connection.createStatement();
+			result = statement.executeQuery(" SELECT SUM(course.course_teilnehmerzahl) " +
+					"FROM course " +
+					"WHERE course.course_schuljahr=" +
+					kuwasysControllerBean.year + 
+					"AND course.course_tertial=" +kuwasysControllerBean.tertial +
+					";");
+			while (result.next()) {
+				free = result.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+		return free;
+	}
+	
+	public static int countEssentialcourse(){
+		int count = 0;
+		SQLConnection();
+		try {
+			statement= connection.createStatement();
+			result = statement.executeQuery(" SELECT COUNT(course.course_id) " +
+					"FROM course " +
+					"WHERE course.course_pflichtkurs " +
+					"AND course.course_schuljahr=" +
+					kuwasysControllerBean.year + 
+					"AND course.course_tertial=" + 
+					kuwasysControllerBean.tertial +
+					";");
+			while (result.next()) {
+				count = result.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+		return count;
+	}
+	
 
 	/**
 	 * SYSTEM METHODEN
+	 * @return 
 	 */
 
-	public static void systemState() {
-
+	public static int systemState() {
+		System.out.println("systemState");
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
@@ -803,9 +1010,11 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 		SQLConnectionClose();
+		return 0;
 	}
 
 	public static void commitPhase(int p) {
+		System.out.println("commitPhase");
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
@@ -818,6 +1027,7 @@ public class DatabaseHandler {
 	}
 
 	public static void commitTertial(int tertial, int year) {
+		System.out.println("commitTertial");
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
@@ -843,13 +1053,13 @@ public class DatabaseHandler {
 			GradelistBean.emptyGradelist();
 			while (result.next()) {
 				System.out.println(result.getInt("gradelist_id")
-						+ result.getInt("gradelist_note")
+						+ result.getDouble("gradelist_note")
 						+ result.getString("gradelist_bemerkung")
 						+ result.getInt("gradelist_userid")
 						+ result.getInt("gradelist_kursid"));
 				GradelistBean.addToGradelist(new GradelistBean.Grades(result
 						.getInt("gradelist_id"), result
-						.getInt("gradelist_note"), result
+						.getDouble("gradelist_note"), result
 						.getString("gradelist_bemerkung"), result
 						.getInt("gradelist_userid"), result
 						.getInt("gradelist_kursid")));
@@ -860,7 +1070,7 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 	}
 
-	public static void addToGradelist(int note, String bemerkung, int userid,
+	public static void addToGradelist(double note, String bemerkung, int userid,
 			int kursid) {
 		try {
 			SQLConnection();
@@ -879,6 +1089,21 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 	}
+
+	public static void removeFromGradelist(int userId, int kursId) {
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate("DELETE FROM gradelist WHERE gradelist_userid=" + userId + " AND gradelist_kursid=" + kursId + ";");
+			System.out.println(">>> REMOVE GRADELIST"); // DEBUG
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+		
+	}
+
+
 
 
 

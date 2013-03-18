@@ -54,9 +54,16 @@
 			                <h:outputText value="Beschreibung" />
 			            </f:facet>
 			            <h:outputText value="#{course._beschreibung}" />
-		            </t:column>			            	
-    				<h:column>
-     				   <h:commandLink value="Teilnehmen" action="#{course.attendCourse}" />
+		            </t:column>	
+		            <t:column rendered="#{(kuwasys.userRole()=='Schüler') and (kuwasys.phase==2)}">
+			            <f:facet name="header" >
+			                <h:outputText value="Teilnehmer" />
+			            </f:facet>
+			          	<h:outputText value="#{course._teilnehmerzahlAktuell}/#{course._teilnehmerzahl}" />
+		            </t:column>	
+    				<h:column rendered="#{(kuwasys.userRole()=='Schüler') and (kuwasys.phase==2)}">
+     				   <h:commandLink value="Wählen" action="#{course.attendCourse}" rendered="#{course.freePositions()}"/>
+     				   <h:outputText value="Kurs voll!" rendered="#{!course.freePositions()}" />
   				    </h:column>
 		
 		        </t:dataTable>

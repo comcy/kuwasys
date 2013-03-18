@@ -8,12 +8,13 @@
 	<ui:define name="title">Kurse</ui:define>
 	<ui:define name="content">
 	        <h1>Kursübersicht</h1>
+	        <h:outputText value="Aktivierte Kurse bieten rechnerisch Platz für #{kuwasys.countPositions()} Schüler. (Terminüberschneidungen nicht einberechnet!)" rendered="#{kuwasys.userRole()=='Admin'}" /><br />
+	        <h:outputText value="Aktivierte Pflichtkurse: #{kuwasys.countEssential()}" rendered="#{kuwasys.userRole()=='Admin'}" />
 	        <h:form>
 		        <t:dataTable id="data"
 		                styleClass="standardTable"
 		                headerClass="standardTable_SortHeader"
 		                footerClass="standardTable_Footer"
-		                rowClasses="standardTable_Row1,standardTable_Row2"
 		                var="course"
 		                sortable="true"
 		                value="#{courseBean.courses}"
@@ -53,13 +54,31 @@
 			            <f:facet name="header">
 			                <h:outputText value="Beschreibung" />
 			            </f:facet>
+			            <h:outputText value="PFLICHTKURS " rendered="#{course._pflichtkurs}" style="font-weight:bold;color:red;"/><br />
 			            <h:outputText value="#{course._beschreibung}" />
 		            </t:column>			            	
-
-		
+		            <t:column rendered="#{kuwasys.userRole()=='Admin'}">
+			            <f:facet name="header">
+			                <h:outputText value="Jahr - Tertial" />
+			            </f:facet>
+			            <h:outputText value="#{course._jahr}/#{course._jahr+1} - #{course._tertial}" />
+		            </t:column>	
+		            <t:column rendered="#{(kuwasys.userRole()=='Admin') and (kuwasys.phase==1)}">
+		            	<f:facet name="header">
+			            </f:facet>
+			            <h:commandLink value="Aktivieren" rendered="#{course.currentTertial?false:true}" action="#{course.activateCourse}" />
+			        	<h:commandLink value="Deaktivieren" rendered="#{course.currentTertial?true:false}" action="#{course.deActivateCourse}" style="background-color:lightgreen;" />
+			        	<h:commandLink value="Pflicht" rendered="#{(course._pflichtkurs?false:true) and (course.currentTertial)}" action="#{course.toggleEssentialCourse()}" />
+			        	<h:commandLink value="keine Pflicht" rendered="#{(course._pflichtkurs?true:false) and (course.currentTertial)}" action="#{course.toggleEssentialCourse()}" />
+		            </t:column>		
+		   		    <t:column rendered="#{kuwasys.userRole()=='Schüler'}">
+		            	<f:facet name="header">
+		            		
+			            </f:facet>
+			            <h:commandLink value="Abwählen" rendered="#{(course.courseGrade()==0) and (kuwasys.phase==2)}" action="#{course.unAttendCourse}" />
+			            <h:outputText value="Note: #{course.courseGrade()}" rendered="#{course.courseGrade()!=0}" />
+		            </t:column>		
 		        </t:dataTable>
 		    </h:form>
-
-	        
 	</ui:define>
 </ui:composition>

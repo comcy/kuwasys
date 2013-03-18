@@ -61,7 +61,7 @@ a.on:link, a.open:link {
     padding: 0px;
     border-bottom:4px solid lightgray;
 }
-a:link {
+a:link,visited {
 	display:block;
     color: rgb(0, 120, 183);
     text-decoration: none;
@@ -74,9 +74,18 @@ a:hover,active  {
 	padding: 20px;
 }
 
+table.standardTable tbody tr td{
+	border-bottom: 1px solid lightgray;
+	border-right:	1px dotted lightgray;
+}
+
+
+
 #footer {
 	color:rgb(0, 120, 183);
 	font-size:10px;
 	text-align:left; 
 	margin-left:300px;
 }
+
+

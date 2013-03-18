@@ -18,8 +18,6 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 public class CourseBean {
 
 	private static List<Course> courses = new ArrayList<Course>();
-	private static List<Course> studentCourses = new ArrayList<Course>();
-	private static List<Course> studentCoursesChosen = new ArrayList<Course>();
 	private static ArrayList<SelectItem> alleKonfessionen = new ArrayList<SelectItem>();
 
 	private int id;
@@ -29,6 +27,8 @@ public class CourseBean {
 	private String faecherverbund;
 	private int termin;
 	private String beschreibung;
+	private int teilnehmerzahl;
+	private boolean sport;
 	private ArrayList<String> konfessionen = new ArrayList<String>();
 
 	public CourseBean() {
@@ -41,7 +41,7 @@ public class CourseBean {
 			kurslehrer = DatabaseHandler.getUserId();
 		}
 		DatabaseHandler.addCourse(name, faecherverbund, kurslehrer, termin,
-				beschreibung, konfessionen);
+				beschreibung, teilnehmerzahl,  sport, konfessionen);
 		return kuwasysControllerBean.goCourses();
 	}
 
@@ -51,22 +51,6 @@ public class CourseBean {
 
 	public static void emptyCourses() {
 		courses.clear();
-	}
-
-	public static void addToStudentCourses(Course c) {
-		studentCourses.add(c);
-	}
-
-	public static void emptyStudentCourses() {
-		studentCourses.clear();
-	}
-
-	public static void addToStudentCoursesChosen(Course c) {
-		studentCoursesChosen.add(c);
-	}
-
-	public static void emptyStudentCoursesChosen() {
-		studentCoursesChosen.clear();
 	}
 
 	public void confessionSelectionChanged(ValueChangeEvent evt) {
@@ -91,6 +75,9 @@ public class CourseBean {
 	public static void clearAllConfessions() {
 		alleKonfessionen.clear();
 	}
+	
+	
+	
 
 	/**
 	 * GETTER & SETTER
@@ -161,8 +148,24 @@ public class CourseBean {
 		this.beschreibung = beschreibung;
 	}
 
+	public int getTeilnehmerzahl() {
+		return teilnehmerzahl;
+	}
+
+	public void setTeilnehmerzahl(int teilnehmerzahl) {
+		this.teilnehmerzahl = teilnehmerzahl;
+	}
+
 	public ArrayList<SelectItem> getAlleKonfessionen() {
 		return alleKonfessionen;
+	}
+
+	public boolean isSport() {
+		return sport;
+	}
+
+	public void setSport(boolean sport) {
+		this.sport = sport;
 	}
 
 	public static void setAlleKonfessionen(
@@ -182,9 +185,16 @@ public class CourseBean {
 		private String _faecherverbund;
 		private int _termin;
 		private String _beschreibung;
+		private int _jahr;
+		private int _tertial;
+		private int _teilnehmerzahl;
+		private int _teilnehmerzahlAktuell;
+		private boolean _pflichtkurs;
+		private boolean _sport;
 
 		public Course(int id, String name, int kurslehrer,
-				String faecherverbund, int termin, String beschreibung) {
+				String faecherverbund, int termin, String beschreibung, int jahr, int tertial, int teilnehmerzahl, boolean pflichtkurs, boolean sport) {
+			System.out.println("CourseConstructor");
 			_id = id;
 			_name = name;
 			_kurslehrer = kurslehrer;
@@ -192,13 +202,56 @@ public class CourseBean {
 			_faecherverbund = faecherverbund;
 			_termin = termin;
 			_beschreibung = beschreibung;
-
+			set_jahr(jahr);
+			set_tertial(tertial);
+			set_teilnehmerzahl(teilnehmerzahl);
+			set_teilnehmerzahlAktuell(DatabaseHandler.countCourseParticipants(id));
+			set_pflichtkurs(pflichtkurs);
+			set_sport(sport);
 		}
 
 		public String attendCourse() {
-			DatabaseHandler.addToGradelist(0, "", DatabaseHandler.getUserId(),
-					_id);
+			DatabaseHandler.addToGradelist(0, "", DatabaseHandler.getUserId(),_id);
 			return kuwasysControllerBean.goCourses();
+		}
+		
+		public String unAttendCourse(){
+			DatabaseHandler.removeFromGradelist(DatabaseHandler.getUserId(),_id);
+			return kuwasysControllerBean.goCourses();
+		}
+		
+		public String activateCourse(){
+			DatabaseHandler.activateCourse(_id);
+			return kuwasysControllerBean.goCourses();
+		}
+		
+		public String deActivateCourse(){
+			DatabaseHandler.deActivateCourse(_id);
+			return kuwasysControllerBean.goCourses();
+		}
+		
+		public String toggleEssentialCourse(){
+			System.out.println("SET "+_id+" ESSENTIAL");
+			DatabaseHandler.toggleEssentialCourse(_id);
+			return kuwasysControllerBean.goCourses();
+		}
+		
+		public boolean isCurrentTertial(){
+			if (_jahr==kuwasysControllerBean.year&&_tertial==kuwasysControllerBean.tertial)
+				return true;
+			else
+				return false;
+		}
+		
+		public double courseGrade(){
+			return DatabaseHandler.getCourseGrade(DatabaseHandler.getUserId(),_id);
+		}
+		
+		public boolean freePositions(){
+			if (_teilnehmerzahl>_teilnehmerzahlAktuell)
+				return true;
+			else 
+				return false;
 		}
 
 		public int get_id() {
@@ -255,6 +308,54 @@ public class CourseBean {
 
 		public void set_kurslehrerName(String _kurslehrerName) {
 			this._kurslehrerName = _kurslehrerName;
+		}
+
+		public int get_jahr() {
+			return _jahr;
+		}
+
+		public void set_jahr(int _jahr) {
+			this._jahr = _jahr;
+		}
+
+		public int get_tertial() {
+			return _tertial;
+		}
+
+		public void set_tertial(int _tertial) {
+			this._tertial = _tertial;
+		}
+
+		public int get_teilnehmerzahl() {
+			return _teilnehmerzahl;
+		}
+
+		public void set_teilnehmerzahl(int _teilnehmerzahl) {
+			this._teilnehmerzahl = _teilnehmerzahl;
+		}
+
+		public int get_teilnehmerzahlAktuell() {
+			return _teilnehmerzahlAktuell;
+		}
+
+		public void set_teilnehmerzahlAktuell(int _teilnehmerzahlAktuell) {
+			this._teilnehmerzahlAktuell = _teilnehmerzahlAktuell;
+		}
+
+		public boolean is_pflichtkurs() {
+			return _pflichtkurs;
+		}
+
+		public void set_pflichtkurs(boolean _pflichtkurs) {
+			this._pflichtkurs = _pflichtkurs;
+		}
+
+		public boolean is_sport() {
+			return _sport;
+		}
+
+		public void set_sport(boolean _sport) {
+			this._sport = _sport;
 		}
 	}
 }

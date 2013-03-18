@@ -17,11 +17,12 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 @RequestScoped
 public class kuwasysControllerBean {
 
-	private static int phase;
-	private static int tertial;	
-	private static int year;
-	private int phaseChanged;
-	
+	public static int phase;
+	public static int tertial;	
+	public static int year;
+	public int phaseChanged;
+	@SuppressWarnings("unused")
+	private int ss = DatabaseHandler.systemState();
 	
 	public int getPhase() {
 		return kuwasysControllerBean.phase;
@@ -68,7 +69,6 @@ public class kuwasysControllerBean {
 		case 3: return "Unterricht";
 		default: return "ÜNGÜLTIG!";
 		}
-		
 	}
 	
 	public String phaseCommit(){
@@ -85,13 +85,9 @@ public class kuwasysControllerBean {
 		DatabaseHandler.commitTertial(tertial, year);
 		DatabaseHandler.commitPhase(1);
 		return goSystem();
-			
 	}
 	
 	public String userRole() {
-		
-		DatabaseHandler.systemState();
-		
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (context.getExternalContext().isUserInRole("admin"))
 			return "Admin";
@@ -103,6 +99,14 @@ public class kuwasysControllerBean {
 			return null;
 	}
 
+	public int countPositions(){
+		return DatabaseHandler.countPositions();
+	}
+	public int countEssential(){
+		return DatabaseHandler.countEssentialcourse();
+	}
+	
+	
 	public String goLogout() throws IOException {
 		ExternalContext ec = FacesContext.getCurrentInstance()
 				.getExternalContext();
