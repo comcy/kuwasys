@@ -88,4 +88,7 @@ table.standardTable tbody tr td{
 	margin-left:300px;
 }
 
+td, th{
+	vertical-align:top;
+}
 
