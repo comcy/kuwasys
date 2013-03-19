@@ -254,6 +254,10 @@ public class kuwasysControllerBean {
 		return "usereditor";
 	}
 	
+	public static String goChangePassword(){
+		return "passwordedit";
+	}
+	
 }
 
 

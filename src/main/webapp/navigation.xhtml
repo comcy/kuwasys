@@ -34,7 +34,7 @@
 					</t:navigationMenuItem>					
 					
 					<t:navigationMenuItem value="Einstellungen" id="einstellungen" action="#{kuwasys.goHome}" visibleOnUserRole="admin,lehrer,schueler">
-						<t:navigationMenuItem value=" - Passwort ändern" id="changepw" action="#{addUserBean.home}" visibleOnUserRole="admin,lehrer,schueler"/>
+						<t:navigationMenuItem value=" - Passwort ändern" id="changepw" action="#{kuwasys.goChangePassword}" visibleOnUserRole="admin,lehrer,schueler"/>
 					</t:navigationMenuItem>
 					
 					<t:navigationMenuItem value="Abmelden" id="logout" action="#{kuwasys.goLogout}" visibleOnUserRole="admin,lehrer,schueler"/>
