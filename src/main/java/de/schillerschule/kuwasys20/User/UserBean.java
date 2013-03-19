@@ -36,12 +36,15 @@ public class UserBean implements Serializable {
 	private String klasse;
 	private String username;
 	private String passwort;
-
+	private String passwortE;
+	
 	private String gebDay;
 	private String gebMonth;
 	private String gebYear;
 
 	private String rolle;
+
+	
 
 	public UserBean() {
 	}
@@ -116,6 +119,14 @@ public class UserBean implements Serializable {
 
 	public void setPasswort(String passwort) {
 		this.passwort = passwort;
+	}
+	
+	public String getPasswortE() {
+		return passwort;
+	}
+
+	public void setPasswortE(String passwortE) {
+		this.passwortE = passwortE;
 	}
 
 	public void setRolle(String rolle){
@@ -207,6 +218,17 @@ public class UserBean implements Serializable {
 	public String sendUserUpdate(){
 		
 		return kuwasysControllerBean.goUsers();
+	}
+	
+	public String changePassword(){
+		if(passwort.equals(passwortE)){
+			DatabaseHandler.changePassword(DatabaseHandler.getUserId(), passwort);
+		}
+		else{
+			return "password_failed";
+		}
+		
+		return "password_success";
 	}
 	
 	/**

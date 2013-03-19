@@ -1262,7 +1262,17 @@ public class DatabaseHandler {
 		
 	}
 
-
+	public static void changePassword(int id, String passwort) {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE users SET users_passwort = '" + passwort + "' WHERE users_id = " + id + ";");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+		
+	}
 
 
 
