@@ -158,6 +158,8 @@ public class UserBean implements Serializable {
 	 * @return Facelet "useraddsuccess"
 	 */
 	public String sendUser() {
+		
+		String rolle = "schueler";
 
 		// DEBUG
 		System.out.println("Klasse: " + klasse);
@@ -170,7 +172,7 @@ public class UserBean implements Serializable {
 
 		DatabaseHandler.SQLConnection();
 		DatabaseHandler.addUser(klasse, nachname, vorname, geburtstag,
-				konfession, "schueler");
+				konfession, rolle);
 		DatabaseHandler.SQLConnectionClose();
 
 		logger.info("Schüler: " + vorname + " " + nachname + " angelegt");

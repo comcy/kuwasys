@@ -291,10 +291,10 @@ public class DatabaseHandler {
 						"Der User " + vname + " " + nname
 								+ " wurde erfolgreich angelegt und erhielt "
 								+ "die Rolle '" + role + "'.", null);
-				messageUsername = new FacesMessage(FacesMessage.SEVERITY_INFO,
+				/*messageUsername = new FacesMessage(FacesMessage.SEVERITY_INFO,
 						"Username: " + username + "", null);
 				messagePassword = new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Passwort: " + password + "", null);
+						"Passwort: " + password + "", null);*/
 
 			}
 		} catch (SQLException ex) {
@@ -303,17 +303,17 @@ public class DatabaseHandler {
 
 		FacesContext.getCurrentInstance().addMessage("studentaddsuccess_name",
 				messageName);
-		FacesContext.getCurrentInstance().addMessage(
+		/*FacesContext.getCurrentInstance().addMessage(
 				"studentaddsuccess_username", messageUsername);
 		FacesContext.getCurrentInstance().addMessage(
-				"studentaddsuccess_password", messagePassword);
+				"studentaddsuccess_password", messagePassword);*/
 
 		FacesContext.getCurrentInstance().addMessage("teacheraddsuccess_name",
 				messageName);
-		FacesContext.getCurrentInstance().addMessage(
+		/*FacesContext.getCurrentInstance().addMessage(
 				"teacheraddsuccess_username", messageUsername);
 		FacesContext.getCurrentInstance().addMessage(
-				"teacheraddsuccess_password", messagePassword);
+				"teacheraddsuccess_password", messagePassword);*/
 
 	}
 

@@ -138,7 +138,9 @@ public class TeacherBean {
 	 * @return Facelet "useraddsuccess"
 	 */
 	public String sendTeacher() {
-
+		
+		String rolle = "lehrer";
+		
 		// DEBUG
 		System.out.println("Klasse: " + klasse);
 		System.out.println("Nachname: " + vorname);
