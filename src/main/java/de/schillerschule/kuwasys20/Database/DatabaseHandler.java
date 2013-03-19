@@ -649,7 +649,100 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 	}
+	
+	public static void listClassesTeacherSchedule(int id) {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement
+					.executeQuery("SELECT * " +
+									"FROM users " +
+									"WHERE users_klasse = ( " + 
+											"SELECT users_klasse FROM users " +
+											"WHERE users_id = " + id + ") " +
+									"AND users_rolle != 'lehrer';");
+			UserBean.emptyUsers();
+			while (result.next()) {
+				System.out.println(result.getInt("users_id")
+						+ result.getString("users_vorname")
+						+ result.getString("users_nachname")
+						+ result.getString("users_geburtstag")
+						+ result.getString("users_konfession")
+						+ result.getString("users_username")
+						+ result.getString("users_passwort")
+						+ result.getString("users_klasse")
+						+ result.getString("users_rolle"));
+				UserBean.addToUsers(new UserBean.User(
+						result.getInt("users_id"), result
+								.getString("users_vorname"), result
+								.getString("users_nachname"), result
+								.getString("users_geburtstag"), result
+								.getString("users_konfession"), result
+								.getString("users_klasse"), result
+								.getString("users_username"), result
+								.getString("users_passwort"), result
+								.getString("users_rolle"), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 1), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 2), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 3), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 4), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 5), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 6), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 7), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 8), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 9), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 10)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+	
 
+	public static void listClassesSchedule() {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement.executeQuery("SELECT * FROM users WHERE users_rolle='schueler' ORDER BY users_klasse");
+			UserBean.emptyUsers();
+			while (result.next()) {
+				System.out.println(result.getInt("users_id")
+						+ result.getString("users_vorname")
+						+ result.getString("users_nachname")
+						+ result.getString("users_geburtstag")
+						+ result.getString("users_konfession")
+						+ result.getString("users_klasse")
+						+ result.getString("users_username")
+						+ result.getString("users_passwort")
+						+ result.getString("users_rolle"));
+				UserBean.addToUsers(new UserBean.User(
+						result.getInt("users_id"), result
+								.getString("users_vorname"), result
+								.getString("users_nachname"), result
+								.getString("users_geburtstag"), result
+								.getString("users_konfession"), result
+								.getString("users_klasse"), result
+								.getString("users_username"), result
+								.getString("users_passwort"), result
+								.getString("users_rolle"), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 1), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 2), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 3), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 4), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 5), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 6), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 7), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 8), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 9), 
+								DatabaseHandler.courseName(result.getInt("users_id"), 10)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+	
 	public static void listClasses() {
 		SQLConnection();
 		try {
@@ -1146,6 +1239,31 @@ public class DatabaseHandler {
 		SQLConnectionClose2();
 		
 		return conflicting;
+	}
+	
+	public static String courseName(int id,int date){
+		System.out.println("coursename "+date);
+		String name="-";
+		SQLConnection2();
+		try {
+			statement2= connection2.createStatement();
+			result2 = statement2.executeQuery(" SELECT course_name FROM gradelist " +
+					"JOIN course ON gradelist.gradelist_kursid=course.course_id " +
+					"WHERE gradelist.gradelist_userid=" + id +
+					"AND course.course_termin=" + date +
+					"AND course.course_schuljahr=" + kuwasysControllerBean.year + 
+					"AND course.course_tertial="+ kuwasysControllerBean.tertial +
+					"AND gradelist.gradelist_note=0" + 
+					";");
+			while (result2.next()) {
+				name=result2.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		
+		return name;
 	}
 	
 	

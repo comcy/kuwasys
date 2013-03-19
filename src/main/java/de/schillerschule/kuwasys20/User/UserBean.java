@@ -250,6 +250,18 @@ public class UserBean implements Serializable {
 		private String _username;
 		private String _passwort;
 		private String _rolle; // default
+		
+		private String _termin1;
+		private String _termin2;
+		private String _termin3;
+		private String _termin4;
+		private String _termin5;
+		private String _termin6;
+		private String _termin7;
+		private String _termin8;
+		private String _termin9;
+		private String _termin10;
+		
 
 		public User(int id, String vorname, String nachname, String geburtstag,
 				String konfession, String klasse, String username,
@@ -264,6 +276,34 @@ public class UserBean implements Serializable {
 			_username = username;
 			_passwort = passwort;
 			_rolle = rolle;
+			
+			
+		}
+		
+		public User(int id, String vorname, String nachname, String geburtstag,
+				String konfession, String klasse, String username,
+				String passwort, String rolle, String t1, String t2, String t3, String t4, String t5, String t6, String t7, String t8, String t9, String t10) {
+
+			_id = id;
+			_nachname = nachname;
+			_vorname = vorname;
+			_geburtstag = geburtstag;
+			_konfession = konfession;
+			_klasse = klasse;
+			_username = username;
+			_passwort = passwort;
+			_rolle = rolle;
+			set_termin1(t1);
+			set_termin2(t2);
+			set_termin3(t3);
+			set_termin4(t4);
+			set_termin5(t5);
+			set_termin6(t6);
+			set_termin7(t7);
+			set_termin8(t8);
+			set_termin9(t9);
+			set_termin10(t10);
+			
 		}
 		
 		public String editUser() {
@@ -362,6 +402,86 @@ public class UserBean implements Serializable {
 		
 		public String get_rolle() {
 			return _rolle;
+		}
+
+		public String get_termin1() {
+			return _termin1;
+		}
+
+		public void set_termin1(String _termin1) {
+			this._termin1 = _termin1;
+		}
+
+		public String get_termin2() {
+			return _termin2;
+		}
+
+		public void set_termin2(String _termin2) {
+			this._termin2 = _termin2;
+		}
+
+		public String get_termin3() {
+			return _termin3;
+		}
+
+		public void set_termin3(String _termin3) {
+			this._termin3 = _termin3;
+		}
+
+		public String get_termin4() {
+			return _termin4;
+		}
+
+		public void set_termin4(String _termin4) {
+			this._termin4 = _termin4;
+		}
+
+		public String get_termin5() {
+			return _termin5;
+		}
+
+		public void set_termin5(String _termin5) {
+			this._termin5 = _termin5;
+		}
+
+		public String get_termin6() {
+			return _termin6;
+		}
+
+		public void set_termin6(String _termin6) {
+			this._termin6 = _termin6;
+		}
+
+		public String get_termin7() {
+			return _termin7;
+		}
+
+		public void set_termin7(String _termin7) {
+			this._termin7 = _termin7;
+		}
+
+		public String get_termin8() {
+			return _termin8;
+		}
+
+		public void set_termin8(String _termin8) {
+			this._termin8 = _termin8;
+		}
+
+		public String get_termin9() {
+			return _termin9;
+		}
+
+		public void set_termin9(String _termin9) {
+			this._termin9 = _termin9;
+		}
+
+		public String get_termin10() {
+			return _termin10;
+		}
+
+		public void set_termin10(String _termin10) {
+			this._termin10 = _termin10;
 		}
 	}
 }

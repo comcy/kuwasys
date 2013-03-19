@@ -181,7 +181,7 @@ public class kuwasysControllerBean {
 	/**
 	 * Klassen eines Lehrers anzeigen (eigene) 
 	 * 
-	 * @return Facelet "courses"
+	 * @return Facelet "classes"
 	 */
 	public static String goClasses(){
 		FacesContext context = FacesContext.getCurrentInstance();
@@ -191,7 +191,21 @@ public class kuwasysControllerBean {
 			DatabaseHandler.listClassesTeacher(DatabaseHandler.getUserId());
 		return "classes";
     }
-		
+
+	/**
+	 * Klassen eines Lehrers anzeigen (eigene) 
+	 * 
+	 * @return Facelet "classesschedule"
+	 */
+	public static String goClassesSchedule(){
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (context.getExternalContext().isUserInRole("admin"))
+			DatabaseHandler.listClassesSchedule();
+		if (context.getExternalContext().isUserInRole("lehrer"))
+			DatabaseHandler.listClassesTeacherSchedule(DatabaseHandler.getUserId());
+		return "classesschedule";
+    }
+	
 	/**
 	 * Kurs hinzufügen
 	 * 

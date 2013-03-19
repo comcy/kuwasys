@@ -9,7 +9,7 @@
 	<ui:define name="content">
 	        <h1>Klassenübersicht</h1>
 	        <h:form>
-	        <h2>Klasse: <h:outputText value="#{userBean.users.get(1)._klasse}" /></h2>
+	        <h2>Klasse: <h:outputText value="#{userBean.users.get(1)._klasse}" rendered="#{kuwasys.userRole()=='Lehrer'}" /></h2>
 		        <t:dataTable id="data"
 		                styleClass="standardTable"
 		                headerClass="standardTable_SortHeader"
@@ -20,12 +20,7 @@
 		                value="#{userBean.users}"
 		                preserveDataModel="true">
 		
-		            <t:column>
-		                <f:facet name="header" >
-		                    <h:outputText value="ID" />
-		                </f:facet>
-		                <h:outputText value="#{users._id}" />
-		            </t:column>
+
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Vorname" />
@@ -39,30 +34,46 @@
 		                <h:outputText value="#{users._nachname}" />
 		            </t:column>
 		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Geburtstag" />
+		                <f:facet name="header" rendered="#{kuwasys.userRole()=='admin'}">
+		                    <h:outputText value="Klasse" />
 		                </f:facet>
-		                <h:outputText value="#{users._geburtstag}" />
+		                <h:outputText value="#{users._klasse}" />
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
-		                    <h:outputText value="Konfession" />
+		                    <h:outputText value="Montag" />
 		                </f:facet>
-		                <h:outputText value="#{users._konfession}" />
+		                <h:outputText value="#{users._termin1}" /><br />
+		                <h:outputText value="#{users._termin2}" />
 		            </t:column>
 		            <t:column>
-			            <f:facet name="header">
-			                <h:outputText value="Username" />
-			            </f:facet>
-			            <h:outputText value="#{users._username}" />
-		            </t:column>			            	
+		                <f:facet name="header">
+		                    <h:outputText value="Dienstag" />
+		                </f:facet>
+		                <h:outputText value="#{users._termin3}" /><br />
+		                <h:outputText value="#{users._termin4}" />
+		            </t:column>
 		            <t:column>
-			            <f:facet name="header">
-			                <h:outputText value="Passwort" />
-			            </f:facet>
-			            <h:outputText value="#{users._passwort}" />
-		            </t:column>			            	
-
+		                <f:facet name="header">
+		                    <h:outputText value="Mittwoch" />
+		                </f:facet>
+		                <h:outputText value="#{users._termin5}" /><br />
+		                <h:outputText value="#{users._termin6}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Donnerstag" />
+		                </f:facet>
+		                <h:outputText value="#{users._termin7}" /><br />
+		                <h:outputText value="#{users._termin8}" />
+		            </t:column>
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Freitag" />
+		                </f:facet>
+		                <h:outputText value="#{users._termin9}" /><br />
+		                <h:outputText value="#{users._termin10}" />
+		            </t:column>		            		            		            
 		        </t:dataTable>
 		    </h:form>
 
