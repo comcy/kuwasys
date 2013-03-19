@@ -36,9 +36,7 @@ public class DatabaseHandler {
 	static ResultSet result3;
 
 	private static FacesMessage messageName;
-	private static FacesMessage messageUsername;
-	private static FacesMessage messagePassword;
-
+	
 	/**
 	 * SQL METHODEN - DB CONNECTION
 	 */
@@ -245,7 +243,6 @@ public class DatabaseHandler {
 			if ((nname.equals(nnameDB) && vname.equals(vnameDB) && geb
 					.equals(gebDB))) {
 				isCurrentUser = true;
-				// TODO DOPPELTE NAMENBELEGUNG GEHT NICHT!!! (Username/Pw ausgabe verhindern)
 				messageName = new FacesMessage(FacesMessage.SEVERITY_ERROR,
 						"Der User " + vname + " " + nname
 								+ " existiert bereits!", null);
@@ -291,10 +288,6 @@ public class DatabaseHandler {
 						"Der User " + vname + " " + nname
 								+ " wurde erfolgreich angelegt und erhielt "
 								+ "die Rolle '" + role + "'.", null);
-				/*messageUsername = new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Username: " + username + "", null);
-				messagePassword = new FacesMessage(FacesMessage.SEVERITY_INFO,
-						"Passwort: " + password + "", null);*/
 
 			}
 		} catch (SQLException ex) {
@@ -303,22 +296,30 @@ public class DatabaseHandler {
 
 		FacesContext.getCurrentInstance().addMessage("studentaddsuccess_name",
 				messageName);
-		/*FacesContext.getCurrentInstance().addMessage(
-				"studentaddsuccess_username", messageUsername);
-		FacesContext.getCurrentInstance().addMessage(
-				"studentaddsuccess_password", messagePassword);*/
 
 		FacesContext.getCurrentInstance().addMessage("teacheraddsuccess_name",
 				messageName);
-		/*FacesContext.getCurrentInstance().addMessage(
-				"teacheraddsuccess_username", messageUsername);
-		FacesContext.getCurrentInstance().addMessage(
-				"teacheraddsuccess_password", messagePassword);*/
 
 	}
 
-	public static void editUser(String username) {
+	public static void updateUser(int id, String klasse, String nname,
+			String vname, String geb, String konf) {
 
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE users SET users_nachname = "
+					+ nname + ", users_vorname = " + vname
+					+ ", users_geburtstag = " + geb + ", users_konfession = "
+					+ konf + ", users_klasse = " + klasse
+					+ " WHERE users_id = " + id);
+			System.out.println(">>> UPDATE USER"); // DEBUG
+
+			messageName = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Der User " + vname + " " + nname
+							+ " wurde erfolgreich ge-updated!", null);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 	}
 
 	public static String showUserFullName() {
@@ -442,6 +443,47 @@ public class DatabaseHandler {
 		}
 
 	}
+	
+	// Schülerdaten bearbeiten
+		public static void listEditorUser(int id) {
+			SQLConnection();
+			try {
+				statement = connection.createStatement();
+				result = statement
+						.executeQuery("SELECT * FROM users WHERE users_id = " + id
+								+ ";");
+				UserBean.emptyUsers();
+				while (result.next()) {
+					System.out.println(result.getInt("users_id")
+							+ result.getString("users_vorname")
+							+ result.getString("users_nachname")
+							+ result.getString("users_geburtstag")
+							+ result.getString("users_konfession")
+							+ result.getString("users_klasse")
+							+ result.getString("users_username")
+							+ result.getString("users_passwort")
+							+ result.getString("users_rolle"));
+
+					UserBean.addToUsers(new UserBean.User(
+							result.getInt("users_id"), result
+									.getString("users_vorname"), result
+									.getString("users_nachname"), result
+									.getString("users_geburtstag"), result
+									.getString("users_konfession"), result
+									.getString("users_klasse"), result
+									.getString("users_username"), result
+									.getString("users_passwort"), result
+									.getString("users_rolle")));
+
+					System.out
+							.println("Name: " + result.getString("users_vorname"));
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			SQLConnectionClose();
+
+		}
 
 	public static void listUsers() {
 		SQLConnection();

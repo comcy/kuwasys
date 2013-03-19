@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:define name="title">Schülerverwaltung</ui:define>
+	<ui:define name="content">
+		<h1>Schülerdetails</h1>
+		<h:form id="usereditor">
+			<h:panelGrid columns="2">
+				<h:outputLabel for="name" value="Vorname:" />
+				<h:inputText id="name" value="#{userBean.vorname}" required="true" />
+
+				<h:outputLabel for="lastname" value="Nachname:" />
+				<h:inputText id="lastname" value="#{userBean.nachname}"
+					required="true" />
+					
+				<h:outputLabel for="konfession" value="Konfession:" />
+				<h:inputText id="konfession" value="#{userBean.konfession}"
+					required="true" />	
+					
+				<h:outputLabel for="klasse" value="Klasse:" />
+				<h:inputText id="klasse" value="#{userBean.klasse}"
+					required="true" />	
+			</h:panelGrid>
+			<br/>
+			<h:outputLabel for="gebDay" value="Geburtsdatum:" />
+			
+			<h:panelGrid columns="2">
+				<h:outputLabel for="gebDay" value="Tag:" />
+				<h:inputText id="gebDay" value="#{userBean.gebDay}" required="true" />
+
+				<h:outputLabel for="gebMonth" value="Monat:" />
+				<h:inputText id="gebMonth" value="#{userBean.gebMonth}"	required="true" />
+
+				<h:outputLabel for="gebYear" value="Jahr" />
+				<h:inputText id="gebYear" value="#{userBean.gebYear}" required="true" />
+			</h:panelGrid>
+			<h:commandButton value="Speichern" action="#{userBean.sendUserUpdate}" />
+			<h:messages showDetail="true" showSummary="false" />
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -203,7 +203,12 @@ public class UserBean implements Serializable {
 		users.clear();
 
 	}
-
+	
+	public String sendUserUpdate(){
+		
+		return kuwasysControllerBean.goUsers();
+	}
+	
 	/**
 	 * User-Klasse (Schüler)
 	 * 
@@ -240,10 +245,30 @@ public class UserBean implements Serializable {
 		}
 		
 		public String editUser() {
-			DatabaseHandler.editUser(_username);
+			DatabaseHandler.listEditorUser(_id);
 			return kuwasysControllerBean.goUsereditor();
 		}
+		
+		public String getSendUserUpdate() {
 
+			// DEBUG
+			System.out.println("Klasse: " + _klasse);
+			System.out.println("Nachname: " + _vorname);
+			System.out.println("Vorname: " + _nachname);
+			System.out.println("Geburtstag: " + _geburtstag);
+			System.out.println("Konfession: " + _konfession);
+
+			//geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
+
+			DatabaseHandler.SQLConnection();
+			DatabaseHandler.updateUser(_id, _klasse, _nachname, _vorname, _geburtstag,
+					_konfession);
+			DatabaseHandler.SQLConnectionClose();
+
+			logger.info("Schüler: " + _vorname + " " + _nachname + " geändert!");
+			return "kuwasys";
+		}
+		
 		public int get_id() {
 			return _id;
 		}
