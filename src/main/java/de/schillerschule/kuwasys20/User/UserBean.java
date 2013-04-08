@@ -26,7 +26,9 @@ public class UserBean implements Serializable {
 
 	private static final long serialVersionUID = 2L;
 
-	private static List<User> users = new ArrayList<User>();
+	
+	DatabaseHandler dbh = new DatabaseHandler();
+	private List<User> users = new ArrayList<User>();
 
 	private int id;
 	private String nachname;
@@ -50,11 +52,11 @@ public class UserBean implements Serializable {
 	}
 
 	public List<User> getUsers() {
-		return users;
+		return dbh.listUsers();
 	}
 
-	public static void setUsers(List<User> users) {
-		UserBean.users = users;
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 	public int getId() {
@@ -181,10 +183,10 @@ public class UserBean implements Serializable {
 
 		geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
 
-		DatabaseHandler.SQLConnection();
-		DatabaseHandler.addUser(klasse, nachname, vorname, geburtstag,
+		dbh.SQLConnection();
+		dbh.addUser(klasse, nachname, vorname, geburtstag,
 				konfession, rolle);
-		DatabaseHandler.SQLConnectionClose();
+		dbh.SQLConnectionClose();
 
 		logger.info("Schüler: " + vorname + " " + nachname + " angelegt");
 		return "studentaddsuccess";
@@ -196,21 +198,21 @@ public class UserBean implements Serializable {
 	 * @return username
 	 */
 	public String showUsername() {
-		String username = DatabaseHandler.showUserFullName();
+		String username = dbh.showUserFullName();
 		return username;
 	}
 
 	public String addToUsers() {
-		DatabaseHandler.addToTeachers(klasse, nachname, vorname, geburtstag,
+		dbh.addToTeachers(klasse, nachname, vorname, geburtstag,
 				konfession, rolle);
 		return kuwasysControllerBean.goUsers();
 	}
 
-	public static void addToUsers(User user) {
+	public void addToUsers(User user) {
 		users.add(user);
 	}
 
-	public static void emptyUsers() {
+	public void emptyUsers() {
 		users.clear();
 
 	}
@@ -222,7 +224,7 @@ public class UserBean implements Serializable {
 	
 	public String changePassword(){
 		if(passwort.equals(passwortE)){
-			DatabaseHandler.changePassword(DatabaseHandler.getUserId(), passwort);
+			dbh.changePassword(dbh.getUserId(), passwort);
 		}
 		else{
 			return "password_failed";
@@ -238,7 +240,8 @@ public class UserBean implements Serializable {
 	 * 
 	 */
 	public static class User implements Serializable {
-
+		
+		DatabaseHandler dbh = new DatabaseHandler();
 		private static final long serialVersionUID = 1L;
 
 		private int _id;
@@ -307,7 +310,7 @@ public class UserBean implements Serializable {
 		}
 		
 		public String editUser() {
-			DatabaseHandler.listEditorUser(_id);
+			dbh.listEditorUser(_id);
 			return kuwasysControllerBean.goUsereditor();
 		}
 		
@@ -322,10 +325,10 @@ public class UserBean implements Serializable {
 
 			//geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
 
-			DatabaseHandler.SQLConnection();
-			DatabaseHandler.updateUser(_id, _klasse, _nachname, _vorname, _geburtstag,
+			dbh.SQLConnection();
+			dbh.updateUser(_id, _klasse, _nachname, _vorname, _geburtstag,
 					_konfession);
-			DatabaseHandler.SQLConnectionClose();
+			dbh.SQLConnectionClose();
 
 			logger.info("Schüler: " + _vorname + " " + _nachname + " geändert!");
 			return "kuwasys";

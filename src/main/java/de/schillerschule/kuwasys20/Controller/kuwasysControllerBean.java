@@ -16,13 +16,14 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 @ManagedBean(name = "kuwasys")
 @RequestScoped
 public class kuwasysControllerBean {
-
+	
+	DatabaseHandler dbh = new DatabaseHandler();
 	public static int phase;
 	public static int tertial;	
 	public static int year;
 	public int phaseChanged;
 	@SuppressWarnings("unused")
-	private int ss = DatabaseHandler.systemState();
+	private int ss = dbh.systemState();
 	
 	public int getPhase() {
 		return kuwasysControllerBean.phase;
@@ -72,7 +73,7 @@ public class kuwasysControllerBean {
 	}
 	
 	public String phaseCommit(){
-		DatabaseHandler.commitPhase(phaseChanged);
+		dbh.commitPhase(phaseChanged);
 		return goSystem();
 	}
 	
@@ -82,8 +83,8 @@ public class kuwasysControllerBean {
 			year++;
 			tertial=1;
 		}
-		DatabaseHandler.commitTertial(tertial, year);
-		DatabaseHandler.commitPhase(1);
+		dbh.commitTertial(tertial, year);
+		dbh.commitPhase(1);
 		return goSystem();
 	}
 	
@@ -100,10 +101,10 @@ public class kuwasysControllerBean {
 	}
 
 	public int countPositions(){
-		return DatabaseHandler.countPositions();
+		return dbh.countPositions();
 	}
 	public int countEssential(){
-		return DatabaseHandler.countEssentialcourse();
+		return dbh.countEssentialcourse();
 	}
 	
 	
@@ -144,12 +145,11 @@ public class kuwasysControllerBean {
 	}
 	
 	public static String goUsers() {
-		DatabaseHandler.listUsers();
 		return "users";
 	}
 	
 	public static String goTeachers() {
-		DatabaseHandler.listTeachers();
+		//DatabaseHandler.listTeachers();
 		return "teachers";
 	}
 
@@ -167,14 +167,14 @@ public class kuwasysControllerBean {
 	 * 
 	 * @return Facelet "courses"
 	 */
-	public static String goCourses(){
+	public String goCourses(){
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (context.getExternalContext().isUserInRole("admin"))
-			DatabaseHandler.listCourses();
+			dbh.listCourses();
 		if (context.getExternalContext().isUserInRole("lehrer"))
-			DatabaseHandler.listCoursesTeacher(DatabaseHandler.getUserId());
+			dbh.listCoursesTeacher(dbh.getUserId());
 		if (context.getExternalContext().isUserInRole("schueler"))
-			DatabaseHandler.listCoursesStudent(DatabaseHandler.getUserId());
+			dbh.listCoursesStudent(dbh.getUserId());
 		return "courses";
     }	
 	
@@ -183,12 +183,12 @@ public class kuwasysControllerBean {
 	 * 
 	 * @return Facelet "classes"
 	 */
-	public static String goClasses(){
+	public String goClasses(){
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (context.getExternalContext().isUserInRole("admin"))
-			DatabaseHandler.listClasses();
+			dbh.listClasses();
 		if (context.getExternalContext().isUserInRole("lehrer"))
-			DatabaseHandler.listClassesTeacher(DatabaseHandler.getUserId());
+			dbh.listClassesTeacher(dbh.getUserId());
 		return "classes";
     }
 
@@ -197,12 +197,12 @@ public class kuwasysControllerBean {
 	 * 
 	 * @return Facelet "classesschedule"
 	 */
-	public static String goClassesSchedule(){
+	public String goClassesSchedule(){
 		FacesContext context = FacesContext.getCurrentInstance();
 		if (context.getExternalContext().isUserInRole("admin"))
-			DatabaseHandler.listClassesSchedule();
+			dbh.listClassesSchedule();
 		if (context.getExternalContext().isUserInRole("lehrer"))
-			DatabaseHandler.listClassesTeacherSchedule(DatabaseHandler.getUserId());
+			dbh.listClassesTeacherSchedule(dbh.getUserId());
 		return "classesschedule";
     }
 	
@@ -251,7 +251,7 @@ public class kuwasysControllerBean {
 	 * @return Facelet "gradelist" 
 	 */
 	public static String goGradelist(){
-		DatabaseHandler.listGradelist();
+		//DatabaseHandler.listGradelist();
 		return "gradelist";
 	}
 	
@@ -260,7 +260,7 @@ public class kuwasysControllerBean {
 	 * @return Facelet "gradelistadd" 
 	 */
 	public String goAddGradelist(){
-		DatabaseHandler.listCoursesAttendable(DatabaseHandler.getUserId());
+		//DatabaseHandler.listCoursesAttendable(DatabaseHandler.getUserId());
 		return "gradelistadd";
 	}
 	
