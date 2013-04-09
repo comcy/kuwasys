@@ -24,6 +24,7 @@
 					</t:navigationMenuItem>
 					
 					<t:navigationMenuItem value="Kurse" id="kurse" action="#{kuwasys.goCourses}" visibleOnUserRole="admin,lehrer,schueler">
+						<t:navigationMenuItem value=" - Teilnehmerliste" id="attenderslist" action="#{kuwasys.goListAttenders}" visibleOnUserRole="admin,lehrer"/>
 						<t:navigationMenuItem value=" - hinzufügen" id="courseadd" action="#{kuwasys.goAddCourse}" visibleOnUserRole="admin,lehrer"/>
 
 					</t:navigationMenuItem>

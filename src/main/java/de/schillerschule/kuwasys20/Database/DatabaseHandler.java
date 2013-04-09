@@ -4,7 +4,9 @@ import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Course.*;
 import de.schillerschule.kuwasys20.Course.CourseBean.Course;
 import de.schillerschule.kuwasys20.Gradelist.GradelistBean;
+import de.schillerschule.kuwasys20.Gradelist.GradelistBean.Grades;
 import de.schillerschule.kuwasys20.Teacher.TeacherBean;
+import de.schillerschule.kuwasys20.Teacher.TeacherBean.Teacher;
 import de.schillerschule.kuwasys20.User.UserBean;
 import de.schillerschule.kuwasys20.User.UserBean.User;
 
@@ -32,12 +34,16 @@ public class DatabaseHandler {
 	Connection connection;
 	Connection connection2;
 	Connection connection3;
+	Connection connection4;
 	Statement statement;
 	Statement statement2;
 	Statement statement3;
+	Statement statement4;
 	ResultSet result;
 	ResultSet result2;
 	ResultSet result3;
+	ResultSet result4;
+	
 
 	private static FacesMessage messageName;
 	
@@ -110,6 +116,27 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 	}
+	public void SQLConnection4() {
+		try {
+
+			InitialContext cxt = new InitialContext();
+			DataSource ds = (DataSource) cxt
+					.lookup("java:/comp/env/jdbc/postgres");
+			connection4 = ds.getConnection();
+			System.out.println("      	DB4 open");
+			statement4 = connection4.createStatement();
+			result4 = statement4.executeQuery("SELECT VERSION()");
+			if (result4.next()) {
+				//System.out.println(result3.getString(1)); // DEBUG - Connection
+			}
+		} catch (SQLException ex) {
+			System.out.println("Error during DB4 connection " + ex);
+			ex.printStackTrace();
+		} catch (NamingException ex) {
+			System.out.println("Error during DB4 connection " + ex);
+			ex.printStackTrace();
+		}
+	}
 	
 	public void SQLConnectionClose() {
 		try {
@@ -141,7 +168,15 @@ public class DatabaseHandler {
 			ex.printStackTrace();
 		}
 	}
-
+	public void SQLConnectionClose4() {
+		try {
+			connection4.close();
+			System.out.println("      	DB3 close");
+		} catch (SQLException ex) {
+			System.out.println("Error during DB4 connection " + ex);
+			ex.printStackTrace();
+		}
+	}
 	/**
 	 * USER METHODEN
 	 */
@@ -216,7 +251,7 @@ public class DatabaseHandler {
 	 */
 	public void addUser(String klasse, String nname, String vname,
 			String geb, String konf, String role) {
-
+		SQLConnection();
 		// Marker für aktuelle Userdaten
 		boolean isCurrentUser = true;
 
@@ -324,6 +359,7 @@ public class DatabaseHandler {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
+		SQLConnectionClose();
 	}
 
 	public String showUserFullName() {
@@ -555,16 +591,18 @@ public class DatabaseHandler {
 
 	/**
 	 * TEACHER METHODEN
+	 * @return 
 
 	 */
 	
 	// Lehreransicht
-	public void listTeachers() {
+	public List<Teacher> listTeachers() {
+		List<Teacher> teacherList = new ArrayList<Teacher>();
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT * FROM users WHERE users_rolle = 'lehrer';");
-			TeacherBean.emptyTeachers();
+			//TeacherBean.emptyTeachers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")
 						+ result.getString("users_vorname")
@@ -575,7 +613,7 @@ public class DatabaseHandler {
 						+ result.getString("users_username")
 						+ result.getString("users_passwort")
 						+ result.getString("users_rolle"));
-				TeacherBean.addToTeachers(new TeacherBean.Teacher(
+				teacherList.add(new TeacherBean.Teacher(
 						result.getInt("users_id"), result
 								.getString("users_vorname"), result
 								.getString("users_nachname"), result
@@ -590,6 +628,7 @@ public class DatabaseHandler {
 			e.printStackTrace();
 		}
 		SQLConnectionClose();
+		return teacherList;
 	}
 
 	public void addToTeachers(String klasse, String nachname,
@@ -971,7 +1010,7 @@ public class DatabaseHandler {
 	
 	
 
-	public void listCoursesTeacher(int id) {
+	public List<Course> listCoursesTeacher(int id) {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		SQLConnection();
 		try {
@@ -1002,9 +1041,10 @@ public class DatabaseHandler {
 			e.printStackTrace();
 		}
 		SQLConnectionClose();
+		return courses;
 	}
 
-	public void listCoursesAttendable(int id) {
+	public List<Course> listCoursesAttendable(int id) {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		SQLConnection();
 		try {
@@ -1045,7 +1085,51 @@ public class DatabaseHandler {
 			e.printStackTrace();
 		}
 		SQLConnectionClose();
+		return courses;
 	}
+	
+	
+	public List<User> listCourseParticipants(int id){
+		List<User> participants = new ArrayList<User>();
+		SQLConnection4();
+		try {
+			statement4 = connection4.createStatement();
+			result4 = statement4.executeQuery("SELECT * FROM gradelist " +
+					"JOIN users " +
+					"ON gradelist.gradelist_userid=users.users_id " +
+					"WHERE gradelist.gradelist_note=0 " +
+					"AND gradelist_kursid=" + id + ";");
+			//UserBean.emptyUsers();
+			while (result4.next()) {
+				System.out.println(result4.getInt("users_id")
+						+ result4.getString("users_vorname")
+						+ result4.getString("users_nachname")
+						+ result4.getString("users_geburtstag")
+						+ result4.getString("users_konfession")
+						+ result4.getString("users_klasse")
+						+ result4.getString("users_username")
+						+ result4.getString("users_passwort")
+						+ result4.getString("users_rolle"));
+				participants.add(new UserBean.User(
+						result4.getInt("users_id"), result4
+								.getString("users_vorname"), result4
+								.getString("users_nachname"), result4
+								.getString("users_geburtstag"), result4
+								.getString("users_konfession"), result4
+								.getString("users_klasse"), result4
+								.getString("users_username"), result4
+								.getString("users_passwort"), result4
+								.getString("users_rolle")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose4();
+		
+				
+		return participants;
+	}
+	
 	
 	public int countCourseParticipants(int id) {
 		SQLConnection3();
@@ -1347,20 +1431,21 @@ public class DatabaseHandler {
 	 * GRADELIST METHODEN
 	 */
 
-	public void listGradelist() {
+	public List<Grades> listGradelist() {
+		List<Grades> gradeList = new ArrayList<Grades>();
 		SQLConnection();
 		System.out.println("Zeuch mir die Nodalischd!");
 		try {
 			statement = connection.createStatement();
 			result = statement.executeQuery("SELECT * FROM gradelist");
-			GradelistBean.emptyGradelist();
+			//GradelistBean.emptyGradelist();
 			while (result.next()) {
 				System.out.println(result.getInt("gradelist_id")
 						+ result.getDouble("gradelist_note")
 						+ result.getString("gradelist_bemerkung")
 						+ result.getInt("gradelist_userid")
 						+ result.getInt("gradelist_kursid"));
-				GradelistBean.addToGradelist(new GradelistBean.Grades(result
+				gradeList.add(new GradelistBean.Grades(result
 						.getInt("gradelist_id"), result
 						.getDouble("gradelist_note"), result
 						.getString("gradelist_bemerkung"), result
@@ -1371,6 +1456,7 @@ public class DatabaseHandler {
 			e.printStackTrace();
 		}
 		SQLConnectionClose();
+		return gradeList;
 	}
 
 	public void addToGradelist(double note, String bemerkung, int userid,

@@ -168,13 +168,13 @@ public class kuwasysControllerBean {
 	 * @return Facelet "courses"
 	 */
 	public String goCourses(){
-		FacesContext context = FacesContext.getCurrentInstance();
+		/*FacesContext context = FacesContext.getCurrentInstance();
 		if (context.getExternalContext().isUserInRole("admin"))
 			dbh.listCourses();
 		if (context.getExternalContext().isUserInRole("lehrer"))
 			dbh.listCoursesTeacher(dbh.getUserId());
 		if (context.getExternalContext().isUserInRole("schueler"))
-			dbh.listCoursesStudent(dbh.getUserId());
+			dbh.listCoursesStudent(dbh.getUserId()); */
 		return "courses";
     }	
 	
@@ -184,11 +184,11 @@ public class kuwasysControllerBean {
 	 * @return Facelet "classes"
 	 */
 	public String goClasses(){
-		FacesContext context = FacesContext.getCurrentInstance();
+/*		FacesContext context = FacesContext.getCurrentInstance();
 		if (context.getExternalContext().isUserInRole("admin"))
 			dbh.listClasses();
 		if (context.getExternalContext().isUserInRole("lehrer"))
-			dbh.listClassesTeacher(dbh.getUserId());
+			dbh.listClassesTeacher(dbh.getUserId());*/
 		return "classes";
     }
 
@@ -198,11 +198,11 @@ public class kuwasysControllerBean {
 	 * @return Facelet "classesschedule"
 	 */
 	public String goClassesSchedule(){
-		FacesContext context = FacesContext.getCurrentInstance();
+	/*	FacesContext context = FacesContext.getCurrentInstance();
 		if (context.getExternalContext().isUserInRole("admin"))
 			dbh.listClassesSchedule();
 		if (context.getExternalContext().isUserInRole("lehrer"))
-			dbh.listClassesTeacherSchedule(dbh.getUserId());
+			dbh.listClassesTeacherSchedule(dbh.getUserId()); */
 		return "classesschedule";
     }
 	
@@ -263,6 +263,11 @@ public class kuwasysControllerBean {
 		//DatabaseHandler.listCoursesAttendable(DatabaseHandler.getUserId());
 		return "gradelistadd";
 	}
+	
+	public String goListAttenders(){
+		return "attenderslist";
+	}
+	
 	
 	public static String goUsereditor(){
 		return "usereditor";

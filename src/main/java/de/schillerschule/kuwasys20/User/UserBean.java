@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
@@ -20,7 +21,9 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 @ManagedBean(name = "userBean")
 @RequestScoped
 public class UserBean implements Serializable {
-
+	
+	FacesContext context = FacesContext.getCurrentInstance();
+	
 	private static Logger logger = Logger.getLogger(UserBean.class
 			.getCanonicalName());
 
@@ -51,9 +54,32 @@ public class UserBean implements Serializable {
 	public UserBean() {
 	}
 
+	
 	public List<User> getUsers() {
-		return dbh.listUsers();
+		if (context.getExternalContext().isUserInRole("admin"))
+			 return dbh.listUsers();
+		else
+			return null;
 	}
+	
+	public List<User> getSchedule() {
+		if (context.getExternalContext().isUserInRole("admin"))
+			 return dbh.listClassesSchedule();
+		if (context.getExternalContext().isUserInRole("lehrer"))
+			 return dbh.listClassesTeacherSchedule(dbh.getUserId());
+		else 
+			return null;
+	}
+	
+	public List<User> getTeacherClass() {
+		if (context.getExternalContext().isUserInRole("admin"))
+			return dbh.listClasses();
+		if (context.getExternalContext().isUserInRole("lehrer"))
+			return dbh.listClassesTeacher(dbh.getUserId());
+		else 
+			return null;
+	}	
+	
 
 	public void setUsers(List<User> users) {
 		this.users = users;

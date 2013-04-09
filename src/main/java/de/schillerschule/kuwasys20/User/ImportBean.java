@@ -31,6 +31,8 @@ public class ImportBean implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
+	DatabaseHandler dbh = new DatabaseHandler();
+	
 	private String fileName;
 	private UploadedFile file;
 
@@ -71,7 +73,7 @@ public class ImportBean implements Serializable {
 			// (6) 'schueler' -> nur für diese Import möglich
 
 			// Datenbankverbindung herstellen
-			DatabaseHandler.SQLConnection();
+			//DatabaseHandler.SQLConnection();
 
 			System.out.println("--------------------------");
 			line = reader.readLine(); // erste Zeile überspringen
@@ -102,7 +104,7 @@ public class ImportBean implements Serializable {
 				System.out.println("Konfession: " + konf);
 
 				// User in DB einfügen
-				DatabaseHandler.addUser(klasse, nname, vname, geb, konf, role);
+				dbh.addUser(klasse, nname, vname, geb, konf, role);
 
 				System.out.println("--------------------------");
 
@@ -110,7 +112,7 @@ public class ImportBean implements Serializable {
 
 			}
 			reader.close();
-			DatabaseHandler.SQLConnectionClose();
+			//DatabaseHandler.SQLConnectionClose();
 
 		} catch (RollbackException e) {
 			logger.info("Import fehlgeschlagen\n" + e.getMessage());

@@ -97,11 +97,10 @@
 		            </t:column>		
 		   		    <t:column rendered="#{kuwasys.userRole()=='Schüler'}">
 		            	<f:facet name="header">
-		            		
 			            </f:facet>
 			            <h:commandLink value="Abwählen" rendered="#{(course.courseGrade()==0) and (kuwasys.phase==2)}" action="#{course.unAttendCourse}" />
 			            <h:outputText value="Note: #{course.courseGrade()}" rendered="#{course.courseGrade()!=0}" />
-		            </t:column>		
+		            </t:column>
 		        </t:dataTable>
 				<h:commandLink value="Einen Kurs wählen" rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()==0) and (kuwasys.phase==2)}" action="#{kuwasys.goAddGradelist()}" />
 		    </h:form>

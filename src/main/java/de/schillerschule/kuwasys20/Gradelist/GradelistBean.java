@@ -14,32 +14,33 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 
 public class GradelistBean{
 
-	private static List<Grades> gradelists = new ArrayList<Grades>();
-
+	DatabaseHandler dbh = new DatabaseHandler();
+	private List<Grades> gradelists = new ArrayList<Grades>();
+	
 	private int id;
 	private double note;
 	private String bemerkung;
 	private int userid;
 	private int kursid;
 	
-	public String addToGradelist(){
+	/*public String addToGradelist(){
 		DatabaseHandler.addToGradelist(note, bemerkung, userid, kursid);
 		return kuwasysControllerBean.goGradelist();
-	}
+	}*/
 	
-	public static void addToGradelist(Grades g){
+	public void addToGradelist(Grades g){
 		gradelists.add(g);
 	}
-	public static void emptyGradelist(){
+	public void emptyGradelist(){
 		gradelists.clear();
 	}
 	
-	public void setGradelists(List<Grades> gradelist) {
+	/*public void setGradelists(List<Grades> gradelist) {
 		GradelistBean.gradelists = gradelist;
-	}	
+	}	*/
 	
 	public List<Grades> getGradelists() {
-		return gradelists;
+		return dbh.listGradelist();
 	}
 	
 	// Set-Methoden

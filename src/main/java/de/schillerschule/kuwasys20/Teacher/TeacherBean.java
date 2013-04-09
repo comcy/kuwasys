@@ -7,6 +7,7 @@ import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
@@ -24,7 +25,8 @@ public class TeacherBean {
 	private static Logger logger = Logger.getLogger(TeacherBean.class
 			.getCanonicalName());
 	
-	private static List<Teacher> teachers = new ArrayList<Teacher>();
+	private DatabaseHandler dbh = new DatabaseHandler();
+	//private List<Teacher> teachers = new ArrayList<Teacher>();
 
 	private int id;
 	private String vorname;
@@ -41,12 +43,10 @@ public class TeacherBean {
 	}
 	
 	public List<Teacher> getTeachers() {
-		return teachers;
+		System.out.println("getTeachers");
+		return dbh.listTeachers();
 	}
 
-	public static void setTeachers(List<Teacher> teachers) {
-		TeacherBean.teachers = teachers;
-	}
 
 	public int getId() {
 		return id;
@@ -149,26 +149,26 @@ public class TeacherBean {
 		
 		geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
 		
-		DatabaseHandler.SQLConnection();
-		DatabaseHandler.addUser(klasse, nachname, vorname, geburtstag, konfession, rolle);
-		DatabaseHandler.SQLConnectionClose();
+		//DatabaseHandler.SQLConnection();
+		dbh.addUser(klasse, nachname, vorname, geburtstag, konfession, rolle);
+		//DatabaseHandler.SQLConnectionClose();
 		
 		logger.info("Lehrer: " + vorname + " " + nachname + " angelegt");
 		return "teacheraddsuccess";
 	}
 	
-	public static void emptyTeachers() {
+	/*public static void emptyTeachers() {
 		teachers.clear();	
-	}
+	}*/
 	
 	public String addToTeachers(){
-		DatabaseHandler.addToTeachers(klasse, nachname, vorname, geburtstag, konfession, "lehrer");
+		dbh.addToTeachers(klasse, nachname, vorname, geburtstag, konfession, "lehrer");
 		return kuwasysControllerBean.goTeachers();
 	}
 	
-	public static void addToTeachers(Teacher teacher){
+	/*public void addToTeachers(Teacher teacher){
 		teachers.add(teacher);
-	}
+	}*/
 		
 	/**
 	 * Teacher-Klasse (Lehrer)

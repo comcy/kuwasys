@@ -9,7 +9,7 @@
 	<ui:define name="content">
 	        <h1>Klassenübersicht</h1>
 	        <h:form>
-	        <h2>Klasse: <h:outputText value="#{userBean.users.get(1)._klasse}" rendered="#{kuwasys.userRole()=='Lehrer'}"/></h2>
+	        <h2>Klasse: <h:outputText value="#{userBean.teacherClass.size()!=0 ? userBean.teacherClass.get(1)._klasse : 'keine...'}" rendered="#{kuwasys.userRole()=='Lehrer'}"/></h2>
 		        <t:dataTable id="data"
 		                styleClass="standardTable"
 		                headerClass="standardTable_SortHeader"
@@ -17,7 +17,7 @@
 		                rowClasses="standardTable_Row1,standardTable_Row2"
 		                var="users"
 		                sortable="true"
-		                value="#{userBean.users}"
+		                value="#{userBean.teacherClass}"
 		                preserveDataModel="true">
 		
 		            <t:column>

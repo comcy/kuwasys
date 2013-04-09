@@ -4,7 +4,6 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:t="http://myfaces.apache.org/tomahawk">
-
 	<ui:define name="title">Kurse</ui:define>
 	<ui:define name="content">
 	        <h1>Notenübersicht</h1>
@@ -18,13 +17,12 @@
 		                sortable="true"
 		                value="#{gradelistBean.gradelists}"
 		                preserveDataModel="true">
-		
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="ID" />
 		                </f:facet>
 		                <h:outputText value="#{gradelist._id}" />
-		            </t:column><
+		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Note" />
@@ -52,7 +50,5 @@
 		
 		        </t:dataTable>
 		    </h:form>
-
-	        
 	</ui:define>
 </ui:composition>

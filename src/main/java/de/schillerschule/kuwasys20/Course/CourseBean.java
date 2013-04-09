@@ -11,6 +11,7 @@ import javax.faces.model.SelectItem;
 
 import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
+import de.schillerschule.kuwasys20.User.UserBean.User;
 
 
 @ManagedBean(name = "courseBean")
@@ -21,7 +22,7 @@ public class CourseBean implements Serializable{
 	/**
 	 * 
 	 */
-
+	FacesContext context = FacesContext.getCurrentInstance();
 	private static final long serialVersionUID = 1L;
 	private List<Course> courses = new ArrayList<Course>();
 	private ArrayList<SelectItem> alleKonfessionen = new ArrayList<SelectItem>();
@@ -40,11 +41,10 @@ public class CourseBean implements Serializable{
 	private ArrayList<String> konfessionen = new ArrayList<String>();
 
 	public CourseBean() {
-		dbh.populateAllConfessions();
+		alleKonfessionen = dbh.populateAllConfessions();
 	}
 
 	public String addCourse() {
-		FacesContext context = FacesContext.getCurrentInstance();
 		if (context.getExternalContext().isUserInRole("lehrer")) {
 			kurslehrer = dbh.getUserId();
 		}
@@ -110,7 +110,31 @@ public class CourseBean implements Serializable{
 	 */
 
 	public List<Course> getCourses() {
-		return courses;
+		if (context.getExternalContext().isUserInRole("admin"))
+			return dbh.listCourses();
+		if (context.getExternalContext().isUserInRole("lehrer"))
+			return dbh.listCoursesTeacher(dbh.getUserId());
+		if (context.getExternalContext().isUserInRole("schueler"))
+			return dbh.listCoursesStudent(dbh.getUserId());
+		else
+			return courses;
+	}
+	
+	public List<Course> getCoursesAttendable() {
+		if (context.getExternalContext().isUserInRole("schueler"))
+			return dbh.listCoursesAttendable(dbh.getUserId());
+		else
+			return null;
+	}
+
+
+	public List<Course> getCourseAttenders(){
+		if (context.getExternalContext().isUserInRole("admin"))
+			return dbh.listCourses();
+		if (context.getExternalContext().isUserInRole("lehrer"))
+			return dbh.listCoursesTeacher(dbh.getUserId());
+		else
+			return null;
 	}
 
 	public void setCourses(List<Course> courses) {
@@ -220,6 +244,7 @@ public class CourseBean implements Serializable{
 		private boolean _pflichtkurs;
 		private boolean _sport;
 
+
 		public Course(int id, String name, int kurslehrer,
 				String faecherverbund, int termin, String beschreibung, int jahr, int tertial, int teilnehmerzahl, boolean pflichtkurs, boolean sport) {
 			System.out.println("CourseConstructor");
@@ -268,6 +293,12 @@ public class CourseBean implements Serializable{
 			//return kuwasysControllerBean.goCourses();
 			return "courses";
 		}
+
+		public List<User> getCourseAttenders(){
+			System.out.println("listCourseAttenders "+_id);
+			return dbh.listCourseParticipants(_id);
+		}
+		
 		
 		public boolean isCurrentTertial(){
 			if (_jahr==kuwasysControllerBean.year&&_tertial==kuwasysControllerBean.tertial)

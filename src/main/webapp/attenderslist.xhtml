@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">Kursteilnehmer</ui:define>
+	<ui:define name="content">
+	        <h1>Kursteilnehmer</h1>
+	        <h:form>
+		        <t:dataTable id="data"
+		                styleClass="standardTable"
+		                headerClass="standardTable_SortHeader"
+		                footerClass="standardTable_Footer"
+		                var="course"
+		                sortable="false"
+		                value="#{courseBean.courses}"
+		                preserveDataModel="true">
+		
+		            <t:column>
+		                <f:facet name="header">
+		                    <h:outputText value="Kurs" />
+		                </f:facet>
+		                <h:outputText value="#{course._name}" style="font-weight:bold;" /><br />
+		                <h:outputText value="#{course._kurslehrerName}" /><br />
+		                <h:outputText value="#{course._faecherverbund}" />
+		            </t:column>
+		            <t:column>
+		            	<f:facet name="header">
+		                    <h:outputText value="Teilnehmer" />
+		                </f:facet>
+			            <t:dataTable id="att"
+			                styleClass="standardTable"
+			                headerClass="standardTable_SortHeader"
+			                footerClass="standardTable_Footer"
+			                var="attender"
+			                sortable="false"
+			                value="#{course.courseAttenders}"
+			                preserveDataModel="true">
+					        <t:column>
+				                <f:facet name="header">
+				                    <h:outputText value="Vorname" />
+				                </f:facet>
+				                <h:outputText value="#{attender._vorname}" />
+				            </t:column>
+					        <t:column>
+				                <f:facet name="header">
+				                    <h:outputText value="Nachname" />
+				                </f:facet>
+				                <h:outputText value="#{attender._nachname}" />
+				            </t:column>
+					        <t:column>
+				                <f:facet name="header">
+				                    <h:outputText value="Klasse" />
+				                </f:facet>
+				                <h:outputText value="#{attender._klasse}" />
+				            </t:column>				            
+			            </t:dataTable>
+		            </t:column>
+		        </t:dataTable>
+		    </h:form>
+	</ui:define>
+</ui:composition>
