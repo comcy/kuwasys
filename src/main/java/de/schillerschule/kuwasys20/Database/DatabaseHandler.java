@@ -190,7 +190,9 @@ public class DatabaseHandler {
 
 		// Marker für aktuellen Usernamen
 		boolean isCurrentUsername = true;
-
+		
+		vname = vname.replaceAll("(Ä|Ö|Ü|ä|ö|ü|ß|-)*", "");
+		nname = nname.replaceAll("(Ä|Ö|Ü|ä|ö|ü|ß|-)*", "");
 		String username = "";
 		String usernameDB = "";
 
@@ -254,7 +256,7 @@ public class DatabaseHandler {
 		SQLConnection();
 		// Marker für aktuelle Userdaten
 		boolean isCurrentUser = true;
-
+		
 		// DB-Check Strings
 		String nnameDB = "";
 		String vnameDB = "";

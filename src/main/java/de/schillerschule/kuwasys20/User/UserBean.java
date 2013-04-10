@@ -199,14 +199,14 @@ public class UserBean implements Serializable {
 	public String sendUser() {
 		
 		String rolle = "schueler";
-
+		
 		// DEBUG
 		System.out.println("Klasse: " + klasse);
 		System.out.println("Nachname: " + vorname);
 		System.out.println("Vorname: " + nachname);
 		System.out.println("Geburtstag: " + geburtstag);
 		System.out.println("Konfession: " + konfession);
-
+		
 		geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
 
 		dbh.SQLConnection();
@@ -341,7 +341,6 @@ public class UserBean implements Serializable {
 		}
 		
 		public String getSendUserUpdate() {
-
 			// DEBUG
 			System.out.println("Klasse: " + _klasse);
 			System.out.println("Nachname: " + _vorname);
