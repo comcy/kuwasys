@@ -533,7 +533,7 @@ public class DatabaseHandler {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM users WHERE users_rolle = 'schueler';");
+			result = statement.executeQuery("SELECT * FROM users WHERE users_rolle = 'schueler'ORDER BY users_klasse,users_nachname;");
 			//ub.emptyUsers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")

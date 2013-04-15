@@ -92,3 +92,6 @@ td, th{
 	vertical-align:top;
 }
 
+.separator {
+	border-bottom:1px solid rgb(0, 120, 183);
+	}
