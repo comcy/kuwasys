@@ -86,9 +86,9 @@ public class ImportBean implements Serializable {
 					case 1:
 						klasse = st.nextToken().replaceAll("'", "");
 					case 2:
-						nname = st.nextToken().replaceAll("'", "");
+						nname = st.nextToken().replaceAll("'","");
 					case 3:
-						vname = st.nextToken().replaceAll("'", "");
+						vname = st.nextToken().replaceAll("'","");
 					case 4:
 						geb = st.nextToken().replaceAll("'", "");
 					case 5:
