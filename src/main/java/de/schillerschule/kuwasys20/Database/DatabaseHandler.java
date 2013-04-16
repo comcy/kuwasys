@@ -603,7 +603,7 @@ public class DatabaseHandler {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM users WHERE users_rolle = 'lehrer';");
+			result = statement.executeQuery("SELECT * FROM users WHERE users_rolle = 'lehrer'ORDER BY users_nachname,users_vorname;");
 			//TeacherBean.emptyTeachers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")
@@ -672,7 +672,8 @@ public class DatabaseHandler {
 									"WHERE users_klasse = ( " + 
 											"SELECT users_klasse FROM users " +
 											"WHERE users_id = " + id + ") " +
-									"AND users_rolle != 'lehrer';");
+									"AND users_rolle != 'lehrer' " +
+									"ORDER BY users_nachname,users_vorname;");
 			//UserBean.emptyUsers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")
@@ -713,7 +714,7 @@ public class DatabaseHandler {
 									"WHERE users_klasse = ( " + 
 											"SELECT users_klasse FROM users " +
 											"WHERE users_id = " + id + ") " +
-									"AND users_rolle != 'lehrer';");
+									"AND users_rolle != 'lehrer' ORDER BY users_nachname,users_vorname;");
 			//UserBean.emptyUsers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")
@@ -759,7 +760,7 @@ public class DatabaseHandler {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM users WHERE users_rolle='schueler' ORDER BY users_klasse");
+			result = statement.executeQuery("SELECT * FROM users WHERE users_rolle='schueler' ORDER BY users_klasse,users_nachname,users_vorname");
 			//UserBean.emptyUsers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")
@@ -1100,7 +1101,7 @@ public class DatabaseHandler {
 					"JOIN users " +
 					"ON gradelist.gradelist_userid=users.users_id " +
 					"WHERE gradelist.gradelist_note=0 " +
-					"AND gradelist_kursid=" + id + ";");
+					"AND gradelist_kursid=" + id + " ORDER BY users_klasse,users_nachname,users_vorname;");
 			//UserBean.emptyUsers();
 			while (result4.next()) {
 				System.out.println(result4.getInt("users_id")

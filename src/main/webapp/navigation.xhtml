@@ -19,10 +19,10 @@
 						<t:navigationMenuItem value=" - hinzufügen" id="teacheradd" action="#{kuwasys.goAddTeacher}" visibleOnUserRole="admin"/>
 					</t:navigationMenuItem>
 					
-					<t:navigationMenuItem value="Klasse" id="klasse" action="#{kuwasys.goClasses}" visibleOnUserRole="admin, lehrer">
-						<t:navigationMenuItem value=" - terminplan" id="classesschedule" action="#{kuwasys.goClassesSchedule}" visibleOnUserRole="admin,lehrer"/>
+					<t:navigationMenuItem value="Klasse" id="klasse" action="#{kuwasys.goClasses}" visibleOnUserRole="lehrer">
+						<t:navigationMenuItem value=" - terminplan" id="classschedule" action="#{kuwasys.goClassesSchedule}" visibleOnUserRole="admin,lehrer"/>
 					</t:navigationMenuItem>
-					
+					<t:navigationMenuItem value="Terminplan" id="classesschedule" action="#{kuwasys.goClassesSchedule}" visibleOnUserRole="admin"/>
 					<t:navigationMenuItem value="Kurse" id="kurse" action="#{kuwasys.goCourses}" visibleOnUserRole="admin,lehrer,schueler">
 						<t:navigationMenuItem value=" - Teilnehmerliste" id="attenderslist" action="#{kuwasys.goListAttenders}" visibleOnUserRole="admin,lehrer"/>
 						<t:navigationMenuItem value=" - hinzufügen" id="courseadd" action="#{kuwasys.goAddCourse}" visibleOnUserRole="admin,lehrer"/>
