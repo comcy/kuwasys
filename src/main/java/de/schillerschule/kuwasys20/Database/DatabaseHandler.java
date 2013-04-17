@@ -958,6 +958,8 @@ public class DatabaseHandler {
 							"AND gradelist.gradelist_userid=" + id +
 							"AND course.course_schuljahr="+kuwasysControllerBean.year+"" +
 							"AND course.course_tertial=" +kuwasysControllerBean.tertial + 
+							"AND gradelist.gradelist_jahr="+kuwasysControllerBean.year+"" +
+							"AND gradelist.gradelist_tertial=" +kuwasysControllerBean.tertial + 
 							"AND gradelist.gradelist_note=0" +
 							"ORDER BY gradelist.gradelist_note" +
 							";");
@@ -1101,6 +1103,10 @@ public class DatabaseHandler {
 					"JOIN users " +
 					"ON gradelist.gradelist_userid=users.users_id " +
 					"WHERE gradelist.gradelist_note=0 " +
+					" AND gradelist.gradelist_jahr=" +
+					kuwasysControllerBean.year + 
+					" AND gradelist.gradelist_tertial=" + 
+					kuwasysControllerBean.tertial +						
 					"AND gradelist_kursid=" + id + " ORDER BY users_klasse,users_nachname,users_vorname;");
 			//UserBean.emptyUsers();
 			while (result4.next()) {
@@ -1146,6 +1152,10 @@ public class DatabaseHandler {
 							"WHERE course.course_id=" + id +
 							"AND course.course_schuljahr="+kuwasysControllerBean.year+"" +
 							"AND course.course_tertial=" +kuwasysControllerBean.tertial +
+							" AND gradelist.gradelist_jahr=" +
+							kuwasysControllerBean.year + 
+							" AND gradelist.gradelist_tertial=" + 
+							kuwasysControllerBean.tertial +								
 							";");
 			while (result3.next()) {
 				participants = result3.getInt(1);
@@ -1256,6 +1266,10 @@ public class DatabaseHandler {
 					kuwasysControllerBean.year + 
 					"AND course.course_tertial=" + 
 					kuwasysControllerBean.tertial +
+					"AND gradelist.gradelist_jahr=" +
+					kuwasysControllerBean.year + 
+					"AND gradelist.gradelist_tertial=" + 
+					kuwasysControllerBean.tertial +
 					"AND gradelist.gradelist_note=0" + 
 					";");
 			while (result2.next()) {
@@ -1284,6 +1298,10 @@ public class DatabaseHandler {
 					kuwasysControllerBean.year + 
 					" AND course.course_tertial=" + 
 					kuwasysControllerBean.tertial +
+					" AND gradelist.gradelist_jahr=" +
+					kuwasysControllerBean.year + 
+					" AND gradelist.gradelist_tertial=" + 
+					kuwasysControllerBean.tertial +					
 					"AND gradelist.gradelist_note=0" + 
 					";");
 			while (result2.next()) {
@@ -1314,6 +1332,10 @@ public class DatabaseHandler {
 					"WHERE gradelist.gradelist_userid="+id+
 					"AND c.course_schuljahr=" + kuwasysControllerBean.year + 
 					"AND c.course_tertial="+ kuwasysControllerBean.tertial +
+					" AND gradelist.gradelist_jahr=" +
+					kuwasysControllerBean.year + 
+					" AND gradelist.gradelist_tertial=" + 
+					kuwasysControllerBean.tertial +						
 					"AND gradelist.gradelist_note=0" + 
 					";");
 			while (result2.next()) {
@@ -1340,6 +1362,10 @@ public class DatabaseHandler {
 					"AND course.course_termin=" + date +
 					"AND course.course_schuljahr=" + kuwasysControllerBean.year + 
 					"AND course.course_tertial="+ kuwasysControllerBean.tertial +
+					" AND gradelist.gradelist_jahr=" +
+					kuwasysControllerBean.year + 
+					" AND gradelist.gradelist_tertial=" + 
+					kuwasysControllerBean.tertial +						
 					"AND gradelist.gradelist_note=0" + 
 					";");
 			while (result2.next()) {
@@ -1366,6 +1392,10 @@ public class DatabaseHandler {
 					"AND course.course_termin=" + date +
 					"AND course.course_schuljahr=" + kuwasysControllerBean.year + 
 					"AND course.course_tertial="+ kuwasysControllerBean.tertial +
+					" AND gradelist.gradelist_jahr=" +
+					kuwasysControllerBean.year + 
+					" AND gradelist.gradelist_tertial=" + 
+					kuwasysControllerBean.tertial +						
 					"AND gradelist.gradelist_note=0" + 
 					";");
 			while (result2.next()) {
@@ -1468,13 +1498,14 @@ public class DatabaseHandler {
 			SQLConnection();
 			statement = connection.createStatement();
 			statement
-					.executeUpdate("INSERT INTO gradelist (gradelist_note, gradelist_bemerkung, gradelist_userid, gradelist_kursid)"
+					.executeUpdate("INSERT INTO gradelist (gradelist_note, gradelist_bemerkung, gradelist_userid, gradelist_kursid, gradelist_jahr, gradelist_tertial)"
 							+ "VALUES ("
-							+ note
-							+ ", '"
-							+ bemerkung
-							+ "', "
-							+ userid + ", " + kursid + ");");
+							+ note + ", '"
+							+ bemerkung + "', "
+							+ userid + ", " 
+							+ kursid + ", "
+							+ kuwasysControllerBean.year +", "
+							+ kuwasysControllerBean.tertial +");");
 			System.out.println(">>> INSERT GRADELIST"); // DEBUG
 		} catch (SQLException ex) {
 			ex.printStackTrace();
