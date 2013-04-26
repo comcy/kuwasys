@@ -1464,13 +1464,13 @@ public class DatabaseHandler {
 	 * GRADELIST METHODEN
 	 */
 
-	public List<Grades> listGradelist() {
+	public List<Grades> listGradelist(int userid) {
 		List<Grades> gradeList = new ArrayList<Grades>();
 		SQLConnection();
 		System.out.println("Zeuch mir die Nodalischd!");
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM gradelist");
+			result = statement.executeQuery("SELECT * FROM gradelist JOIN course ON gradelist.gradelist_kursid=course.course_id WHERE gradelist_userid="+userid+" AND gradelist_note <> 0 ORDER BY gradelist_jahr,gradelist_tertial;");
 			//GradelistBean.emptyGradelist();
 			while (result.next()) {
 				System.out.println(result.getInt("gradelist_id")
@@ -1478,12 +1478,15 @@ public class DatabaseHandler {
 						+ result.getString("gradelist_bemerkung")
 						+ result.getInt("gradelist_userid")
 						+ result.getInt("gradelist_kursid"));
-				gradeList.add(new GradelistBean.Grades(result
-						.getInt("gradelist_id"), result
-						.getDouble("gradelist_note"), result
-						.getString("gradelist_bemerkung"), result
-						.getInt("gradelist_userid"), result
-						.getInt("gradelist_kursid")));
+				gradeList.add(new GradelistBean.Grades(
+						result.getInt("gradelist_id"), 
+						result.getDouble("gradelist_note"), 
+						result.getString("gradelist_bemerkung"), 
+						result.getInt("gradelist_userid"), 
+						result.getString("course_name"), 
+						result.getInt("gradelist_jahr"), 
+						result.getInt("gradelist_tertial"),
+						result.getString("course_faecherverbund")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

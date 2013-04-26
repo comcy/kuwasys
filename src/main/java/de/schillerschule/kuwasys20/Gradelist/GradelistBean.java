@@ -21,7 +21,9 @@ public class GradelistBean{
 	private double note;
 	private String bemerkung;
 	private int userid;
-	private int kursid;
+	private String kursname;
+	private int jahr;
+	private int tertial;
 	
 	/*public String addToGradelist(){
 		DatabaseHandler.addToGradelist(note, bemerkung, userid, kursid);
@@ -40,7 +42,7 @@ public class GradelistBean{
 	}	*/
 	
 	public List<Grades> getGradelists() {
-		return dbh.listGradelist();
+		return dbh.listGradelist(dbh.getUserId());
 	}
 	
 	// Set-Methoden
@@ -60,8 +62,8 @@ public class GradelistBean{
 		this.userid = usersid;
 	}
 	
-	public void setKursid(int kursid) {
-		this.kursid = kursid;
+	public void setKursname(String kursname) {
+		this.kursname = kursname;
 	}
 	
 	// Get-Methoden
@@ -81,8 +83,8 @@ public class GradelistBean{
 		return userid;
 	}
 
-	public int getKursid() {
-		return kursid;
+	public String getKursname() {
+		return kursname;
 	}
 	
 	public static class Grades implements Serializable {
@@ -94,14 +96,20 @@ public class GradelistBean{
 		private double _note;
 		private String _bemerkung;
 		private int _userid;
-		private int _kursid;
+		private String _kursname;
+		private int _jahr;
+		private int _tertial;
+		private String faecherverbund;
 	
-		public Grades (int id, double note, String bemerkung, int usersid, int kursid) {
+		public Grades (int id, double note, String bemerkung, int usersid, String kursname, int jahr, int tertial, String faecherverbund) {
 		    _id = id;
 		    _note = note;
 		    _bemerkung = bemerkung;
 		    _userid = usersid;
-		    _kursid = kursid;
+		    _kursname = kursname;
+		    set_jahr(jahr);
+		    set_tertial(tertial);
+		    set_faecherverbund(faecherverbund);
 		    
 		}
 			
@@ -122,8 +130,8 @@ public class GradelistBean{
 			this._userid = _usersid;
 		}
 		
-		public void set_kursid(int _kursid) {
-			this._kursid = _kursid;
+		public void set_kursid(String _kursname) {
+			this._kursname = _kursname;
 		}
 		
 		// Get-Methoden		
@@ -143,8 +151,32 @@ public class GradelistBean{
 			return _userid;
 		}
 		
-		public int get_kursid() {
-			return _kursid;
+		public String get_kursname() {
+			return _kursname;
+		}
+
+		public int get_jahr() {
+			return _jahr;
+		}
+
+		public void set_jahr(int _jahr) {
+			this._jahr = _jahr;
+		}
+
+		public int get_tertial() {
+			return _tertial;
+		}
+
+		public void set_tertial(int _tertial) {
+			this._tertial = _tertial;
+		}
+
+		public String get_faecherverbund() {
+			return faecherverbund;
+		}
+
+		public void set_faecherverbund(String faecherverbund) {
+			this.faecherverbund = faecherverbund;
 		}
 	}
 }

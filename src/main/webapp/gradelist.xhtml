@@ -16,19 +16,32 @@
 		                var="gradelist"
 		                sortable="true"
 		                value="#{gradelistBean.gradelists}"
-		                preserveDataModel="true">
+		                preserveDataModel="true"
+		                rowGroupStyle="border-bottom:rgb(0, 120, 183);border-bottom-style:solid;border-bottom-width:2px;vertical-align:top">
+		            <t:column groupBy="true">
+		                <f:facet name="header">
+		                    <h:outputText value="Jahr" />
+		                </f:facet>
+		                <h:outputText value="#{gradelist._jahr}/#{gradelist._jahr+1}" />
+		            </t:column>
+		            <t:column groupBy="true">
+		                <f:facet name="header">
+		                    <h:outputText value="Tertial" />
+		                </f:facet>
+		                <h:outputText value="#{gradelist._tertial}" />
+		            </t:column>		            
 		            <t:column>
 		                <f:facet name="header">
-		                    <h:outputText value="ID" />
+		                    <h:outputText value="Kurs" />
 		                </f:facet>
-		                <h:outputText value="#{gradelist._id}" />
-		            </t:column>
+		                <h:outputText value="#{gradelist._kursname}" />
+		            </t:column> 
 		            <t:column>
 		                <f:facet name="header">
-		                    <h:outputText value="Note" />
+		                    <h:outputText value="Fächerverbund" />
 		                </f:facet>
-		                <h:outputText value="#{gradelist._note}" />
-		            </t:column>
+		                <h:outputText value="#{gradelist._faecherverbund}" />
+		            </t:column> 		            
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Bemerkung" />
@@ -37,17 +50,10 @@
 		            </t:column>
 		            <t:column>
 		                <f:facet name="header">
-		                    <h:outputText value="User" />
+		                    <h:outputText value="Note" />
 		                </f:facet>
-		                <h:outputText value="#{gradelist._userid}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Kurs" />
-		                </f:facet>
-		                <h:outputText value="#{gradelist._kursid}" />
-		            </t:column>  	
-		
+		                <h:outputText value="#{gradelist._note}" />
+		            </t:column>		
 		        </t:dataTable>
 		    </h:form>
 	</ui:define>

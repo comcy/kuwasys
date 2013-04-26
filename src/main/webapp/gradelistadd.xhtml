@@ -19,13 +19,7 @@
 		                value="#{courseBean.coursesAttendable}"
 		                preserveDataModel="true"
 		                rowGroupStyle="border-bottom:rgb(0, 120, 183);border-bottom-style:solid;border-bottom-width:2px;vertical-align:top">
-		
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="id" />
-		                </f:facet>
-		                <h:outputText value="#{course._id}" />
-		            </t:column>
+
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Kursname" />
@@ -48,7 +42,7 @@
 		                <f:facet name="header">
 		                    <h:outputText value="Termin" />
 		                </f:facet>
-		                <h:outputText value="#{course._termin}" />
+		                <h:outputText value="#{course._termin}" style="font-weight:bold;"/>
 		            </t:column>
 		            <t:column>
 			            <f:facet name="header">
