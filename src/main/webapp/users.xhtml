@@ -17,7 +17,8 @@
 		                var="user"
 		                sortable="true"
 		                value="#{userBean.users}"
-		                preserveDataModel="true">
+		                preserveDataModel="true"
+		               rowGroupStyle="border-bottom:rgb(0, 120, 183);border-bottom-style:solid;border-bottom-width:2px;vertical-align:top" >
 		
 		            <t:column>
 		                <f:facet name="header">
@@ -49,7 +50,7 @@
 		                </f:facet>
 		                <h:outputText value="#{user._konfession}" />
 		            </t:column> 
-		            <t:column>
+		            <t:column groupBy="true">
 		                <f:facet name="header">
 		                    <h:outputText value="Klasse" />
 		                </f:facet>

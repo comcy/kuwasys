@@ -845,7 +845,7 @@ public class DatabaseHandler {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM course");
+			result = statement.executeQuery("SELECT * FROM course ORDER BY course_termin");
 			//CourseBean.emptyCourses();
 			while (result.next()) {
 				System.out.println(result.getInt("course_id")
@@ -859,7 +859,7 @@ public class DatabaseHandler {
 						result.getString("course_name"),
 						result.getInt("course_kurslehrer"), 
 						result.getString("course_faecherverbund"), 
-						result.getInt("course_termin"), 
+						translateDate(result.getInt("course_termin")), 
 						result.getString("course_beschreibung"), 
 						result.getInt("course_schuljahr"), 
 						result.getInt("course_tertial"), 
@@ -961,7 +961,7 @@ public class DatabaseHandler {
 							"AND gradelist.gradelist_jahr="+kuwasysControllerBean.year+"" +
 							"AND gradelist.gradelist_tertial=" +kuwasysControllerBean.tertial + 
 							"AND gradelist.gradelist_note=0" +
-							"ORDER BY gradelist.gradelist_note" +
+							"ORDER BY course.course_termin" +
 							";");
 			//CourseBean.emptyCourses();
 			while (result.next()) {
@@ -976,7 +976,7 @@ public class DatabaseHandler {
 						result.getString("course_name"),
 						result.getInt("course_kurslehrer"), 
 						result.getString("course_faecherverbund"), 
-						result.getInt("course_termin"), 
+						translateDate(result.getInt("course_termin")), 
 						result.getString("course_beschreibung"), 
 						result.getInt("course_schuljahr"), 
 						result.getInt("course_tertial"), 
@@ -1020,7 +1020,7 @@ public class DatabaseHandler {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			result = statement.executeQuery("SELECT * FROM course WHERE course_kurslehrer="	+ id + ";");
+			result = statement.executeQuery("SELECT * FROM course WHERE course_kurslehrer="	+ id + " ORDER BY course_termin;");
 			//CourseBean.emptyCourses();
 			while (result.next()) {
 				System.out.println(result.getInt("course_id")
@@ -1034,7 +1034,7 @@ public class DatabaseHandler {
 						result.getString("course_name"),
 						result.getInt("course_kurslehrer"), 
 						result.getString("course_faecherverbund"), 
-						result.getInt("course_termin"), 
+						translateDate(result.getInt("course_termin")), 
 						result.getString("course_beschreibung"), 
 						result.getInt("course_schuljahr"), 
 						result.getInt("course_tertial"), 
@@ -1064,7 +1064,7 @@ public class DatabaseHandler {
 							"WHERE a.gradelist_kursid IS NULL " +
 							"AND course.course_schuljahr="+kuwasysControllerBean.year+"" +
 							"AND course.course_tertial=" +kuwasysControllerBean.tertial +
-							";");
+							" ORDER BY course.course_termin,course.course_faecherverbund;");
 			//CourseBean.emptyCourses();
 			while (result.next()) {
 				System.out.println(result.getInt("course_id")
@@ -1078,7 +1078,7 @@ public class DatabaseHandler {
 						result.getString("course_name"),
 						result.getInt("course_kurslehrer"), 
 						result.getString("course_faecherverbund"), 
-						result.getInt("course_termin"), 
+						translateDate(result.getInt("course_termin")), 
 						result.getString("course_beschreibung"), 
 						result.getInt("course_schuljahr"), 
 						result.getInt("course_tertial"), 
@@ -1273,7 +1273,7 @@ public class DatabaseHandler {
 					"AND gradelist.gradelist_note=0" + 
 					";");
 			while (result2.next()) {
-				chosen=(result2.getInt(1)==1);					
+				chosen=(result2.getInt(1)>0);					
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1538,6 +1538,20 @@ public class DatabaseHandler {
 		
 	}
 
-
+	private String translateDate(int termin){
+		switch (termin) { 
+			case 1 : return "MO VO"; 
+			case 2 : return "MO NA"; 
+			case 3 : return "DI VO"; 
+			case 4 : return "DI NA"; 
+			case 5 : return "MI VO"; 
+			case 6 : return "MI NA"; 
+			case 7 : return "DO VO"; 
+			case 8 : return "DO NA"; 
+			case 9 : return "FR VO"; 
+			case 10 : return "FR NA";
+			default: return "FEHLER!";
+		}
+	}
 
 }

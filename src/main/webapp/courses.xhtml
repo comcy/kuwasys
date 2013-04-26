@@ -42,7 +42,8 @@
 		                var="course"
 		                sortable="false"
 		                value="#{courseBean.courses}"
-		                preserveDataModel="true">
+		                preserveDataModel="true"
+		                rowGroupStyle="border-bottom:rgb(0, 120, 183);border-bottom-style:solid;border-bottom-width:2px;vertical-align:top">
 		
 		            <t:column>
 		                <f:facet name="header">
@@ -68,7 +69,7 @@
 		                </f:facet>
 		                <h:outputText value="#{course._faecherverbund}" />
 		            </t:column>
-		            <t:column>
+		            <t:column groupBy="true">
 		                <f:facet name="header">
 		                    <h:outputText value="Termin" />
 		                </f:facet>
@@ -94,6 +95,12 @@
 			        	<h:commandLink value="Deaktivieren" rendered="#{course.currentTertial?true:false}" action="#{course.deActivateCourse}" style="background-color:lightgreen;" />
 			        	<h:commandLink value="Pflicht" rendered="#{(course._pflichtkurs?false:true) and (course.currentTertial)}" action="#{course.toggleEssentialCourse()}" />
 			        	<h:commandLink value="keine Pflicht" rendered="#{(course._pflichtkurs?true:false) and (course.currentTertial)}" action="#{course.toggleEssentialCourse()}" />
+		            </t:column>
+					<t:column rendered="#{(kuwasys.userRole()!='Schüler')}">
+			            <f:facet name="header" >
+			                <h:outputText value="Teilnehmer" />
+			            </f:facet>
+			          	<h:outputText value="#{course._teilnehmerzahlAktuell}/#{course._teilnehmerzahl}" />
 		            </t:column>		
 		   		    <t:column rendered="#{kuwasys.userRole()=='Schüler'}">
 		            	<f:facet name="header">

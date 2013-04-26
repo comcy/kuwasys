@@ -235,7 +235,7 @@ public class CourseBean implements Serializable{
 		private int _kurslehrer;
 		private String _kurslehrerName;
 		private String _faecherverbund;
-		private int _termin;
+		private String _termin;
 		private String _beschreibung;
 		private int _jahr;
 		private int _tertial;
@@ -246,7 +246,7 @@ public class CourseBean implements Serializable{
 
 
 		public Course(int id, String name, int kurslehrer,
-				String faecherverbund, int termin, String beschreibung, int jahr, int tertial, int teilnehmerzahl, boolean pflichtkurs, boolean sport) {
+				String faecherverbund, String termin, String beschreibung, int jahr, int tertial, int teilnehmerzahl, boolean pflichtkurs, boolean sport) {
 			System.out.println("CourseConstructor");
 			_id = id;
 			_name = name;
@@ -350,11 +350,11 @@ public class CourseBean implements Serializable{
 			this._faecherverbund = _faecherverbund;
 		}
 
-		public int get_termin() {
+		public String get_termin() {
 			return _termin;
 		}
 
-		public void set_termin(int _termin) {
+		public void set_termin(String _termin) {
 			this._termin = _termin;
 		}
 
