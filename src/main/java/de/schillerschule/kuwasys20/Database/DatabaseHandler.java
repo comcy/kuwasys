@@ -1538,7 +1538,7 @@ public class DatabaseHandler {
 		
 	}
 
-	private String translateDate(int termin){
+	public String translateDate(int termin){
 		switch (termin) { 
 			case 1 : return "MO VO"; 
 			case 2 : return "MO NA"; 

@@ -95,11 +95,11 @@ public class CourseBean implements Serializable{
 	}
 	
 	
-	public int isDateConflicting(){
+	public String isDateConflicting(){
 		for (int i=1; i<=10; i++)
 			if (dbh.isDateConflicting(dbh.getUserId(), i))
-				return i;
-		return 0;
+				return dbh.translateDate(i);
+		return "0";
 	}
 	
 	

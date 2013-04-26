@@ -13,7 +13,7 @@
 	        <h:outputText value="Du hast bereits #{courseBean.courses.size()} von 6 Kursen gewählt." rendered="#{kuwasys.userRole()=='Schüler'}" ></h:outputText>
 	        
 	       	<h:graphicImage library="img" name="Emotes-face-surprise-icon.png" alt="oh" rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()!=0)}"/>	
-      		<h:outputText value="ACHTUNG! Terminüberschneidung an Termin: #{courseBean.isDateConflicting()}" style="font-weight:bold;color:red; font-size:40px;" rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()!=0)}" />      
+      		<h:outputText value="ACHTUNG! Terminüberschneidung am  #{courseBean.isDateConflicting()}" style="font-weight:bold;color:red; font-size:40px;" rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()!=0)}" />      
 	        
 	        
 	        <h:outputText value="Aktivierte Kurse bieten rechnerisch Platz für #{kuwasys.countPositions()} Schüler. (Terminüberschneidungen nicht einberechnet!)" rendered="#{kuwasys.userRole()=='Admin'}"><br /></h:outputText>
