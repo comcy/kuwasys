@@ -457,7 +457,28 @@ public class DatabaseHandler {
 		return id;
 	}
 
-	public void getUserClass() {
+	public String showUserClass(int id) {
+		System.out.println("schowUserClass(id)");
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "Select users_klasse from users where users_id="
+				+ id + ";";
+		String klasse = "";
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+				klasse = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		System.out.println(klasse);
+		return klasse;
 
 	}
 	

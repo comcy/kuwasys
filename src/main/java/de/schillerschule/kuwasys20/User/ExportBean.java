@@ -16,9 +16,11 @@ import de.schillerschule.kuwasys20.User.UserBean.User;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.pdf.BaseFont;
-import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 @ManagedBean(name = "exportBean")
@@ -35,7 +37,7 @@ public class ExportBean implements Serializable {
 	 * 
 	 * @return Facelet "users"
 	 */
-	public String CSVDownloadStudents() {
+	public String csvDownloadStudents() {
 
 		String filename = "download.csv";
 
@@ -91,7 +93,7 @@ public class ExportBean implements Serializable {
 	 * 
 	 * @return Facelet "courses"
 	 */
-	public String CSVDownloadCourses() {
+	public String csvDownloadCourses() {
 
 		String filename = "download.csv";
 
@@ -142,12 +144,12 @@ public class ExportBean implements Serializable {
 	}
 
 	/**
-	 * Exportfunktion einer CSV-Datei für die gesamte Kursliste TODO Tests wegen
-	 * nicht- und aktivierten Kursen
+	 * Exportfunktion einer CSV-Datei für die gesamte Klassenliste TODO Tests
+	 * wegen nicht- und aktivierten Kursen
 	 * 
 	 * @return Facelet "courses"
 	 */
-	public String CSVDownloadClass() {
+	public String csvDownloadClass() {
 
 		String filename = "download.csv";
 
@@ -203,11 +205,10 @@ public class ExportBean implements Serializable {
 	 * @return Facelet "users"
 	 * @throws IOException
 	 */
-	public String pdfDownloadUser() throws IOException {
-
+	public String pdfDownloadClass() throws IOException {
 
 		String filename = "download.pdf";
-		
+
 		try {
 
 			FacesContext fc = FacesContext.getCurrentInstance();
@@ -219,55 +220,99 @@ public class ExportBean implements Serializable {
 			ec.setResponseContentType("application/pdf");
 			ec.setResponseCharacterEncoding("utf-8");
 			ec.setResponseHeader("Expires", "0");
-	        ec.setResponseHeader("Cache-Control", "must-revalidate, post-check=0, pre-check=0");
-	        ec.setResponseHeader("Pragma", "public");
+			ec.setResponseHeader("Cache-Control",
+					"must-revalidate, post-check=0, pre-check=0");
+			ec.setResponseHeader("Pragma", "public");
 			ec.setResponseHeader("Content-Disposition",
 					"attachment; filename=\"" + filename + "\"");
-			
+
 			Document doc = new Document();
 
-			PdfWriter writer = PdfWriter.getInstance(doc, os);
+			// PdfWriter writer =
+			PdfWriter.getInstance(doc, os);
 
-			// Dokument beginnen
-			doc.open();
+			// Schriftarten definieren
+			// Helvetica, fett
+			Font font1 = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+			// Courier kursiv
+			Font font2 = new Font(Font.FontFamily.COURIER, 16);
+			// Roman, normal
+			Font font3 = new Font(Font.FontFamily.TIMES_ROMAN, 12);
+			// Roman, fett
+			Font font4 = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
-			List<User> usersTeacher = dbh.listClassesTeacher(dbh.getUserId());
-			List<User> users = dbh.listUsers();
-			
-			// TODO PDF Erstellung - externe PDF Klasse schreiben
-			
-			doc.add(new Paragraph("Passwortliste für Lehrer:"));
-			for (User userTeacher : usersTeacher) {
-				doc.add(new Paragraph(userTeacher.get_vorname() + " " + userTeacher.get_nachname()));
-				for (User user : users) {
-					doc.add(new Paragraph(user.get_vorname() + " " + user.get_nachname() + " " + user.get_username() + " " + user.get_passwort()));
-				}			
+			// Header Bild "KuWaSys" definieren
+			// Bild "Header" auch unter "/home/ijcy/pics/"
+			Image headerImage = Image
+					.getInstance("http://141.10.50.250:8080/kuwasys20/javax.faces.resource/header.jpg.jsf?ln=img");
+			headerImage.scaleToFit(500, 150);
+
+			// List<User> anlegen
+			List<User> users = dbh.listClassesTeacher(dbh.getUserId());
+
+			// Tabellen-Objekt anlegen
+			PdfPTable tableHead = new PdfPTable(4); // 4 Spalten
+			PdfPTable tableCont = new PdfPTable(4); // 4 Spalten
+			tableHead.setWidthPercentage(100);
+			tableCont.setWidthPercentage(100);
+			tableHead.setSpacingBefore(10f);
+
+			doc.open(); // Dokument beginnen
+
+			// TODO PDF Erstellung - externe PDF Klasse schreiben ???
+
+			doc.add(headerImage);
+			doc.add(new Paragraph("Passwortliste der Klasse: ", font1));
+			doc.add(new Paragraph(dbh.showUserClass(dbh.getUserId()), font2));
+			doc.add(new Paragraph("Klassenlehrer : ", font1));
+			doc.add(new Paragraph(dbh.showUserFullName(dbh.getUserId()), font2));
+			// doc.add(new
+			// Paragraph("----------------------------------------------------",
+			// font2));
+
+			// statischen Kopf der Tabelle erzeugen
+			PdfPCell cellVName = new PdfPCell(new Paragraph("Vorname", font4));
+			PdfPCell cellNName = new PdfPCell(new Paragraph("Nachname", font4));
+			PdfPCell cellUsername = new PdfPCell(new Paragraph("Username",
+					font4));
+			PdfPCell cellPasswort = new PdfPCell(new Paragraph("Passwort",
+					font4));
+
+			tableHead.addCell(cellVName);
+			tableHead.addCell(cellNName);
+			tableHead.addCell(cellUsername);
+			tableHead.addCell(cellPasswort);
+
+			doc.add(tableHead); // Tabellenkopf hinzufügen
+
+			for (User user : users) {
+				
+				// dynamische Usertabelle erzeugen
+				PdfPCell cellVNameDyn = new PdfPCell(new Paragraph(
+						user.get_vorname(), font3));
+				PdfPCell cellNNameDyn = new PdfPCell(new Paragraph(
+						user.get_nachname(), font3));
+				PdfPCell cellUsernameDyn = new PdfPCell(new Paragraph(
+						user.get_username(), font3));
+				PdfPCell cellPasswortDyn = new PdfPCell(new Paragraph(
+						user.get_passwort(), font3));
+
+				tableCont.addCell(cellVNameDyn);
+				tableCont.addCell(cellNNameDyn);
+				tableCont.addCell(cellUsernameDyn);
+				tableCont.addCell(cellPasswortDyn);
 			}
-			
-			/*PdfContentByte cb = writer.getDirectContent();
-			BaseFont bf = BaseFont.createFont();
-			// setImage(cb, "img/memory.png", 40);
-			cb.beginText();
-			cb.setFontAndSize(bf, 12);
-			cb.moveText(20, 105);
-			cb.showText("Falsches Üben von Xylophonmusik quält jeden größeren Zwerg.");
-			cb.moveText(120, -16);
-			cb.setCharacterSpacing(2);
-			cb.setWordSpacing(12);
-			cb.newlineShowText("Erst recht auch jeden kleineren.");
-			cb.endText();*/
+			doc.add(tableCont); // Tabelle mit dynamischen Inhalt hinzufügen
 
-			// Dokument beenden
-			doc.close();
+			doc.close(); // Dokument beenden
 
 			os.flush();
 			os.close();
 
-			
-			// "response" abschließen, sonst wird HTML Kontext 
-			// der aktuellen Seite in die Datei geschrieben
-			fc.responseComplete();
-			
+			fc.responseComplete(); // "response" abschließen, sonst wird HTML
+									// Kontext
+									// der aktuellen Seite in die Datei
+									// geschrieben
 
 		} catch (DocumentException de) {
 			System.out.println("Error during PDF creation: " + de);
