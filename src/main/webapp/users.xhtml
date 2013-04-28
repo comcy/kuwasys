@@ -74,6 +74,15 @@
 		
 		        </t:dataTable>
 		    </h:form>
+		    <h:form>
+				<h:commandButton 	value="Weiteren Schüler hinzufügen" 
+									action="#{kuwasys.goAddUser}"></h:commandButton>
+				<h:commandButton 	value="CSV exportieren" 
+									action="#{exportBean.CSVDownloadStudents}"></h:commandButton>
+				<h:commandButton 	value="PDF generieren" 
+									action="#{exportBean.pdfDownloadUser}"
+										></h:commandButton>  					
+			</h:form>
 
 	        
 	</ui:define>

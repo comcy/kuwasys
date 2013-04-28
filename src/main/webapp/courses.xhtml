@@ -105,5 +105,9 @@
 		        </t:dataTable>
 				<h:commandLink value="Einen Kurs wählen" rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()==0) and (kuwasys.phase==2)}" action="#{kuwasys.goAddGradelist()}" />
 		    </h:form>
+		    <h:form>
+				<h:commandButton 	value="CSV Export" 
+									action="#{exportBean.CSVDownloadCourses}"></h:commandButton>					
+			</h:form>
 	</ui:define>
 </ui:composition>

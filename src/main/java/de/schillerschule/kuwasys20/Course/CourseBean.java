@@ -23,8 +23,11 @@ public class CourseBean implements Serializable{
 	 * 
 	 */
 	FacesContext context = FacesContext.getCurrentInstance();
+	
 	private static final long serialVersionUID = 1L;
+		
 	private List<Course> courses = new ArrayList<Course>();
+	
 	private ArrayList<SelectItem> alleKonfessionen = new ArrayList<SelectItem>();
 
 	DatabaseHandler dbh = new DatabaseHandler();
@@ -38,6 +41,7 @@ public class CourseBean implements Serializable{
 	private String beschreibung;
 	private int teilnehmerzahl;
 	private boolean sport;
+	
 	private ArrayList<String> konfessionen = new ArrayList<String>();
 
 	public CourseBean() {

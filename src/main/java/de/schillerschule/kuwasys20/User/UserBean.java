@@ -29,8 +29,8 @@ public class UserBean implements Serializable {
 
 	private static final long serialVersionUID = 2L;
 
-	
 	DatabaseHandler dbh = new DatabaseHandler();
+	
 	private List<User> users = new ArrayList<User>();
 
 	private int id;
@@ -48,8 +48,6 @@ public class UserBean implements Serializable {
 	private String gebYear;
 
 	private String rolle;
-
-	
 
 	public UserBean() {
 	}

@@ -392,6 +392,12 @@ public class DatabaseHandler {
 		return vorName + " " + nachName;
 	}
 
+	/**
+	 * Gibt Vor- und Nachname der übergebenen User-ID zurück
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public String showUserFullName(int id) {
 		System.out.println("schowUserFullName(id)");
 		SQLConnection2();
@@ -424,7 +430,6 @@ public class DatabaseHandler {
 	 * 
 	 * @param
 	 */
-
 	public int getUserId() {
 		System.out.println("getUserId");
 		int id = 0;
