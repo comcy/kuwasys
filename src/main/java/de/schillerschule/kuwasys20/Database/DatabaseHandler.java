@@ -490,6 +490,32 @@ public class DatabaseHandler {
 		
 		return username;
 	}
+	
+	public String getUserPassword(int id){
+		System.out.println("getUserPassword");
+				
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "Select users_passwort from users where users_id="
+				+ id + ";";
+		String password = "";
+		
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+				password = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		System.out.println(password);
+		return password;
+	}
 
 	
 	/**

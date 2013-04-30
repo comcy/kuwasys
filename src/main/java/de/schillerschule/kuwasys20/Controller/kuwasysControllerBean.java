@@ -268,6 +268,9 @@ public class kuwasysControllerBean {
 		return "attenderslist";
 	}
 	
+	public String goCoursebook(){
+		return "coursebook";
+	}	
 	
 	public static String goUsereditor(){
 		return "usereditor";
@@ -275,6 +278,9 @@ public class kuwasysControllerBean {
 	
 	public static String goChangePassword(){
 		return "passwordedit";
+	}
+	public static String goGeneratePassword(){
+		return "passwordgenerate";
 	}
 	
 }

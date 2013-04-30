@@ -16,7 +16,7 @@
 			<h:panelGrid columns="3" style="text-align:right; width:980px;">
 				<ui:insert name="title" />
 				<h:outputText style="color:lightgray;" rendered="#{kuwasys.userRole()==null?false:true}" value="Schuljahr #{kuwasys.year}/#{kuwasys.year+1} | Tertial: #{kuwasys.tertial} | #{kuwasys.systemPhase()}"/>
-				<h:outputText style="color:lightgray;" rendered="#{kuwasys.userRole()==null?false:true}" value="#{userBean.showUsername()} | #{request.remoteUser} &#8834; #{kuwasys.userRole()}"/>
+				<h:outputText style="color:lightgray;" rendered="#{kuwasys.userRole()==null?false:true}" value="#{userBean.showUserFullName()} | #{request.remoteUser} &#8834; #{kuwasys.userRole()}"/>
 			</h:panelGrid>
 		</t:div>
 		<h:panelGrid columns="2">

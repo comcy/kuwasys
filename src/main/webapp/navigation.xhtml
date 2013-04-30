@@ -26,6 +26,7 @@
 					<t:navigationMenuItem value="Kurse" id="kurse" action="#{kuwasys.goCourses}" visibleOnUserRole="admin,lehrer,schueler">
 						<t:navigationMenuItem value=" - Teilnehmerliste" id="attenderslist" action="#{kuwasys.goListAttenders}" visibleOnUserRole="admin,lehrer"/>
 						<t:navigationMenuItem value=" - hinzufügen" id="courseadd" action="#{kuwasys.goAddCourse}" visibleOnUserRole="admin,lehrer"/>
+						<t:navigationMenuItem value=" - Kursbuch" id="coursebook" action="#{kuwasys.goCoursebook}" visibleOnUserRole="schueler"/>
 
 					</t:navigationMenuItem>
 					
@@ -37,7 +38,8 @@
 					</t:navigationMenuItem>					
 					
 					<t:navigationMenuItem value="Einstellungen" id="einstellungen" action="#{kuwasys.goHome}" visibleOnUserRole="admin,lehrer,schueler">
-						<t:navigationMenuItem value=" - Passwort ändern" id="changepw" action="#{kuwasys.goChangePassword}" visibleOnUserRole="admin,lehrer,schueler"/>
+						<t:navigationMenuItem value=" - Passwort ändern" id="changepw" action="#{kuwasys.goChangePassword}" visibleOnUserRole="admin"/>
+						<t:navigationMenuItem value=" - Passwort generieren" id="generatepw" action="#{kuwasys.goGeneratePassword}" visibleOnUserRole="lehrer,schueler"/>
 					</t:navigationMenuItem>
 					
 					<t:navigationMenuItem value="Abmelden" id="logout" action="#{kuwasys.goLogout}" visibleOnUserRole="admin,lehrer,schueler"/>

@@ -221,9 +221,24 @@ public class UserBean implements Serializable {
 	 * 
 	 * @return username
 	 */
-	public String showUsername() {
+	public String showUserFullName() {
 		String username = dbh.showUserFullName();
 		return username;
+	}
+	
+	public String showUserUsername() {
+		String username = dbh.getUserUsername();
+		return username;
+	}
+	
+	public String showUserPassword() {
+		String password = dbh.getUserPassword(dbh.getUserId());
+		return password;
+	}
+	
+	public String showUserClass(){
+		String klasse = dbh.showUserClass(dbh.getUserId());
+		return klasse;
 	}
 
 	public String addToUsers() {
