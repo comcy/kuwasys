@@ -759,7 +759,6 @@ public class ExportBean implements Serializable {
 
 			FacesContext fc = FacesContext.getCurrentInstance();
 			ExternalContext ec = fc.getExternalContext();
-			OutputStream os = ec.getResponseOutputStream();
 
 			// Dateiinformationen setzen
 			ec.responseReset();
@@ -771,6 +770,8 @@ public class ExportBean implements Serializable {
 			ec.setResponseHeader("Pragma", "public");
 			ec.setResponseHeader("Content-Disposition",
 					"attachment; filename=\"" + filename + "\"");
+
+			OutputStream os = ec.getResponseOutputStream();
 
 			Document doc = new Document();
 
@@ -789,8 +790,7 @@ public class ExportBean implements Serializable {
 					.getInstance("http://141.10.50.250:8080/kuwasys20/javax.faces.resource/header.jpg.jsf?ln=img");
 			headerImage.scaleToFit(500, 150);
 
-			// TODO PDF Erstellung - externe PDF Klasse schreiben ???
-			
+			// PDF Dokument
 			doc.open(); // Dokument beginnen
 
 			doc.add(headerImage);
