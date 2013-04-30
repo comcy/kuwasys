@@ -201,8 +201,8 @@ public class ExportBean implements Serializable {
 	}
 
 	/**
-	 * Exportfunktion einer PDF-Datei für die Klassenliste des betreffenden Lehrers
-	 * mit den Usernamen und Passwörtern
+	 * Exportfunktion einer PDF-Datei für die Klassenliste des betreffenden
+	 * Lehrers mit den Usernamen und Passwörtern
 	 * 
 	 * @return Facelet "users"
 	 * @throws IOException
@@ -288,7 +288,7 @@ public class ExportBean implements Serializable {
 			doc.add(tableHead); // Tabellenkopf hinzufügen
 
 			for (User user : users) {
-				
+
 				// dynamische Usertabelle erzeugen
 				PdfPCell cellVNameDyn = new PdfPCell(new Paragraph(
 						user.get_vorname(), font3));
@@ -323,7 +323,7 @@ public class ExportBean implements Serializable {
 		}
 		return "users";
 	}
-	
+
 	/**
 	 * Exportfunktion einer PDF-Datei für ...
 	 * 
@@ -386,7 +386,7 @@ public class ExportBean implements Serializable {
 
 			doc.add(headerImage);
 			doc.add(new Paragraph("Lehrer Passwortliste", font1));
-			
+
 			// statischen Kopf der Tabelle erzeugen
 			PdfPCell cellVName = new PdfPCell(new Paragraph("Vorname", font4));
 			PdfPCell cellNName = new PdfPCell(new Paragraph("Nachname", font4));
@@ -403,7 +403,7 @@ public class ExportBean implements Serializable {
 			doc.add(tableHead); // Tabellenkopf hinzufügen
 
 			for (Teacher teacher : teachers) {
-				
+
 				// dynamische Usertabelle erzeugen
 				PdfPCell cellVNameDyn = new PdfPCell(new Paragraph(
 						teacher.get_vorname(), font3));
@@ -438,10 +438,10 @@ public class ExportBean implements Serializable {
 		}
 		return "users";
 	}
-	
+
 	/**
-	 * Exportfunktion einer CSV-Datei für das Kursbuch eines Schülers 
-	 * TODO SQL Abfrage
+	 * Exportfunktion einer CSV-Datei für das Kursbuch eines Schülers TODO SQL
+	 * Abfrage
 	 * 
 	 * @return Facelet "coursebook"
 	 */
@@ -496,8 +496,8 @@ public class ExportBean implements Serializable {
 	}
 
 	/**
-	 * Exportfunktion einer PDF-Datei für das Kursbuch eines Schülers
-	 * TODO SQL Abfrage
+	 * Exportfunktion einer PDF-Datei für das Kursbuch eines Schülers TODO SQL
+	 * Abfrage
 	 * 
 	 * @return Facelet "coursebook"
 	 * @throws IOException
@@ -583,7 +583,7 @@ public class ExportBean implements Serializable {
 			doc.add(tableHead); // Tabellenkopf hinzufügen
 
 			for (User user : users) {
-				
+
 				// dynamische Usertabelle erzeugen
 				PdfPCell cellVNameDyn = new PdfPCell(new Paragraph(
 						user.get_vorname(), font3));
@@ -618,10 +618,10 @@ public class ExportBean implements Serializable {
 		}
 		return "coursebook";
 	}
-	
+
 	/**
-	 * Exportfunktion einer PDF-Datei für einen neu angelegten Schüler
-	 * TODO SQL Abfrage
+	 * Exportfunktion einer PDF-Datei für einen neu angelegten Schüler TODO SQL
+	 * Abfrage
 	 * 
 	 * @return Facelet "coursebook"
 	 * @throws IOException
@@ -707,7 +707,7 @@ public class ExportBean implements Serializable {
 			doc.add(tableHead); // Tabellenkopf hinzufügen
 
 			for (User user : users) {
-				
+
 				// dynamische Usertabelle erzeugen
 				PdfPCell cellVNameDyn = new PdfPCell(new Paragraph(
 						user.get_vorname(), font3));
@@ -744,9 +744,8 @@ public class ExportBean implements Serializable {
 	}
 
 	/**
-	 * Exportfunktion einer PDF-Datei für das Datenblatt 
-	 * nach Passwortänderung des Admins
-	 * TODO SQL Abfrage
+	 * Exportfunktion einer PDF-Datei für das Datenblatt nach Passwortänderung
+	 * des Admins TODO SQL Abfrage
 	 * 
 	 * @return Facelet "coursebook"
 	 * @throws IOException
@@ -775,9 +774,6 @@ public class ExportBean implements Serializable {
 
 			Document doc = new Document();
 
-			// PdfWriter writer =
-			PdfWriter.getInstance(doc, os);
-
 			// Schriftarten definieren
 			// Helvetica, fett
 			Font font1 = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
@@ -794,19 +790,24 @@ public class ExportBean implements Serializable {
 			doc.open(); // Dokument beginnen
 
 			doc.add(headerImage);
-			doc.add(new Paragraph("Passwort Datenblatt: " , font1));
+			doc.add(new Paragraph("Passwort Datenblatt: ", font1));
 			doc.add(new Paragraph(dbh.showUserFullName(dbh.getUserId()), font2));
-			
-			doc.add(new Paragraph("----------------------------------------------------", font2));
-			
-			doc.add(new Paragraph("Username: " , font1));
+
+			doc.add(new Paragraph(
+					"----------------------------------------------------",
+					font2));
+
+			doc.add(new Paragraph("Username: ", font1));
 			doc.add(new Paragraph(dbh.getUserUsername(), font2));
-			
-			doc.add(new Paragraph("Passwort: " , font1));
-			doc.add(new Paragraph(dbh.getUserPassword(dbh.getUserId()), font2));		
-					
+
+			doc.add(new Paragraph("Passwort: ", font1));
+			doc.add(new Paragraph(dbh.getUserPassword(dbh.getUserId()), font2));
+
 			doc.close(); // Dokument beenden
 
+			// PdfWriter writer =
+			PdfWriter.getInstance(doc, os);
+			
 			os.flush();
 			os.close();
 
