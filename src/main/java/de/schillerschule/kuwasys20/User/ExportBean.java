@@ -761,19 +761,22 @@ public class ExportBean implements Serializable {
 
 			// Dateiinformationen setzen
 			ec.responseReset();
-			ec.setResponseContentType("application/pdf");
-			ec.setResponseCharacterEncoding("utf-8");
-			ec.setResponseHeader("Expires", "0");
-			ec.setResponseHeader("Cache-Control",
-					"must-revalidate, post-check=0, pre-check=0");
-			ec.setResponseHeader("Pragma", "public");
+			ec.setResponseHeader("Content-Type", "application/pdf");
+			//ec.setResponseCharacterEncoding("utf-8");
+			//ec.setResponseHeader("Expires", "0");
+			//ec.setResponseHeader("Cache-Control",
+				//	"must-revalidate, post-check=0, pre-check=0");
+			//ec.setResponseHeader("Pragma", "public");
 			ec.setResponseHeader("Content-Disposition",
 					"attachment; filename=\"" + filename + "\"");
-
+		
 			OutputStream os = ec.getResponseOutputStream();
 
 			Document doc = new Document();
 
+			/**
+			 * PDF Deklarationen
+			 */
 			// Schriftarten definieren
 			// Helvetica, fett
 			Font font1 = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
@@ -786,7 +789,9 @@ public class ExportBean implements Serializable {
 					.getInstance("http://141.10.50.250:8080/kuwasys20/javax.faces.resource/header.jpg.jsf?ln=img");
 			headerImage.scaleToFit(500, 150);
 
-			// PDF Dokument
+			/**
+			 *  PDF Dokument Inhalt
+			 */
 			doc.open(); // Dokument beginnen
 
 			doc.add(headerImage);
