@@ -773,6 +773,8 @@ public class ExportBean implements Serializable {
 			OutputStream os = ec.getResponseOutputStream();
 
 			Document doc = new Document();
+			
+			PdfWriter.getInstance(doc, os);
 
 			/**
 			 * PDF Deklarationen
@@ -809,9 +811,6 @@ public class ExportBean implements Serializable {
 			doc.add(new Paragraph(dbh.getUserPassword(dbh.getUserId()), font2));
 
 			doc.close(); // Dokument beenden
-
-			// PdfWriter writer =
-			PdfWriter.getInstance(doc, os);
 			
 			os.flush();
 			os.close();

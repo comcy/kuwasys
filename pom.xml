@@ -107,11 +107,6 @@ testcommmit 3 -erweitert zu 4
 		<!-- </dependency> -->
 		<!-- JAXB -->
 		<!-- PDF iText 4.2.0 -->
-		<dependency>
-			<groupId>com.lowagie</groupId>
-			<artifactId>itext</artifactId>
-			<version>4.2.0</version>
-		</dependency>
 		<!-- PDF iText 5.1.0 -->
 		<dependency>
 			<groupId>com.itextpdf</groupId>

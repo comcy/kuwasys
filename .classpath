@@ -29,7 +29,5 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/home/cy/Projektarbeit/iText/itext-4.2.0.jar"/>
-	<classpathentry kind="lib" path="/home/cy/Projektarbeit/iText/itextpdf-5.1.0.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
