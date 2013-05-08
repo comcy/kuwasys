@@ -363,7 +363,7 @@ public class UserBean implements Serializable {
 
 		public User(int id, String vorname, String nachname, String geburtstag,
 				String konfession, String klasse, String username,
-				String passwort, String rolle) {
+				String passwort, String rolle, boolean canEdit) {
 
 			_id = id;
 			_nachname = nachname;
@@ -374,6 +374,7 @@ public class UserBean implements Serializable {
 			_username = username;
 			_passwort = passwort;
 			_rolle = rolle;
+			_canEdit = true; //D
 
 		}
 
@@ -392,7 +393,7 @@ public class UserBean implements Serializable {
 			_username = username;
 			_passwort = passwort;
 			_rolle = rolle;
-			_canEdit = false;
+			_canEdit = true; //D
 
 			set_termin1(t1);
 			set_termin2(t2);

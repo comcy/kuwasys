@@ -77,12 +77,12 @@
 					<h:outputText value="#{user._passwort}" />
 				</t:column>
 				<t:column>
-					<h:commandButton value="Edit" action="#{userBean.editUser}"
+					<h:commandButton value="Edit" action="#{userBean.editUser(user)}"
 						rendered="#{not user._canEdit}">
 						<f:setPropertyActionListener target="#{userBean.users}"
-							value="#{user}" />
+							value="#{userBean.users}" />
 					</h:commandButton>
-					<!-- <h:commandLink value="Bearbeiten" action="#{user.editUser}" />  -->
+					
 				</t:column>
 
 			</t:dataTable>

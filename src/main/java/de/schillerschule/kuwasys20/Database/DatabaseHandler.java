@@ -681,7 +681,7 @@ public class DatabaseHandler {
 						.getString("users_klasse"), result
 						.getString("users_username"), result
 						.getString("users_passwort"), result
-						.getString("users_rolle")));
+						.getString("users_rolle"), false));
 
 				System.out
 						.println("Name: " + result.getString("users_vorname"));
@@ -721,7 +721,7 @@ public class DatabaseHandler {
 						.getString("users_klasse"), result
 						.getString("users_username"), result
 						.getString("users_passwort"), result
-						.getString("users_rolle")));
+						.getString("users_rolle"), false));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -857,7 +857,7 @@ public class DatabaseHandler {
 						.getString("users_klasse"), result
 						.getString("users_username"), result
 						.getString("users_passwort"), result
-						.getString("users_rolle")));
+						.getString("users_rolle"), false));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -988,7 +988,7 @@ public class DatabaseHandler {
 						.getString("users_klasse"), result
 						.getString("users_username"), result
 						.getString("users_passwort"), result
-						.getString("users_rolle")));
+						.getString("users_rolle"), false));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1290,7 +1290,7 @@ public class DatabaseHandler {
 								.getString("users_klasse"), result4
 								.getString("users_username"), result4
 								.getString("users_passwort"), result4
-								.getString("users_rolle")));
+								.getString("users_rolle"), false));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
