@@ -463,6 +463,7 @@ public class DatabaseHandler {
 
 	/**
 	 * Gibt Klasse der übergebenen User id zurück
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -489,9 +490,10 @@ public class DatabaseHandler {
 		System.out.println(klasse);
 		return klasse;
 	}
-	
+
 	/**
 	 * Gibt konfession der übergebenen User id zurück
+	 * 
 	 * @param id
 	 * @return
 	 */
@@ -897,7 +899,7 @@ public class DatabaseHandler {
 						.getString("users_klasse"), result
 						.getString("users_username"), result
 						.getString("users_passwort"), result
-						.getString("users_rolle"), courseName(
+						.getString("users_rolle"), false, courseName(
 						result.getInt("users_id"), 1), courseName(
 						result.getInt("users_id"), 2), courseName(
 						result.getInt("users_id"), 3), courseName(
@@ -942,7 +944,7 @@ public class DatabaseHandler {
 						.getString("users_klasse"), result
 						.getString("users_username"), result
 						.getString("users_passwort"), result
-						.getString("users_rolle"), courseName(
+						.getString("users_rolle"), false, courseName(
 						result.getInt("users_id"), 1), courseName(
 						result.getInt("users_id"), 2), courseName(
 						result.getInt("users_id"), 3), courseName(

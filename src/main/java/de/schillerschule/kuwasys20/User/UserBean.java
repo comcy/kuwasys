@@ -53,6 +53,8 @@ public class UserBean implements Serializable {
 
 	private String rolle;
 
+	private boolean canEdit;
+
 	// Leere default Konstruktor
 	public UserBean() {
 	}
@@ -192,6 +194,14 @@ public class UserBean implements Serializable {
 		this.gebYear = gebYear;
 	}
 
+	public void setCanEdit(boolean canEdit) {
+		this.canEdit = canEdit;
+	}
+
+	public boolean getCanEdit() {
+		return canEdit;
+	}
+
 	/**
 	 * Neuen User in DB anlegen
 	 * 
@@ -305,13 +315,18 @@ public class UserBean implements Serializable {
 	 * 
 	 * @return
 	 */
-	/*public String editUser() {
-		vorname = dbh.getUserFirstname(_id);
-		nachname = dbh.getUserLastname(_id);
+	public String editUser(User user) {
+		user.set_canEdit(true);
+		return null;
+	}
 
-		dbh.listEditorUser(_id);
-		return kuwasysControllerBean.goUsereditor();
-	}*/
+	public String saveUsers() {
+		for (User user : users) {
+			user.set_canEdit(false);
+		}
+		return null;
+
+	}
 
 	/**
 	 * User-Klasse (Schüler)
@@ -333,6 +348,7 @@ public class UserBean implements Serializable {
 		private String _username;
 		private String _passwort;
 		private String _rolle; // default
+		private boolean _canEdit;
 
 		private String _termin1;
 		private String _termin2;
@@ -344,7 +360,7 @@ public class UserBean implements Serializable {
 		private String _termin8;
 		private String _termin9;
 		private String _termin10;
-				
+
 		public User(int id, String vorname, String nachname, String geburtstag,
 				String konfession, String klasse, String username,
 				String passwort, String rolle) {
@@ -363,9 +379,9 @@ public class UserBean implements Serializable {
 
 		public User(int id, String vorname, String nachname, String geburtstag,
 				String konfession, String klasse, String username,
-				String passwort, String rolle, String t1, String t2, String t3,
-				String t4, String t5, String t6, String t7, String t8,
-				String t9, String t10) {
+				String passwort, String rolle, boolean canEdit, String t1,
+				String t2, String t3, String t4, String t5, String t6,
+				String t7, String t8, String t9, String t10) {
 
 			_id = id;
 			_nachname = nachname;
@@ -376,6 +392,8 @@ public class UserBean implements Serializable {
 			_username = username;
 			_passwort = passwort;
 			_rolle = rolle;
+			_canEdit = false;
+
 			set_termin1(t1);
 			set_termin2(t2);
 			set_termin3(t3);
@@ -460,6 +478,14 @@ public class UserBean implements Serializable {
 
 		public String get_rolle() {
 			return _rolle;
+		}
+
+		public void set_canEdit(boolean _canEdit) {
+			this._canEdit = _canEdit;
+		}
+
+		public boolean get_canEdit() {
+			return _canEdit;
 		}
 
 		public String get_termin1() {
@@ -547,14 +573,14 @@ public class UserBean implements Serializable {
 		 * 
 		 * @return
 		 */
-		public String editUser() {
-			String vornameEdit = dbh.getUserFirstname(_id);
-			String nachnameEdit = dbh.getUserLastname(_id);
-			String klasseEdit = dbh.showUserClass(_id);
-			String konfessionEdit = dbh.getUserKonfession(_id);
-
-			//dbh.listEditorUser(_id);
-			return kuwasysControllerBean.goUsereditor();
-		}
+		/*
+		 * public String editUser() { String vornameEdit =
+		 * dbh.getUserFirstname(_id); String nachnameEdit =
+		 * dbh.getUserLastname(_id); String klasseEdit = dbh.showUserClass(_id);
+		 * String konfessionEdit = dbh.getUserKonfession(_id);
+		 * 
+		 * //dbh.listEditorUser(_id); return
+		 * kuwasysControllerBean.goUsereditor(); }
+		 */
 	}
 }

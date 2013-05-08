@@ -136,6 +136,14 @@ public class kuwasysControllerBean {
 	}
 	
 	/**
+	 * Test zum editieren der Userdaten - Tabellen
+	 * @return
+	 */
+	public String goEditUserTest() {
+		return "usereditor";
+	}
+	
+	/**
 	 * Neuen Lehrer hinzufügen
 	 * 
 	 * @return Facelet "teacheradd"
@@ -149,7 +157,6 @@ public class kuwasysControllerBean {
 	}
 	
 	public static String goTeachers() {
-		//DatabaseHandler.listTeachers();
 		return "teachers";
 	}
 
@@ -276,9 +283,18 @@ public class kuwasysControllerBean {
 		return "usereditor";
 	}
 	
+	/**
+	 * Passwortänderung für Admin
+	 * @return
+	 */
 	public static String goChangePassword(){
 		return "passwordedit";
 	}
+	
+	/**
+	 * Passwortänderung für Schüler und Lehrer
+	 * @return
+	 */
 	public static String goGeneratePassword(){
 		return "passwordgenerate";
 	}

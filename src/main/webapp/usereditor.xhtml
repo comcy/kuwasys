@@ -3,30 +3,99 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:t="http://java.sun.com/jsf/html">
+	xmlns:t="http://myfaces.apache.org/tomahawk">
 
-	<ui:define name="title">Schülerverwaltung >
-	<h1>Schülerdetails</h1>
-		<h:form id="usereditor" />
-		<h:panelGrid columns="2">
+	<ui:define name="title">Schülerverwaltung</ui:define>
+	<ui:define name="content">
+		<h1>Schülerübersicht</h1>
+		<h:form>
+			<t:dataTable id="data" styleClass="standardTable"
+				headerClass="standardTable_SortHeader"
+				footerClass="standardTable_Footer"
+				rowClasses="standardTable_Row1,standardTable_Row2" var="user"
+				sortable="true" value="#{userBean.users}" preserveDataModel="true"
+				rowGroupStyle="border-bottom:rgb(0, 120, 183);border-bottom-style:solid;border-bottom-width:2px;vertical-align:top">
 
-			<h:outputLabel for="name" value="Vorname:" />
-			<h:inputText id="name" value="#{userBean.vorname}" required="true" />
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="ID" />
+					</f:facet>
+					<h:outputText value="#{user._id}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Vorname" />
+					</f:facet>
+					<h:inputText value="#{user._vorname}" size="5"
+						rendered="#{user._canEdit}" />
+					<h:outputText value="#{user._vorname}"
+						rendered="#{not user._canEdit}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:inputText value="#{user._nachname}" size="5"
+							rendered="#{user._canEdit}" />
+						<h:outputText value="Nachname" />
+					</f:facet>
+					<h:outputText value="#{user._nachname}"
+						rendered="#{not user._canEdit}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Geburtstag" />
+					</f:facet>
+					<h:outputText value="#{user._geburtstag}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Konfession" />
+					</f:facet>
+					<h:inputText value="#{user._konfession}" size="5"
+						rendered="#{user._canEdit}" />
+					<h:outputText value="#{user._konfession}"
+						rendered="#{not user._canEdit}" />
+				</t:column>
+				<t:column groupBy="true">
+					<f:facet name="header">
+						<h:outputText value="Klasse" />
+					</f:facet>
+					<h:inputText value="#{user._klasse}" size="5"
+						rendered="#{user._canEdit}" />
+					<h:outputText value="#{user._klasse}"
+						rendered="#{not user._canEdit}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Username" />
+					</f:facet>
+					<h:outputText value="#{user._username}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Passwort" />
+					</f:facet>
+					<h:outputText value="#{user._passwort}" />
+				</t:column>
+				<t:column>
+					<h:commandButton value="Edit" action="#{userBean.editUser}"
+						rendered="#{not user._canEdit}">
+						<f:setPropertyActionListener target="#{userBean.users}"
+							value="#{user}" />
+					</h:commandButton>
+					<!-- <h:commandLink value="Bearbeiten" action="#{user.editUser}" />  -->
+				</t:column>
 
-			<h:outputLabel for="lastname" value="Nachname:" />
-			<h:inputText id="lastname" value="#{userBean.nachname}"
-				required="true" />
-
-			<h:outputLabel for="konfession" value="Konfession:" />
-			<h:inputText id="konfession" value="#{userBean.konfession}"
-				required="true" />
-
-			<h:outputLabel for="klasse" value="Klasse:" />
-			<h:inputText id="klasse" value="#{userBean.klasse}" required="true" />
-		</h:panelGrid>
-
-		<h:commandButton value="Speichern" action="#{userBean.sendUserUpdate}" />
-		<h:messages showDetail="true" showSummary="false" />
+			</t:dataTable>
 		</h:form>
+		<h:form>
+			<h:commandButton value="Weiteren Schüler hinzufügen"
+				action="#{kuwasys.goAddUser}"></h:commandButton>
+			<h:commandButton value="CSV exportieren"
+				action="#{exportBean.csvDownloadStudents}"></h:commandButton>
+			<h:commandButton value="PDF generieren"
+				action="#{exportBean.pdfDownloadClass}"></h:commandButton>
+		</h:form>
+
+
 	</ui:define>
 </ui:composition>
