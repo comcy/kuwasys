@@ -7,7 +7,11 @@ import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ValueChangeEvent;
+
+import org.postgresql.translation.messages_bg;
 
 import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
@@ -21,16 +25,16 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 @ManagedBean(name = "userBean")
 @RequestScoped
 public class UserBean implements Serializable {
-	
+
 	FacesContext context = FacesContext.getCurrentInstance();
-	
+
 	private static Logger logger = Logger.getLogger(UserBean.class
 			.getCanonicalName());
 
 	private static final long serialVersionUID = 2L;
 
 	DatabaseHandler dbh = new DatabaseHandler();
-	
+
 	private List<User> users = new ArrayList<User>();
 
 	private int id;
@@ -42,42 +46,41 @@ public class UserBean implements Serializable {
 	private String username;
 	private String passwort;
 	private String passwortE;
-	
+
 	private String gebDay;
 	private String gebMonth;
 	private String gebYear;
 
 	private String rolle;
 
+	// Leere default Konstruktor
 	public UserBean() {
 	}
 
-	
 	public List<User> getUsers() {
 		if (context.getExternalContext().isUserInRole("admin"))
-			 return dbh.listUsers();
+			return dbh.listUsers();
 		else
 			return null;
 	}
-	
+
 	public List<User> getSchedule() {
 		if (context.getExternalContext().isUserInRole("admin"))
-			 return dbh.listClassesSchedule();
+			return dbh.listClassesSchedule();
 		if (context.getExternalContext().isUserInRole("lehrer"))
-			 return dbh.listClassesTeacherSchedule(dbh.getUserId());
-		else 
+			return dbh.listClassesTeacherSchedule(dbh.getUserId());
+		else
 			return null;
 	}
-	
+
 	public List<User> getTeacherClass() {
 		if (context.getExternalContext().isUserInRole("admin"))
 			return dbh.listClasses();
 		if (context.getExternalContext().isUserInRole("lehrer"))
 			return dbh.listClassesTeacher(dbh.getUserId());
-		else 
+		else
 			return null;
-	}	
-	
+	}
 
 	public void setUsers(List<User> users) {
 		this.users = users;
@@ -146,7 +149,7 @@ public class UserBean implements Serializable {
 	public void setPasswort(String passwort) {
 		this.passwort = passwort;
 	}
-	
+
 	public String getPasswortE() {
 		return passwort;
 	}
@@ -155,11 +158,11 @@ public class UserBean implements Serializable {
 		this.passwortE = passwortE;
 	}
 
-	public void setRolle(String rolle){
+	public void setRolle(String rolle) {
 		rolle = "schueler";
 		this.rolle = rolle;
 	}
-	
+
 	public String getRolle() {
 		return rolle;
 	}
@@ -190,30 +193,51 @@ public class UserBean implements Serializable {
 	}
 
 	/**
-	 * Neuen User anlegen
+	 * Neuen User in DB anlegen
 	 * 
 	 * @return Facelet "useraddsuccess"
 	 */
 	public String sendUser() {
-		
+
 		String rolle = "schueler";
-		
+
 		// DEBUG
 		System.out.println("Klasse: " + klasse);
 		System.out.println("Nachname: " + vorname);
 		System.out.println("Vorname: " + nachname);
 		System.out.println("Geburtstag: " + geburtstag);
 		System.out.println("Konfession: " + konfession);
-		
+
 		geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
 
 		dbh.SQLConnection();
-		dbh.addUser(klasse, nachname, vorname, geburtstag,
-				konfession, rolle);
+		dbh.addUser(klasse, nachname, vorname, geburtstag, konfession, rolle);
 		dbh.SQLConnectionClose();
 
 		logger.info("Schüler: " + vorname + " " + nachname + " angelegt");
 		return "studentaddsuccess";
+	}
+
+	/**
+	 * Vorhandenen User in DB updaten
+	 * 
+	 * @return
+	 */
+	public String sendUserUpdate() {
+
+		// TODO MESSAGE/LOG DEBUG
+		System.out.println("Klasse: " + klasse);
+		System.out.println("Nachname: " + vorname);
+		System.out.println("Vorname: " + nachname);
+		System.out.println("Konfession: " + konfession);
+
+		// TODO Fix It!!!!
+		// geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
+
+		dbh.updateUser(id, klasse, nachname, vorname, konfession);
+
+		logger.info("Schüler: " + vorname + " " + nachname + " geändert!");
+		return "kuwasys";
 	}
 
 	/**
@@ -225,25 +249,35 @@ public class UserBean implements Serializable {
 		String username = dbh.showUserFullName();
 		return username;
 	}
-	
+
+	public String showUserFirstname() {
+		String username = dbh.showUserFullName();
+		return username;
+	}
+
+	public String showUserLastame() {
+		String username = dbh.showUserFullName();
+		return username;
+	}
+
 	public String showUserUsername() {
 		String username = dbh.getUserUsername();
 		return username;
 	}
-	
+
 	public String showUserPassword() {
 		String password = dbh.getUserPassword(dbh.getUserId());
 		return password;
 	}
-	
-	public String showUserClass(){
+
+	public String showUserClass() {
 		String klasse = dbh.showUserClass(dbh.getUserId());
 		return klasse;
 	}
 
 	public String addToUsers() {
-		dbh.addToTeachers(klasse, nachname, vorname, geburtstag,
-				konfession, rolle);
+		dbh.addToTeachers(klasse, nachname, vorname, geburtstag, konfession,
+				rolle);
 		return kuwasysControllerBean.goUsers();
 	}
 
@@ -255,23 +289,30 @@ public class UserBean implements Serializable {
 		users.clear();
 
 	}
-	
-	public String sendUserUpdate(){
-		
-		return kuwasysControllerBean.goUsers();
-	}
-	
-	public String changePassword(){
-		if(passwort.equals(passwortE)){
+
+	public String changePassword() {
+		if (passwort.equals(passwortE)) {
 			dbh.changePassword(dbh.getUserId(), passwort);
-		}
-		else{
+		} else {
 			return "password_failed";
 		}
-		
+
 		return "password_success";
 	}
-	
+
+	/**
+	 * Userdaten selektieren und bearbeiten
+	 * 
+	 * @return
+	 */
+	/*public String editUser() {
+		vorname = dbh.getUserFirstname(_id);
+		nachname = dbh.getUserLastname(_id);
+
+		dbh.listEditorUser(_id);
+		return kuwasysControllerBean.goUsereditor();
+	}*/
+
 	/**
 	 * User-Klasse (Schüler)
 	 * 
@@ -279,7 +320,7 @@ public class UserBean implements Serializable {
 	 * 
 	 */
 	public static class User implements Serializable {
-		
+
 		DatabaseHandler dbh = new DatabaseHandler();
 		private static final long serialVersionUID = 1L;
 
@@ -292,7 +333,7 @@ public class UserBean implements Serializable {
 		private String _username;
 		private String _passwort;
 		private String _rolle; // default
-		
+
 		private String _termin1;
 		private String _termin2;
 		private String _termin3;
@@ -303,8 +344,7 @@ public class UserBean implements Serializable {
 		private String _termin8;
 		private String _termin9;
 		private String _termin10;
-		
-
+				
 		public User(int id, String vorname, String nachname, String geburtstag,
 				String konfession, String klasse, String username,
 				String passwort, String rolle) {
@@ -318,13 +358,14 @@ public class UserBean implements Serializable {
 			_username = username;
 			_passwort = passwort;
 			_rolle = rolle;
-			
-			
+
 		}
-		
+
 		public User(int id, String vorname, String nachname, String geburtstag,
 				String konfession, String klasse, String username,
-				String passwort, String rolle, String t1, String t2, String t3, String t4, String t5, String t6, String t7, String t8, String t9, String t10) {
+				String passwort, String rolle, String t1, String t2, String t3,
+				String t4, String t5, String t6, String t7, String t8,
+				String t9, String t10) {
 
 			_id = id;
 			_nachname = nachname;
@@ -345,33 +386,9 @@ public class UserBean implements Serializable {
 			set_termin8(t8);
 			set_termin9(t9);
 			set_termin10(t10);
-			
-		}
-		
-		public String editUser() {
-			dbh.listEditorUser(_id);
-			return kuwasysControllerBean.goUsereditor();
-		}
-		
-		public String getSendUserUpdate() {
-			// DEBUG
-			System.out.println("Klasse: " + _klasse);
-			System.out.println("Nachname: " + _vorname);
-			System.out.println("Vorname: " + _nachname);
-			System.out.println("Geburtstag: " + _geburtstag);
-			System.out.println("Konfession: " + _konfession);
 
-			//geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
-
-			dbh.SQLConnection();
-			dbh.updateUser(_id, _klasse, _nachname, _vorname, _geburtstag,
-					_konfession);
-			dbh.SQLConnectionClose();
-
-			logger.info("Schüler: " + _vorname + " " + _nachname + " geändert!");
-			return "kuwasys";
 		}
-		
+
 		public int get_id() {
 			return _id;
 		}
@@ -436,11 +453,11 @@ public class UserBean implements Serializable {
 			this._passwort = _passwort;
 		}
 
-		public void set_rolle(String _rolle){
+		public void set_rolle(String _rolle) {
 			_rolle = "schueler";
 			this._rolle = _rolle;
 		}
-		
+
 		public String get_rolle() {
 			return _rolle;
 		}
@@ -523,6 +540,21 @@ public class UserBean implements Serializable {
 
 		public void set_termin10(String _termin10) {
 			this._termin10 = _termin10;
+		}
+
+		/**
+		 * Userdaten selektieren und bearbeiten
+		 * 
+		 * @return
+		 */
+		public String editUser() {
+			String vornameEdit = dbh.getUserFirstname(_id);
+			String nachnameEdit = dbh.getUserLastname(_id);
+			String klasseEdit = dbh.showUserClass(_id);
+			String konfessionEdit = dbh.getUserKonfession(_id);
+
+			//dbh.listEditorUser(_id);
+			return kuwasysControllerBean.goUsereditor();
 		}
 	}
 }
