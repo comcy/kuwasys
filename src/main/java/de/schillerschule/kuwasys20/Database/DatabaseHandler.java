@@ -35,10 +35,12 @@ public class DatabaseHandler {
 	Connection connection2;
 	Connection connection3;
 	Connection connection4;
+
 	Statement statement;
 	Statement statement2;
 	Statement statement3;
 	Statement statement4;
+
 	ResultSet result;
 	ResultSet result2;
 	ResultSet result3;
@@ -46,9 +48,7 @@ public class DatabaseHandler {
 
 	private static FacesMessage messageName;
 
-	/**
-	 * SQL METHODEN - DB CONNECTION
-	 */
+	/** SQL METHODEN - DB CONNECTION **/
 
 	public void SQLConnection() {
 		try {
@@ -182,9 +182,7 @@ public class DatabaseHandler {
 		}
 	}
 
-	/**
-	 * USER METHODEN
-	 */
+	/** USER METHODEN **/
 
 	/**
 	 * createUsername: zum automatischen erstellen des Usernamens aus dem echten
@@ -196,7 +194,8 @@ public class DatabaseHandler {
 		// Marker für aktuellen Usernamen
 		boolean isCurrentUsername = true;
 
-		vname = vname.replaceAll("(Ä|Ö|Ü|ä|ö|ü|ß|-)*", "");
+		vname = vname.replaceAll("(Ä|Ö|Ü|ä|ö|ü|ß|-)*", ""); // Sonderzeichen
+															// filtern
 		nname = nname.replaceAll("(Ä|Ö|Ü|ä|ö|ü|ß|-)*", "");
 		String username = "";
 		String usernameDB = "";
@@ -345,12 +344,15 @@ public class DatabaseHandler {
 
 		FacesContext.getCurrentInstance().addMessage("teacheraddsuccess_name",
 				messageName);
+		
+		SQLConnectionClose();
 
 	}
 
 	public void updateUser(int id, String klasse, String nname, String vname,
 			String konf) {
 
+		SQLConnection();
 		try {
 			statement = connection.createStatement();
 			statement.executeUpdate("UPDATE users SET users_nachname = "

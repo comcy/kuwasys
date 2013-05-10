@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
+import javax.servlet.http.HttpServletRequest;
 
 import org.postgresql.translation.messages_bg;
 
@@ -220,9 +224,7 @@ public class UserBean implements Serializable {
 
 		geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
 
-		dbh.SQLConnection();
 		dbh.addUser(klasse, nachname, vorname, geburtstag, konfession, rolle);
-		dbh.SQLConnectionClose();
 
 		logger.info("Schüler: " + vorname + " " + nachname + " angelegt");
 		return "studentaddsuccess";
@@ -235,19 +237,56 @@ public class UserBean implements Serializable {
 	 */
 	public String sendUserUpdate() {
 
+//		FacesContext ctx = FacesContext.getCurrentInstance();
+	//	HttpServletRequest request = (HttpServletRequest) ctx
+		//		.getExternalContext().getRequest();
+		//String vorname = request.getParameter("vorname");
+
+		  
+		
 		// TODO MESSAGE/LOG DEBUG
 		System.out.println("Klasse: " + klasse);
-		System.out.println("Nachname: " + vorname);
-		System.out.println("Vorname: " + nachname);
+		System.out.println("Nachname: " + nachname);
+		System.out.println("Vorname: " + vorname);
 		System.out.println("Konfession: " + konfession);
 
 		// TODO Fix It!!!!
 		// geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
 
-		dbh.updateUser(id, klasse, nachname, vorname, konfession);
+		// dbh.updateUser(id, klasse, nachname, vorname, konfession);
 
 		logger.info("Schüler: " + vorname + " " + nachname + " geändert!");
 		return "kuwasys";
+	}
+
+	public String saveUser(User user) {
+
+		// for (User user : users) {
+		user.set_canEdit(false);
+		// }
+
+		// 1) - Daten in Liste einfügen
+		// user.set_DATEN für Liste -> dann...
+
+		// TODO DEBUG - FacesMessage/Log
+		System.out.println("User ID: " + id);
+		System.out.println("User VName: " + vorname);
+		System.out.println("User NName: " + nachname);
+		System.out.println("User Klasse: " + klasse);
+		System.out.println("User Konfession: " + konfession);
+
+		// 2) - Daten die in der Liste stehen holen und in DB einfügen
+		// dbh.userUpdate(user.get_DATEN von Liste) ...
+
+		// TODO DEBUG - FacesMessage/Log
+		System.out.println("User ID: " + user.get_id());
+		System.out.println("User VName: " + user.get_vorname());
+		System.out.println("User NName: " + user.get_nachname());
+		System.out.println("User Klasse: " + user.get_klasse());
+		System.out.println("User Konfession: " + user.get_konfession());
+
+		return null;
+
 	}
 
 	/**
@@ -311,24 +350,6 @@ public class UserBean implements Serializable {
 	}
 
 	/**
-	 * Userdaten selektieren und bearbeiten
-	 * 
-	 * @return
-	 */
-	public String editUser(User user) {
-		user.set_canEdit(true);
-		return null;
-	}
-
-	public String saveUsers() {
-		for (User user : users) {
-			user.set_canEdit(false);
-		}
-		return null;
-
-	}
-
-	/**
 	 * User-Klasse (Schüler)
 	 * 
 	 * @author cy
@@ -374,7 +395,7 @@ public class UserBean implements Serializable {
 			_username = username;
 			_passwort = passwort;
 			_rolle = rolle;
-			_canEdit = true; //D
+			_canEdit = false;
 
 		}
 
@@ -393,7 +414,7 @@ public class UserBean implements Serializable {
 			_username = username;
 			_passwort = passwort;
 			_rolle = rolle;
-			_canEdit = true; //D
+			_canEdit = false;
 
 			set_termin1(t1);
 			set_termin2(t2);
@@ -574,13 +595,17 @@ public class UserBean implements Serializable {
 		 * 
 		 * @return
 		 */
+
 		/*
-		 * public String editUser() { String vornameEdit =
-		 * dbh.getUserFirstname(_id); String nachnameEdit =
-		 * dbh.getUserLastname(_id); String klasseEdit = dbh.showUserClass(_id);
-		 * String konfessionEdit = dbh.getUserKonfession(_id);
+		 * public String editUser(User user) {
 		 * 
-		 * //dbh.listEditorUser(_id); return
+		 * System.out.println("User: " + _vorname); // String vornameEdit =
+		 * dbh.getUserFirstname(_id); String // nachnameEdit = //
+		 * dbh.getUserLastname(_id); String klasseEdit = //
+		 * dbh.showUserClass(_id); // String konfessionEdit =
+		 * dbh.getUserKonfession(_id);
+		 * 
+		 * // dbh.listEditorUser(_id); return return
 		 * kuwasysControllerBean.goUsereditor(); }
 		 */
 	}

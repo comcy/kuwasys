@@ -26,19 +26,19 @@
 					<f:facet name="header">
 						<h:outputText value="Vorname" />
 					</f:facet>
-					<h:inputText value="#{user._vorname}" size="5"
-						rendered="#{user._canEdit}" />
+					<h:inputText id="vorname" value="#{user._vorname}" size="5"
+						rendered="#{user._id eq param['id']}" />
 					<h:outputText value="#{user._vorname}"
-						rendered="#{not user._canEdit}" />
+						rendered="#{user._id ne param['id']}" />
 				</t:column>
 				<t:column>
 					<f:facet name="header">
-						<h:inputText value="#{user._nachname}" size="5"
-							rendered="#{user._canEdit}" />
 						<h:outputText value="Nachname" />
 					</f:facet>
+					<h:inputText value="#{user._nachname}" size="5"
+						rendered="#{user._id eq param['id']}" />
 					<h:outputText value="#{user._nachname}"
-						rendered="#{not user._canEdit}" />
+						rendered="#{user._id ne param['id']}" />
 				</t:column>
 				<t:column>
 					<f:facet name="header">
@@ -51,18 +51,18 @@
 						<h:outputText value="Konfession" />
 					</f:facet>
 					<h:inputText value="#{user._konfession}" size="5"
-						rendered="#{user._canEdit}" />
+						rendered="#{user._id eq param['id']}" />
 					<h:outputText value="#{user._konfession}"
-						rendered="#{not user._canEdit}" />
+						rendered="#{user._id ne param['id']}" />
 				</t:column>
 				<t:column groupBy="true">
 					<f:facet name="header">
 						<h:outputText value="Klasse" />
 					</f:facet>
 					<h:inputText value="#{user._klasse}" size="5"
-						rendered="#{user._canEdit}" />
+						rendered="#{user._id eq param['id']}" />
 					<h:outputText value="#{user._klasse}"
-						rendered="#{not user._canEdit}" />
+						rendered="#{user._id ne param['id']}" />
 				</t:column>
 				<t:column>
 					<f:facet name="header">
@@ -77,17 +77,17 @@
 					<h:outputText value="#{user._passwort}" />
 				</t:column>
 				<t:column>
-					<h:commandButton value="Edit" action="#{userBean.editUser(user)}"
-						rendered="#{not user._canEdit}">
-						<f:setPropertyActionListener target="#{userBean.users}"
-							value="#{userBean.users}" />
-					</h:commandButton>
-					
+					<h:outputLink value="usereditor.jsf">
+						<f:param name="id" value="#{user._id}" />
+						<h:outputText value="Bearbeiten" />
+					</h:outputLink>
 				</t:column>
-
 			</t:dataTable>
 		</h:form>
 		<h:form>
+			<h:commandButton value="Änderungen speichern"
+				action="#{userBean.sendUserUpdate}" >
+			</h:commandButton>
 			<h:commandButton value="Weiteren Schüler hinzufügen"
 				action="#{kuwasys.goAddUser}"></h:commandButton>
 			<h:commandButton value="CSV exportieren"
