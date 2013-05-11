@@ -164,10 +164,9 @@
 				rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()==0) and (kuwasys.phase==2)}"
 				action="#{kuwasys.goAddGradelist()}" />
 		</h:form>
-		<h3>Funktionen:</h3>
+		<h3><h:outputText value="Funktionen:" rendered="#{(kuwasys.userRole()!='Schüler')}"/></h3>
 		<h:form>
-			<h:commandButton value="CSV Export"
-				action="#{exportBean.csvDownloadCourses}"></h:commandButton>
+			<h:commandButton value="CSV Export"	action="#{exportBean.csvDownloadCourses}"  rendered="#{(kuwasys.userRole()!='Schüler')}" />
 		</h:form>
 	</ui:define>
 </ui:composition>

@@ -74,6 +74,7 @@ public class kuwasysControllerBean {
 	
 	public String phaseCommit(){
 		dbh.commitPhase(phaseChanged);
+		dbh.systemState();
 		return goSystem();
 	}
 	
