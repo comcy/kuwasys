@@ -21,9 +21,6 @@ import de.schillerschule.kuwasys20.User.UserBean.User;
 
 public class CourseBean implements Serializable{
 
-	/**
-	 * 
-	 */
 	FacesContext context = FacesContext.getCurrentInstance();
 	
 	private static Logger logger = Logger.getLogger(UserBean.class
@@ -134,8 +131,6 @@ public class CourseBean implements Serializable{
 		return "courseupdatesuccess";
 	}
 	
-	
-
 	/**
 	 * GETTER & SETTER
 	 * 
@@ -250,7 +245,7 @@ public class CourseBean implements Serializable{
 	}
 
 	public void setAlleKonfessionen(
-			ArrayList<SelectItem> alleKonfessionen) {
+		ArrayList<SelectItem> alleKonfessionen) {
 		this.alleKonfessionen = alleKonfessionen;
 	}
 
