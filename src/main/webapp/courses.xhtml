@@ -102,6 +102,17 @@
 			            <h:commandLink value="Abwählen" rendered="#{(course.courseGrade()==0) and (kuwasys.phase==2)}" action="#{course.unAttendCourse}" />
 			            <h:outputText value="Note: #{course.courseGrade()}" rendered="#{course.courseGrade()!=0}" />
 		            </t:column>
+				<t:column rendered="#{(kuwasys.userRole()!='Schüler')}">
+					<h:outputLink value="courseditor.jsf">
+						<f:param name="id" value="#{course._id}" />
+						<f:param name="name" value="#{course._name}" />
+						<f:param name="faecherverbund" value="#{course._faecherverbund}" />
+						<f:param name="teilnehmer" value="#{course._teilnehmerzahl}" />
+						<f:param name="termin" value="#{course._termin}" />
+						<f:param name="beschreibung" value="#{course._beschreibung}" />
+						<h:outputText value="Bearbeiten" />
+					</h:outputLink>
+				</t:column>		            
 		        </t:dataTable>
 				<h:commandLink value="Einen Kurs wählen" rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()==0) and (kuwasys.phase==2)}" action="#{kuwasys.goAddGradelist()}" />
 		    </h:form>

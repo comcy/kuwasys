@@ -1760,4 +1760,22 @@ public class DatabaseHandler {
 		}
 	}
 
+	public void updateCourse(int id, String name, String faecherverbund, int teilnehmerzahl, String beschreibung) {
+
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE course SET course_name = '"+ name + "', course_faecherverbund = '" + faecherverbund	+ "', course_teilnehmerzahl = " + teilnehmerzahl + ", course_beschreibung = '"	+ beschreibung + "' WHERE course_id = " + id + ";");
+			System.out.println(">>> UPDATE USER"); // DEBUG
+
+			messageName = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Der Kurs " + name + " " + faecherverbund
+							+ " wurde erfolgreich ge-updated!", null);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		FacesContext.getCurrentInstance().addMessage("courseupdatesuccess_name",
+				messageName);
+	}
+	
 }

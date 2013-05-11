@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<ui:define name="title">Kursverwaltung</ui:define>
+	<ui:define name="content">
+		<h1>Kurs editieren </h1>
+		<h:form id="courseeditor">
+			<h:panelGrid columns="3">
+							
+				<h:outputLabel for="name" value="Kursname:" />
+				<h:inputText id="name" value="#{name_orig.value}" required="true" binding="#{name}" />
+				<h:outputText value="#{param['name']}" binding="#{name_orig}" />
+				
+				<h:outputLabel for="faecherverbund" value="Fächerverbund:" />
+				<h:inputText id="faecherverbund" value="#{faecherverbund_orig.value}" required="true" binding="#{faecherverbund}" />
+				<h:outputText value="#{param['faecherverbund']}" binding="#{faecherverbund_orig}" />
+				
+				<h:outputLabel for="teilnehmer" value="Teilnehmerzahl:" />
+				<h:inputText id="teilnehmer" value="#{teilnehmer_orig.value}" required="true" binding="#{teilnehmer}" />
+				<h:outputText value="#{param['teilnehmer']}" binding="#{teilnehmer_orig}" />				
+				
+				<h:outputLabel for="beschreibung" value="beschreibung:" />
+				<h:inputTextarea id="beschreibung" value="#{beschreibung_orig.value}" required="false" maximum="100" cols="50" rows="10"  binding="#{beschreibung}"/>
+				<h:outputText value="#{param['beschreibung']}" binding="#{beschreibung_orig}" />
+			</h:panelGrid>
+				<h:outputLabel for="id" value="ID:" style="visibility:hidden"/>
+				<h:outputText value="#{param['id']}" binding="#{id_orig}" style="visibility:hidden"/>
+				<h:inputText id="id" value="#{id_orig.value}" required="true" binding="#{id}" style="visibility:hidden"/>
+			<h:commandButton value="Speichern" action="#{courseBean.sendCourseUpdate(id_orig.value, name.value, faecherverbund.value, teilnehmer.value, beschreibung.value)}" />
+			<h:messages showDetail="true" showSummary="false" />
+		</h:form>
+	</ui:define>
+</ui:composition>

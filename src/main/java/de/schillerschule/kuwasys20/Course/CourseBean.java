@@ -2,6 +2,7 @@ package de.schillerschule.kuwasys20.Course;
 
 import java.io.Serializable;
 import java.util.*;
+import java.util.logging.Logger;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
@@ -11,6 +12,7 @@ import javax.faces.model.SelectItem;
 
 import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
+import de.schillerschule.kuwasys20.User.UserBean;
 import de.schillerschule.kuwasys20.User.UserBean.User;
 
 
@@ -23,6 +25,9 @@ public class CourseBean implements Serializable{
 	 * 
 	 */
 	FacesContext context = FacesContext.getCurrentInstance();
+	
+	private static Logger logger = Logger.getLogger(UserBean.class
+			.getCanonicalName());	
 	
 	private static final long serialVersionUID = 1L;
 		
@@ -104,6 +109,29 @@ public class CourseBean implements Serializable{
 			if (dbh.isDateConflicting(dbh.getUserId(), i))
 				return dbh.translateDate(i);
 		return "0";
+	}
+	
+	/**
+	 * Vorhandenen Kurs in DB updaten
+	 * 
+	 * @return
+	 */
+	public String sendCourseUpdate(String strid, String name, String faecherverbund, String strteilnehmerzahl, String beschreibung) {
+
+		 int id=Integer.parseInt(strid);
+		 int teilnehmerzahl = Integer.parseInt(strteilnehmerzahl);
+		
+		// TODO MESSAGE/LOG DEBUG
+		System.out.println("ID: " + id);
+		System.out.println("Kursname: " + name);
+		System.out.println("faecherverbund: " + faecherverbund);
+		System.out.println("Teilnehmerzahl: " + teilnehmerzahl);
+		System.out.println("Beschreibung: " + beschreibung);
+
+		dbh.updateCourse(id, name, faecherverbund, teilnehmerzahl, beschreibung);
+
+		logger.info("Kurs: " + name + " " + faecherverbund + " geändert!");
+		return "courseupdatesuccess";
 	}
 	
 	
