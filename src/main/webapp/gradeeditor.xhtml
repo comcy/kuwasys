@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">Notenverwaltung</ui:define>
+	<ui:define name="content">
+		<h1>
+			<h:outputText value="#{courseBean.getSingleCourse(param['id'])._name}"/> 
+			<h:outputText value=" #{courseBean.getSingleCourse(param['id'])._jahr}/#{courseBean.getSingleCourse(param['id'])._jahr+1}"/> - 
+			<h:outputText value=" #{courseBean.getSingleCourse(param['id'])._tertial}"/>
+		</h1>
+		<h:form id="gradeeditor">
+						<t:dataTable id="att"
+			                styleClass="standardTable"
+			                headerClass="standardTable_SortHeader"
+			                footerClass="standardTable_Footer"
+			                var="attender"
+			                sortable="false"
+			                value="#{courseBean.getCourseAttenders(param['id'])}"
+			                preserveDataModel="true">
+					        <t:column>
+				                <f:facet name="header">
+				                    <h:outputText value="Vorname" />
+				                </f:facet>
+				                <h:outputText value="#{attender._vorname}" />
+				            </t:column>
+					        <t:column>
+				                <f:facet name="header">
+				                    <h:outputText value="Nachname" />
+				                </f:facet>
+				                <h:outputText value="#{attender._nachname}" />
+				            </t:column>
+					        <t:column>
+				                <f:facet name="header">
+				                    <h:outputText value="Klasse" />
+				                </f:facet>
+				                <h:outputText value="#{attender._klasse}" />
+				            </t:column>				            
+			            </t:dataTable>
+			<h:outputLabel for="id" value="ID:" style="visibility:hidden" />
+			<h:outputText value="#{param['id']}" binding="#{id_orig}"
+				style="visibility:hidden" />
+			<h:inputText id="id" value="#{id_orig.value}" required="true"
+				binding="#{id}" style="visibility:hidden" />
+			<h:commandButton value="Speichern"
+				action="#{userBean.sendUserUpdate(id_orig.value, name.value, lastname.value, konfession.value, klasse.value)}" />
+			<h:messages showDetail="true" showSummary="false" />
+		</h:form>
+	</ui:define>
+</ui:composition>

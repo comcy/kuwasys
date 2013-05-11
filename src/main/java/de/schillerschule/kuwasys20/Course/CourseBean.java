@@ -108,6 +108,11 @@ public class CourseBean implements Serializable{
 		return "0";
 	}
 	
+	
+	public Course getSingleCourse(int id) {
+		return dbh.getCourse(id);
+	}
+	
 	/**
 	 * Vorhandenen Kurs in DB updaten
 	 * 
@@ -163,6 +168,11 @@ public class CourseBean implements Serializable{
 		else
 			return null;
 	}
+	
+	public List<User> getCourseAttenders(int id){
+		return dbh.listCourseParticipants(id);
+	}
+	
 
 	public void setCourses(List<Course> courses) {
 		this.courses = courses;

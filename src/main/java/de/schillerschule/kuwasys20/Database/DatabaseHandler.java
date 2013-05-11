@@ -175,7 +175,7 @@ public class DatabaseHandler {
 	public void SQLConnectionClose4() {
 		try {
 			connection4.close();
-			System.out.println("      	DB3 close");
+			System.out.println("      	DB4 close");
 		} catch (SQLException ex) {
 			System.out.println("Error during DB4 connection " + ex);
 			ex.printStackTrace();
@@ -1006,6 +1006,44 @@ public class DatabaseHandler {
 	 * @return
 	 */
 
+	public Course getCourse(int id) {
+		Course course = null;
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			System.out.println("SELECT * FROM course WHERE course_id=" + id + ";");
+			result = statement.executeQuery("SELECT * FROM course WHERE course_id=" + id + ";");
+			// CourseBean.emptyCourses();
+			while (result.next()) {
+				System.out.println(result.getInt("course_id")
+						+ result.getString("course_name")
+						+ result.getInt("course_kurslehrer")
+						+ result.getString("course_faecherverbund")
+						+ result.getInt("course_termin")
+						+ result.getString("course_beschreibung"));
+				course = new CourseBean.Course(result.getInt("course_id"),
+						result.getString("course_name"), result
+								.getInt("course_kurslehrer"), result
+								.getString("course_faecherverbund"),
+						translateDate(result.getInt("course_termin")), result
+								.getString("course_beschreibung"), result
+								.getInt("course_schuljahr"), result
+								.getInt("course_tertial"), result
+								.getInt("course_teilnehmerzahl"), result
+								.getBoolean("course_pflichtkurs"), result
+								.getBoolean("course_sport"));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+		return course;
+	}	
+	
+	
+	
+	
 	public ArrayList<Course> listCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		SQLConnection();

@@ -154,6 +154,10 @@
 						<f:param name="beschreibung" value="#{course._beschreibung}" />
 						<h:outputText value="Bearbeiten" />
 					</h:outputLink>
+					<h:outputLink value="gradeeditor.jsf" rendered="#{(kuwasys.userRole()=='Lehrer')}">
+						<f:param name="id" value="#{course._id}" />
+						<h:outputText value="Benoten" />
+					</h:outputLink>					
 				</t:column>
 			</t:dataTable>
 			<h:commandLink value="Einen Kurs wählen"
