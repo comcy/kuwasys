@@ -235,16 +235,17 @@ public class UserBean implements Serializable {
 	 * 
 	 * @return
 	 */
-	public String sendUserUpdate() {
+	public String sendUserUpdate(String strid, String vorname, String nachname, String konfession, String klasse) {
 
 //		FacesContext ctx = FacesContext.getCurrentInstance();
 	//	HttpServletRequest request = (HttpServletRequest) ctx
 		//		.getExternalContext().getRequest();
 		//String vorname = request.getParameter("vorname");
 
-		  
+		 int id=Integer.parseInt(strid);
 		
 		// TODO MESSAGE/LOG DEBUG
+		System.out.println("ID: " + id);
 		System.out.println("Klasse: " + klasse);
 		System.out.println("Nachname: " + nachname);
 		System.out.println("Vorname: " + vorname);
@@ -253,10 +254,10 @@ public class UserBean implements Serializable {
 		// TODO Fix It!!!!
 		// geburtstag = gebYear + gebMonth + gebDay; // Geburtstag formatieren
 
-		// dbh.updateUser(id, klasse, nachname, vorname, konfession);
+		dbh.updateUser(id, klasse, nachname, vorname, konfession);
 
 		logger.info("Schüler: " + vorname + " " + nachname + " geändert!");
-		return "kuwasys";
+		return "users";
 	}
 
 	public String saveUser(User user) {

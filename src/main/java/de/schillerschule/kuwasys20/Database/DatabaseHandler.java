@@ -349,16 +349,12 @@ public class DatabaseHandler {
 
 	}
 
-	public void updateUser(int id, String klasse, String nname, String vname,
-			String konf) {
+	public void updateUser(int id, String klasse, String nname, String vname, String konf) {
 
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			statement.executeUpdate("UPDATE users SET users_nachname = "
-					+ nname + ", users_vorname = " + vname
-					+ ", users_konfession = " + konf + ", users_klasse = "
-					+ klasse + " WHERE users_id = " + id);
+			statement.executeUpdate("UPDATE users SET users_nachname = '"+ nname + "', users_vorname = '" + vname	+ "', users_konfession = '" + konf + "', users_klasse = '"	+ klasse + "' WHERE users_id = " + id + ";");
 			System.out.println(">>> UPDATE USER"); // DEBUG
 
 			messageName = new FacesMessage(FacesMessage.SEVERITY_INFO,

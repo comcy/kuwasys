@@ -2,100 +2,44 @@
 <ui:composition template="template.xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:t="http://myfaces.apache.org/tomahawk">
+	xmlns:ui="http://java.sun.com/jsf/facelets">
 
 	<ui:define name="title">Schülerverwaltung</ui:define>
 	<ui:define name="content">
-		<h1>Schülerübersicht</h1>
-		<h:form>
-			<t:dataTable id="data" styleClass="standardTable"
-				headerClass="standardTable_SortHeader"
-				footerClass="standardTable_Footer"
-				rowClasses="standardTable_Row1,standardTable_Row2" var="user"
-				sortable="true" value="#{userBean.users}" preserveDataModel="true"
-				rowGroupStyle="border-bottom:rgb(0, 120, 183);border-bottom-style:solid;border-bottom-width:2px;vertical-align:top">
+		<h1>Schülerdetails editieren </h1>
+		<h:form id="usereditor">
+			<h:panelGrid columns="2">
+							
+				<h:outputLabel for="name" value="Vorname:" />
+				<h:inputText id="name" value="#{name_orig.value}" required="true" binding="#{name}" />
+				<h:outputText value=" " />				
+				<h:outputText value="#{param['vorname']}" binding="#{name_orig}" />
+				
+				<h:outputLabel for="lastname" value="Nachname:" />
+				<h:inputText id="lastname" value="#{nachname_orig.value}" required="true" binding="#{lastname}" />
+				<h:outputText value=" " />
+				<h:outputText value="#{param['nachname']}" binding="#{nachname_orig}" />
+				
+				<h:outputLabel for="konfession" value="Konfession:" />
+				<h:inputText id="konfession" value="#{konfession_orig.value}" required="true" binding="#{konfession}" />	
+				<h:outputText value=" " />				
+				<h:outputText value="#{param['konfession']}" binding="#{konfession_orig}" />
 
-				<t:column>
-					<f:facet name="header">
-						<h:outputText value="ID" />
-					</f:facet>
-					<h:outputText value="#{user._id}" />
-				</t:column>
-				<t:column>
-					<f:facet name="header">
-						<h:outputText value="Vorname" />
-					</f:facet>
-					<h:inputText id="vorname" value="#{user._vorname}" size="5"
-						rendered="#{user._id eq param['id']}" />
-					<h:outputText value="#{user._vorname}"
-						rendered="#{user._id ne param['id']}" />
-				</t:column>
-				<t:column>
-					<f:facet name="header">
-						<h:outputText value="Nachname" />
-					</f:facet>
-					<h:inputText value="#{user._nachname}" size="5"
-						rendered="#{user._id eq param['id']}" />
-					<h:outputText value="#{user._nachname}"
-						rendered="#{user._id ne param['id']}" />
-				</t:column>
-				<t:column>
-					<f:facet name="header">
-						<h:outputText value="Geburtstag" />
-					</f:facet>
-					<h:outputText value="#{user._geburtstag}" />
-				</t:column>
-				<t:column>
-					<f:facet name="header">
-						<h:outputText value="Konfession" />
-					</f:facet>
-					<h:inputText value="#{user._konfession}" size="5"
-						rendered="#{user._id eq param['id']}" />
-					<h:outputText value="#{user._konfession}"
-						rendered="#{user._id ne param['id']}" />
-				</t:column>
-				<t:column groupBy="true">
-					<f:facet name="header">
-						<h:outputText value="Klasse" />
-					</f:facet>
-					<h:inputText value="#{user._klasse}" size="5"
-						rendered="#{user._id eq param['id']}" />
-					<h:outputText value="#{user._klasse}"
-						rendered="#{user._id ne param['id']}" />
-				</t:column>
-				<t:column>
-					<f:facet name="header">
-						<h:outputText value="Username" />
-					</f:facet>
-					<h:outputText value="#{user._username}" />
-				</t:column>
-				<t:column>
-					<f:facet name="header">
-						<h:outputText value="Passwort" />
-					</f:facet>
-					<h:outputText value="#{user._passwort}" />
-				</t:column>
-				<t:column>
-					<h:outputLink value="usereditor.jsf">
-						<f:param name="id" value="#{user._id}" />
-						<h:outputText value="Bearbeiten" />
-					</h:outputLink>
-				</t:column>
-			</t:dataTable>
+				<h:outputLabel for="klasse" value="Klasse:" />
+				<h:inputText id="klasse" value="#{klasse_orig.value}" required="true" binding="#{klasse}" />
+				<h:outputText value=" " />				
+				<h:outputText value="#{param['klasse']}" binding="#{klasse_orig}" />
+			</h:panelGrid>
+			<br/>
+			<h:outputLabel for="geb" value="Geburtsdatum:" />
+			<h:outputText id="geb" value="#{param['geburtstag']}"/>
+				<h:outputLabel for="id" value="ID:" style="visibility:hidden"/>
+				<h:outputText value="#{param['id']}" binding="#{id_orig}" style="visibility:hidden"/>
+				<h:inputText id="id" value="#{id_orig.value}" required="true" binding="#{id}" style="visibility:hidden"/>
+								
+			<br/>
+			<h:commandButton value="Speichern" action="#{userBean.sendUserUpdate(id_orig.value, name.value, lastname.value, konfession.value, klasse.value)}" />
+			<h:messages showDetail="true" showSummary="false" />
 		</h:form>
-		<h:form>
-			<h:commandButton value="Änderungen speichern"
-				action="#{userBean.sendUserUpdate}" >
-			</h:commandButton>
-			<h:commandButton value="Weiteren Schüler hinzufügen"
-				action="#{kuwasys.goAddUser}"></h:commandButton>
-			<h:commandButton value="CSV exportieren"
-				action="#{exportBean.csvDownloadStudents}"></h:commandButton>
-			<h:commandButton value="PDF generieren"
-				action="#{exportBean.pdfDownloadClass}"></h:commandButton>
-		</h:form>
-
-
 	</ui:define>
 </ui:composition>

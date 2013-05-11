@@ -7,82 +7,102 @@
 
 	<ui:define name="title">Schülerverwaltung</ui:define>
 	<ui:define name="content">
-	        <h1>Schülerübersicht</h1>
-	        <h:form>
-		        <t:dataTable id="data"
-		                styleClass="standardTable"
-		                headerClass="standardTable_SortHeader"
-		                footerClass="standardTable_Footer"
-		                rowClasses="standardTable_Row1,standardTable_Row2"
-		                var="user"
-		                sortable="true"
-		                value="#{userBean.users}"
-		                preserveDataModel="true"
-		               rowGroupStyle="border-bottom:rgb(0, 120, 183);border-bottom-style:solid;border-bottom-width:2px;vertical-align:top" >
-		
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="ID" />
-		                </f:facet>
-		                <h:outputText value="#{user._id}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Vorname" />
-		                </f:facet>
-		                <h:outputText value="#{user._vorname}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Nachname" />
-		                </f:facet>
-		                <h:outputText value="#{user._nachname}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Geburtstag" />
-		                </f:facet>
-		                <h:outputText value="#{user._geburtstag}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Konfession" />
-		                </f:facet>
-		                <h:outputText value="#{user._konfession}" />
-		            </t:column> 
-		            <t:column groupBy="true">
-		                <f:facet name="header">
-		                    <h:outputText value="Klasse" />
-		                </f:facet>
-		                <h:outputText value="#{user._klasse}" />
-		            </t:column>  	
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Username" />
-		                </f:facet>
-		                <h:outputText value="#{user._username}" />
-		            </t:column> 
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Passwort" />
-		                </f:facet>
-		                <h:outputText value="#{user._passwort}" />
-		            </t:column> 
-		            <t:column>
-		            	<h:commandLink value="Bearbeiten" action="#{user.editUser}" />
-		            </t:column>
-		
-		        </t:dataTable>
-		    </h:form>
-		    <h:form>
-				<h:commandButton 	value="Weiteren Schüler hinzufügen" 
-									action="#{kuwasys.goAddUser}"></h:commandButton>
-				<h:commandButton 	value="CSV exportieren" 
-									action="#{exportBean.csvDownloadStudents}"></h:commandButton>
-				<h:commandButton 	value="PDF generieren" 
-									action="#{exportBean.pdfDownloadClass}"></h:commandButton>  					
-			</h:form>
+		<h1>Schülerübersicht</h1>
+		<h:form>
+			<t:dataTable id="data" styleClass="standardTable"
+				headerClass="standardTable_SortHeader"
+				footerClass="standardTable_Footer"
+				rowClasses="standardTable_Row1,standardTable_Row2" var="user"
+				sortable="true" value="#{userBean.users}" preserveDataModel="true"
+				rowGroupStyle="border-bottom:rgb(0, 120, 183);border-bottom-style:solid;border-bottom-width:2px;vertical-align:top">
 
-	        
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="ID" />
+					</f:facet>
+					<h:outputText value="#{user._id}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Vorname" />
+					</f:facet>
+					<h:inputText id="vorname" value="#{user._vorname}" size="5"
+						rendered="#{user._id eq param['id']}" />
+					<h:outputText value="#{user._vorname}"
+						rendered="#{user._id ne param['id']}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Nachname" />
+					</f:facet>
+					<h:inputText value="#{user._nachname}" size="5"
+						rendered="#{user._id eq param['id']}" />
+					<h:outputText value="#{user._nachname}"
+						rendered="#{user._id ne param['id']}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Geburtstag" />
+					</f:facet>
+					<h:outputText value="#{user._geburtstag}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Konfession" />
+					</f:facet>
+					<h:inputText value="#{user._konfession}" size="5"
+						rendered="#{user._id eq param['id']}" />
+					<h:outputText value="#{user._konfession}"
+						rendered="#{user._id ne param['id']}" />
+				</t:column>
+				<t:column groupBy="true">
+					<f:facet name="header">
+						<h:outputText value="Klasse" />
+					</f:facet>
+					<h:inputText value="#{user._klasse}" size="5"
+						rendered="#{user._id eq param['id']}" />
+					<h:outputText value="#{user._klasse}"
+						rendered="#{user._id ne param['id']}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Username" />
+					</f:facet>
+					<h:outputText value="#{user._username}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Passwort" />
+					</f:facet>
+					<h:outputText value="#{user._passwort}" />
+				</t:column>
+				<t:column>
+					<h:outputLink value="usereditor.jsf">
+						<f:param name="id" value="#{user._id}" />
+						<f:param name="vorname" value="#{user._vorname}" />
+						<f:param name="nachname" value="#{user._nachname}" />
+						<f:param name="geburtstag" value="#{user._geburtstag}" />
+						<f:param name="konfession" value="#{user._konfession}" />
+						<f:param name="klasse" value="#{user._klasse}" />
+						<f:param name="username" value="#{user._username}" />
+						<f:param name="passwort" value="#{user._passwort}" />
+						<h:outputText value="Bearbeiten" />
+					</h:outputLink>
+				</t:column>
+			</t:dataTable>
+		</h:form>
+		<h:form>
+			<h:commandButton value="Änderungen speichern"
+				action="#{userBean.sendUserUpdate}" >
+			</h:commandButton>
+			<h:commandButton value="Weiteren Schüler hinzufügen"
+				action="#{kuwasys.goAddUser}"></h:commandButton>
+			<h:commandButton value="CSV exportieren"
+				action="#{exportBean.csvDownloadStudents}"></h:commandButton>
+			<h:commandButton value="PDF generieren"
+				action="#{exportBean.pdfDownloadClass}"></h:commandButton>
+		</h:form>
+
+
 	</ui:define>
 </ui:composition>
