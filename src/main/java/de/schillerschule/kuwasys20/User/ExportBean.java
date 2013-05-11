@@ -371,7 +371,7 @@ public class ExportBean implements Serializable {
 									// Kontext
 									// der aktuellen Seite in die Datei
 									// geschrieben
-	
+			System.out.println("END RESPONSE");
 		} catch (DocumentException de) {
 			System.out.println("Error during PDF creation: " + de);
 		} catch (IOException ioe) {
