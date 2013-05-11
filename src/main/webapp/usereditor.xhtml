@@ -4,40 +4,31 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets">
 
-	<ui:define name="title">Schülerverwaltung</ui:define>
+	<ui:define name="title">Benutzerverwaltung</ui:define>
 	<ui:define name="content">
-		<h1>Schülerdetails editieren </h1>
+		<h1>Benutzerdetails editieren </h1>
 		<h:form id="usereditor">
-			<h:panelGrid columns="2">
+			<h:panelGrid columns="3">
 							
 				<h:outputLabel for="name" value="Vorname:" />
 				<h:inputText id="name" value="#{name_orig.value}" required="true" binding="#{name}" />
-				<h:outputText value=" " />				
 				<h:outputText value="#{param['vorname']}" binding="#{name_orig}" />
 				
 				<h:outputLabel for="lastname" value="Nachname:" />
 				<h:inputText id="lastname" value="#{nachname_orig.value}" required="true" binding="#{lastname}" />
-				<h:outputText value=" " />
 				<h:outputText value="#{param['nachname']}" binding="#{nachname_orig}" />
 				
 				<h:outputLabel for="konfession" value="Konfession:" />
 				<h:inputText id="konfession" value="#{konfession_orig.value}" required="true" binding="#{konfession}" />	
-				<h:outputText value=" " />				
 				<h:outputText value="#{param['konfession']}" binding="#{konfession_orig}" />
 
 				<h:outputLabel for="klasse" value="Klasse:" />
 				<h:inputText id="klasse" value="#{klasse_orig.value}" required="true" binding="#{klasse}" />
-				<h:outputText value=" " />				
 				<h:outputText value="#{param['klasse']}" binding="#{klasse_orig}" />
 			</h:panelGrid>
-			<br/>
-			<h:outputLabel for="geb" value="Geburtsdatum:" />
-			<h:outputText id="geb" value="#{param['geburtstag']}"/>
 				<h:outputLabel for="id" value="ID:" style="visibility:hidden"/>
 				<h:outputText value="#{param['id']}" binding="#{id_orig}" style="visibility:hidden"/>
 				<h:inputText id="id" value="#{id_orig.value}" required="true" binding="#{id}" style="visibility:hidden"/>
-								
-			<br/>
 			<h:commandButton value="Speichern" action="#{userBean.sendUserUpdate(id_orig.value, name.value, lastname.value, konfession.value, klasse.value)}" />
 			<h:messages showDetail="true" showSummary="false" />
 		</h:form>
