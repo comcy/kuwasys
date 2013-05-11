@@ -257,7 +257,7 @@ public class UserBean implements Serializable {
 		dbh.updateUser(id, klasse, nachname, vorname, konfession);
 
 		logger.info("Schüler: " + vorname + " " + nachname + " geändert!");
-		return "users";
+		return "userupdatesuccess";
 	}
 
 	public String saveUser(User user) {

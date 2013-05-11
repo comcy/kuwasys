@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<ui:composition template="template.xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
+
+	<ui:define name="title">Benutzerverwaltung</ui:define>
+	<ui:define name="content">
+		<h1>Benutzerverwaltungsinformationen</h1>
+
+			<h:form id="userupdatesuccess_name">
+			<h3><h:message globalOnly="true" for="userupdatesuccess_name" infoStyle="color: green;"
+					errorStyle="color: red;" /></h3>
+			</h:form><br/>
+			
+			<h:form id="userupdatesuccess_username">
+			<h3><h:message globalOnly="true" for="userupdatesuccess_username" infoStyle="color: green;"
+					errorStyle="color: red;" /></h3>
+			</h:form>
+			
+			<h:form id="userupdatesuccess_password">
+			<h3><h:message globalOnly="true" for="userupdatesuccess_password" infoStyle="color: green;"
+					errorStyle="color: red;" /></h3>
+			</h:form>
+	</ui:define>
+</ui:composition>
+

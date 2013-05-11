@@ -363,7 +363,8 @@ public class DatabaseHandler {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		SQLConnectionClose();
+		FacesContext.getCurrentInstance().addMessage("userupdatesuccess_name",
+				messageName);
 	}
 
 	public String showUserFullName() {

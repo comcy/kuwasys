@@ -61,7 +61,19 @@
 		                </f:facet>
 		                <h:outputText value="#{teacher._passwort}" />
 		            </t:column> 
-		
+				<t:column>
+					<h:outputLink value="usereditor.jsf">
+						<f:param name="id" value="#{teacher._id}" />
+						<f:param name="vorname" value="#{teacher._vorname}" />
+						<f:param name="nachname" value="#{teacher._nachname}" />
+						<f:param name="geburtstag" value="#{teacher._geburtstag}" />
+						<f:param name="konfession" value="#{teacher._konfession}" />
+						<f:param name="klasse" value="#{teacher._klasse}" />
+						<f:param name="username" value="#{teacher._username}" />
+						<f:param name="passwort" value="#{teacher._passwort}" />
+						<h:outputText value="Bearbeiten" />
+					</h:outputLink>
+				</t:column>		
 		        </t:dataTable>
 		    </h:form>
 		    <h:form>
