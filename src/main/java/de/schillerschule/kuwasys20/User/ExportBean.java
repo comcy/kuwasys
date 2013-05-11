@@ -10,6 +10,8 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.servlet.ServletContext;
+
 import de.schillerschule.kuwasys20.Course.CourseBean.Course;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 import de.schillerschule.kuwasys20.Teacher.TeacherBean.Teacher;
@@ -301,10 +303,15 @@ public class ExportBean implements Serializable {
 	
 			// Header Bild "KuWaSys" definieren
 			// Bild "Header" auch unter "/home/ijcy/pics/"
-			Image headerImage = Image
-					.getInstance("http://141.10.50.250:8080/kuwasys20/javax.faces.resource/header.jpg.jsf?ln=img");
+			
+			String relativeWebPath = "/resources/img/header.jpg";
+			ServletContext servletContext = (ServletContext) ec.getContext();
+			String absoluteDiskPath = servletContext.getRealPath(relativeWebPath);
+			
+			Image headerImage = Image.getInstance(absoluteDiskPath);
 			headerImage.scaleToFit(500, 150);
 	
+
 			// List<User> anlegen
 			List<User> users = dbh.listClassesTeacher(dbh.getUserId());
 	
@@ -371,7 +378,6 @@ public class ExportBean implements Serializable {
 									// Kontext
 									// der aktuellen Seite in die Datei
 									// geschrieben
-			System.out.println("END RESPONSE");
 		} catch (DocumentException de) {
 			System.out.println("Error during PDF creation: " + de);
 		} catch (IOException ioe) {
@@ -422,8 +428,11 @@ public class ExportBean implements Serializable {
 	
 			// Header Bild "KuWaSys" definieren
 			// Bild "Header" auch unter "/home/ijcy/pics/"
-			Image headerImage = Image
-					.getInstance("http://141.10.50.250:8080/kuwasys20/javax.faces.resource/header.jpg.jsf?ln=img");
+			String relativeWebPath = "/resources/img/header.jpg";
+			ServletContext servletContext = (ServletContext) ec.getContext();
+			String absoluteDiskPath = servletContext.getRealPath(relativeWebPath);
+			
+			Image headerImage = Image.getInstance(absoluteDiskPath);
 			headerImage.scaleToFit(500, 150);
 	
 			// List<User> anlegen
@@ -540,8 +549,11 @@ public class ExportBean implements Serializable {
 
 			// Header Bild "KuWaSys" definieren
 			// Bild "Header" auch unter "/home/ijcy/pics/"
-			Image headerImage = Image
-					.getInstance("http://141.10.50.250:8080/kuwasys20/javax.faces.resource/header.jpg.jsf?ln=img");
+			String relativeWebPath = "/resources/img/header.jpg";
+			ServletContext servletContext = (ServletContext) ec.getContext();
+			String absoluteDiskPath = servletContext.getRealPath(relativeWebPath);
+			
+			Image headerImage = Image.getInstance(absoluteDiskPath);
 			headerImage.scaleToFit(500, 150);
 
 			// List<User> anlegen
@@ -664,8 +676,11 @@ public class ExportBean implements Serializable {
 
 			// Header Bild "KuWaSys" definieren
 			// Bild "Header" auch unter "/home/ijcy/pics/"
-			Image headerImage = Image
-					.getInstance("http://141.10.50.250:8080/kuwasys20/javax.faces.resource/header.jpg.jsf?ln=img");
+			String relativeWebPath = "/resources/img/header.jpg";
+			ServletContext servletContext = (ServletContext) ec.getContext();
+			String absoluteDiskPath = servletContext.getRealPath(relativeWebPath);
+			
+			Image headerImage = Image.getInstance(absoluteDiskPath);
 			headerImage.scaleToFit(500, 150);
 
 			// List<User> anlegen
@@ -787,8 +802,11 @@ public class ExportBean implements Serializable {
 
 			// Header Bild "KuWaSys" definieren
 			// Bild "Header" auch unter "/home/ijcy/pics/"
-			Image headerImage = Image
-					.getInstance("http://141.10.50.250:8080/kuwasys20/javax.faces.resource/header.jpg.jsf?ln=img");
+			String relativeWebPath = "/resources/img/header.jpg";
+			ServletContext servletContext = (ServletContext) ec.getContext();
+			String absoluteDiskPath = servletContext.getRealPath(relativeWebPath);
+			
+			Image headerImage = Image.getInstance(absoluteDiskPath);
 			headerImage.scaleToFit(500, 150);
 
 			/**
