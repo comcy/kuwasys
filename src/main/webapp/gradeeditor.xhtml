@@ -46,8 +46,8 @@
 			<h:inputText id="id" value="#{id_orig.value}" required="true"
 				binding="#{id}" style="visibility:hidden" />
 			<h:commandButton value="Speichern"
-				action="#{userBean.sendUserUpdate(id_orig.value, name.value, lastname.value, konfession.value, klasse.value)}" />
-			<h:messages showDetail="true" showSummary="false" />
+				action="#{userBean.sendUserUpdate(id_orig.value, name.value, lastname.value, konfession.value, klasse.value)}" style="visibility:hidden" />
+			<h:messages showDetail="true" showSummary="false"  />
 		</h:form>
 	</ui:define>
 </ui:composition>
