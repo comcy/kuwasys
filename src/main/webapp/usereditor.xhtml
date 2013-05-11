@@ -6,30 +6,42 @@
 
 	<ui:define name="title">Benutzerverwaltung</ui:define>
 	<ui:define name="content">
-		<h1>Benutzerdetails editieren </h1>
+		<h1>Benutzerdetails editieren</h1>
 		<h:form id="usereditor">
 			<h:panelGrid columns="3">
-							
+
 				<h:outputLabel for="name" value="Vorname:" />
-				<h:inputText id="name" value="#{name_orig.value}" required="true" binding="#{name}" />
+				<h:inputText id="name" value="#{name_orig.value}" required="true"
+					binding="#{name}" />
 				<h:outputText value="#{param['vorname']}" binding="#{name_orig}" />
-				
+
 				<h:outputLabel for="lastname" value="Nachname:" />
-				<h:inputText id="lastname" value="#{nachname_orig.value}" required="true" binding="#{lastname}" />
-				<h:outputText value="#{param['nachname']}" binding="#{nachname_orig}" />
-				
-				<h:outputLabel for="konfession" value="Konfession:" />
-				<h:inputText id="konfession" value="#{konfession_orig.value}" required="true" binding="#{konfession}" />	
-				<h:outputText value="#{param['konfession']}" binding="#{konfession_orig}" />
+				<h:inputText id="lastname" value="#{nachname_orig.value}"
+					required="true" binding="#{lastname}" />
+				<h:outputText value="#{param['nachname']}"
+					binding="#{nachname_orig}" />
+
+				<h:outputLabel for="konfession" value="Konfession:"
+					rendered="#{param['konfession'] ne 'lehrer'}" />
+				<h:inputText id="konfession" value="#{konfession_orig.value}"
+					required="true" binding="#{konfession}"
+					rendered="#{param['konfession'] ne 'lehrer'}" />
+				<h:outputText value="#{param['konfession']}"
+					binding="#{konfession_orig}"
+					rendered="#{param['konfession'] ne 'lehrer'}" />
 
 				<h:outputLabel for="klasse" value="Klasse:" />
-				<h:inputText id="klasse" value="#{klasse_orig.value}" required="true" binding="#{klasse}" />
+				<h:inputText id="klasse" value="#{klasse_orig.value}"
+					required="true" binding="#{klasse}" />
 				<h:outputText value="#{param['klasse']}" binding="#{klasse_orig}" />
 			</h:panelGrid>
-				<h:outputLabel for="id" value="ID:" style="visibility:hidden"/>
-				<h:outputText value="#{param['id']}" binding="#{id_orig}" style="visibility:hidden"/>
-				<h:inputText id="id" value="#{id_orig.value}" required="true" binding="#{id}" style="visibility:hidden"/>
-			<h:commandButton value="Speichern" action="#{userBean.sendUserUpdate(id_orig.value, name.value, lastname.value, konfession.value, klasse.value)}" />
+			<h:outputLabel for="id" value="ID:" style="visibility:hidden" />
+			<h:outputText value="#{param['id']}" binding="#{id_orig}"
+				style="visibility:hidden" />
+			<h:inputText id="id" value="#{id_orig.value}" required="true"
+				binding="#{id}" style="visibility:hidden" />
+			<h:commandButton value="Speichern"
+				action="#{userBean.sendUserUpdate(id_orig.value, name.value, lastname.value, konfession.value, klasse.value)}" />
 			<h:messages showDetail="true" showSummary="false" />
 		</h:form>
 	</ui:define>

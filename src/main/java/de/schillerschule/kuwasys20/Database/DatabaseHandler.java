@@ -344,17 +344,21 @@ public class DatabaseHandler {
 
 		FacesContext.getCurrentInstance().addMessage("teacheraddsuccess_name",
 				messageName);
-		
+
 		SQLConnectionClose();
 
 	}
 
-	public void updateUser(int id, String klasse, String nname, String vname, String konf) {
+	public void updateUser(int id, String klasse, String nname, String vname,
+			String konf) {
 
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			statement.executeUpdate("UPDATE users SET users_nachname = '"+ nname + "', users_vorname = '" + vname	+ "', users_konfession = '" + konf + "', users_klasse = '"	+ klasse + "' WHERE users_id = " + id + ";");
+			statement.executeUpdate("UPDATE users SET users_nachname = '"
+					+ nname + "', users_vorname = '" + vname
+					+ "', users_konfession = '" + konf + "', users_klasse = '"
+					+ klasse + "' WHERE users_id = " + id + ";");
 			System.out.println(">>> UPDATE USER"); // DEBUG
 
 			messageName = new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -1092,7 +1096,7 @@ public class DatabaseHandler {
 		try {
 			statement = connection.createStatement();
 			result = statement
-					.executeQuery("SELECT DISTINCT users_konfession FROM users");
+					.executeQuery("SELECT DISTINCT users_konfession FROM users WHERE users_konfession != 'admin' AND users_konfession != 'lehrer' AND users_konfession != 'null';");
 			// CourseBean.clearAllConfessions();
 			while (result.next()) {
 				// System.out.println(result.getString("course_religion_konfession"));
@@ -1760,12 +1764,17 @@ public class DatabaseHandler {
 		}
 	}
 
-	public void updateCourse(int id, String name, String faecherverbund, int teilnehmerzahl, String beschreibung) {
+	public void updateCourse(int id, String name, String faecherverbund,
+			int teilnehmerzahl, String beschreibung) {
 
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			statement.executeUpdate("UPDATE course SET course_name = '"+ name + "', course_faecherverbund = '" + faecherverbund	+ "', course_teilnehmerzahl = " + teilnehmerzahl + ", course_beschreibung = '"	+ beschreibung + "' WHERE course_id = " + id + ";");
+			statement.executeUpdate("UPDATE course SET course_name = '" + name
+					+ "', course_faecherverbund = '" + faecherverbund
+					+ "', course_teilnehmerzahl = " + teilnehmerzahl
+					+ ", course_beschreibung = '" + beschreibung
+					+ "' WHERE course_id = " + id + ";");
 			System.out.println(">>> UPDATE USER"); // DEBUG
 
 			messageName = new FacesMessage(FacesMessage.SEVERITY_INFO,
@@ -1774,8 +1783,8 @@ public class DatabaseHandler {
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		FacesContext.getCurrentInstance().addMessage("courseupdatesuccess_name",
-				messageName);
+		FacesContext.getCurrentInstance().addMessage(
+				"courseupdatesuccess_name", messageName);
 	}
-	
+
 }
