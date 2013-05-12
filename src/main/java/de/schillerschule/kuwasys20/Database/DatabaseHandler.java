@@ -1734,6 +1734,31 @@ public class DatabaseHandler {
 	}
 	
 	
+	
+	public double getAverageGradeFromVerbund(int id, int jahr, String faecherverbund){
+		double average = 0;
+		SQLConnection2();
+		try {
+			statement2 = connection2.createStatement();
+			System.out.println("SELECT SUM(gradelist_note)/COUNT(*) " +
+					"FROM gradelist JOIN course ON gradelist_kursid=course_id " +
+					"WHERE  gradelist_userid=" + id + " AND gradelist_jahr=" + jahr + " AND course_faecherverbund='" + faecherverbund + "' AND gradelist_note>0;");
+			result2 = statement2.executeQuery("SELECT SUM(gradelist_note)/COUNT(*) " +
+							"FROM gradelist JOIN course ON gradelist_kursid=course_id " +
+							"WHERE  gradelist_userid=" + id + " AND gradelist_jahr=" + jahr + " AND course_faecherverbund='" + faecherverbund + "' AND gradelist_note>0;");
+			// GradelistBean.emptyGradelist();
+			while (result2.next()) {
+				average = result2.getDouble(1);
+				System.out.println("Durchschnitt="+average);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		return average;
+	}
+	
+	
 	public List<Grades> listGradelist(int userid) {
 		List<Grades> gradeList = new ArrayList<Grades>();
 		SQLConnection();
@@ -1743,7 +1768,7 @@ public class DatabaseHandler {
 			result = statement
 					.executeQuery("SELECT * FROM gradelist JOIN course ON gradelist.gradelist_kursid=course.course_id WHERE gradelist_userid="
 							+ userid
-							+ " AND gradelist_note <> 0 ORDER BY gradelist_jahr,gradelist_tertial;");
+							+ " AND gradelist_note <> 0 ORDER BY gradelist_jahr DESC,gradelist_tertial;");
 			// GradelistBean.emptyGradelist();
 			while (result.next()) {
 				System.out.println(result.getInt("gradelist_id")

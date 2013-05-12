@@ -63,6 +63,12 @@
 			            <h:outputText value="#{users._passwort}" />
 		            </t:column>			            	
 				<t:column>
+					<h:outputLink value="usergrades.jsf">
+						<f:param name="id" value="#{users._id}" />
+						<f:param name="vorname" value="#{users._vorname}" />
+						<f:param name="nachname" value="#{users._nachname}" />
+						<h:outputText value="Notenübersicht" />
+					</h:outputLink>
 					<h:outputLink value="usereditor.jsf">
 						<f:param name="id" value="#{users._id}" />
 						<f:param name="vorname" value="#{users._vorname}" />

@@ -68,6 +68,13 @@ public class GradelistBean{
 		return "gradeeditor.jsf?id=" + ((fc.getExternalContext().getRequestParameterMap().isEmpty()) ? new ArrayList<User>() : dbh.listCourseParticipants(Integer.parseInt(fc.getExternalContext().getRequestParameterMap().get("id"))));
 	}
 	
+	public List<Grades> listUsergrades(int id) {
+		return dbh.listGradelist(id);
+	}
+	
+	public double getAverageGrade(int id, int jahr, String faecherverbund){
+		return Math.floor(dbh.getAverageGradeFromVerbund(id, jahr, faecherverbund)*100)/100;
+	}
 	
 	// Set-Methoden
 	public void setId(int id) {
