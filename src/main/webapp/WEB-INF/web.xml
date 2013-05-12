@@ -73,17 +73,17 @@
 		<param-name>org.apache.myfaces.annotation.SCAN_PACKAGES</param-name>
 		<param-value>de.schillerschule.kuwasys20</param-value>
 	</context-param>
-	
-	
+
+
 	<resource-ref>
-	 <description>postgreSQL Datasource kuwasys</description>
-	 <res-ref-name>jdbc/postgres</res-ref-name>
-	 <res-type>javax.sql.DataSource</res-type>
-	 <res-auth>Container</res-auth>
+		<description>postgreSQL Datasource kuwasys</description>
+		<res-ref-name>jdbc/postgres</res-ref-name>
+		<res-type>javax.sql.DataSource</res-type>
+		<res-auth>Container</res-auth>
 	</resource-ref>
-	
-	
-	
+
+
+
 	<!-- Faces Servlet -->
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
@@ -106,49 +106,44 @@
 			<url-pattern>/resources/*</url-pattern>
 		</web-resource-collection>
 	</security-constraint>
-	
+
 	<!-- Rollen -->
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>schueler</web-resource-name>
-			<url-pattern>/schueler/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>schueler</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>lehrer</web-resource-name>
-			<url-pattern>/lehrer/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>lehrer</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>admin</web-resource-name>
-			<url-pattern>/admin/*</url-pattern>
-		</web-resource-collection>
-		<auth-constraint>
-			<role-name>admin</role-name>
-		</auth-constraint>
-		<user-data-constraint>
-			<transport-guarantee>NONE</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
 	<security-constraint>
 		<display-name>security-constraint</display-name>
 		<web-resource-collection>
 			<web-resource-name>kuwasys</web-resource-name>
+			<url-pattern>/attenderslist.jsf</url-pattern>
 			<url-pattern>/kuwasys.jsf</url-pattern>
+			<url-pattern>/teacheraddsuccess.jsf</url-pattern>
+			<url-pattern>/classesschedule.jsf</url-pattern>
+			<url-pattern>/teacheradd.jsf</url-pattern>
+			<url-pattern>/classes.jsf</url-pattern>
+			<url-pattern>/teachereditor.jsf</url-pattern>
+			<url-pattern>/courseadd.jsf</url-pattern>
+			<url-pattern>/navigation.jsf</url-pattern>
+			<url-pattern>/teachers.jsf</url-pattern>
+			<url-pattern>/courseditor.jsf</url-pattern>
+			<url-pattern>/passwordedit.jsf</url-pattern>
+			<url-pattern>/template.jsf</url-pattern>
+			<url-pattern>/courses.jsf</url-pattern>
+			<url-pattern>/password_failed.jsf</url-pattern>
+			<url-pattern>/tertialnext.jsf</url-pattern>
+			<url-pattern>/courseupdatesuccess.jsf</url-pattern>
+			<url-pattern>/password_success.jsf</url-pattern>
+			<url-pattern>/usereditor.jsf</url-pattern>
+			<url-pattern>/csvimportsuccess.jsf</url-pattern>
+			<url-pattern>/phaseset.jsf</url-pattern>
+			<url-pattern>/usergrades.jsf</url-pattern>
+			<url-pattern>/csvimport.jsf</url-pattern>
+			<url-pattern>/studentaddsuccess.jsf</url-pattern>
+			<url-pattern>/users.jsf</url-pattern>
+			<url-pattern>/gradeeditor.jsf</url-pattern>
+			<url-pattern>/studentadd.jsf</url-pattern>
+			<url-pattern>/userupdatesuccess.jsf</url-pattern>
+			<url-pattern>/gradelistadd.jsf</url-pattern>
+			<url-pattern>/studenteditor.jsf</url-pattern>
+			<url-pattern>/gradelist.jsf</url-pattern>
+			<url-pattern>/system.jsf</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>admin</role-name>
@@ -206,7 +201,7 @@
 	</filter-mapping>
 
 
-	
+
 
 
 </web-app>
