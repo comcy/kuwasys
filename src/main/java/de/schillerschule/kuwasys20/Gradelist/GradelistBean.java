@@ -87,6 +87,11 @@ public class GradelistBean {
 				faecherverbund) * 100) / 100;
 	}
 
+	public boolean isBundleChosen(int userid, String bundle){
+		return dbh.bundleChosen(userid, bundle);
+	}
+	
+	
 	// Set-Methoden
 	public void setId(int id) {
 		this.id = id;

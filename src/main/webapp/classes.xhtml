@@ -7,61 +7,63 @@
 
 	<ui:define name="title">Klasse</ui:define>
 	<ui:define name="content">
-	        <h1>Klassenübersicht</h1>
-	        <h:form>
-	        <h2>Klasse: <h:outputText value="#{userBean.teacherClass.size()!=0 ? userBean.teacherClass.get(1)._klasse : 'keine...'}" rendered="#{kuwasys.userRole()=='Lehrer'}"/></h2>
-		        <t:dataTable id="data"
-		                styleClass="standardTable"
-		                headerClass="standardTable_SortHeader"
-		                footerClass="standardTable_Footer"
-		                rowClasses="standardTable_Row1,standardTable_Row2"
-		                var="users"
-		                sortable="true"
-		                value="#{userBean.teacherClass}"
-		                preserveDataModel="true">
-		
-		            <t:column>
-		                <f:facet name="header" >
-		                    <h:outputText value="ID" />
-		                </f:facet>
-		                <h:outputText value="#{users._id}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Vorname" />
-		                </f:facet>
-		                <h:outputText value="#{users._vorname}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Nachname" />
-		                </f:facet>
-		                <h:outputText value="#{users._nachname}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Geburtstag" />
-		                </f:facet>
-		                <h:outputText value="#{users._geburtstag}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Konfession" />
-		                </f:facet>
-		                <h:outputText value="#{users._konfession}" />
-		            </t:column>
-		            <t:column>
-			            <f:facet name="header">
-			                <h:outputText value="Username" />
-			            </f:facet>
-			            <h:outputText value="#{users._username}" />
-		            </t:column>			            	
-		            <t:column>
-			            <f:facet name="header">
-			                <h:outputText value="Passwort" />
-			            </f:facet>
-			            <h:outputText value="#{users._passwort}" />
-		            </t:column>			            	
+		<h1>Klassenübersicht</h1>
+		<h:form>
+			<h2>
+				Klasse:
+				<h:outputText
+					value="#{userBean.teacherClass.size()!=0 ? userBean.teacherClass.get(1)._klasse : 'keine...'}"
+					rendered="#{kuwasys.userRole()=='Lehrer'}" />
+			</h2>
+			<t:dataTable id="data" styleClass="standardTable"
+				headerClass="standardTable_SortHeader"
+				footerClass="standardTable_Footer"
+				rowClasses="standardTable_Row1,standardTable_Row2" var="users"
+				sortable="true" value="#{userBean.teacherClass}"
+				preserveDataModel="true">
+
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="ID" />
+					</f:facet>
+					<h:outputText value="#{users._id}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Vorname" />
+					</f:facet>
+					<h:outputText value="#{users._vorname}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Nachname" />
+					</f:facet>
+					<h:outputText value="#{users._nachname}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Geburtstag" />
+					</f:facet>
+					<h:outputText value="#{users._geburtstag}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Konfession" />
+					</f:facet>
+					<h:outputText value="#{users._konfession}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Username" />
+					</f:facet>
+					<h:outputText value="#{users._username}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Passwort" />
+					</f:facet>
+					<h:outputText value="#{users._passwort}" />
+				</t:column>
 				<t:column>
 					<h:outputLink value="usergrades.jsf">
 						<f:param name="id" value="#{users._id}" />
@@ -81,15 +83,24 @@
 						<h:outputText value="Bearbeiten" />
 					</h:outputLink>
 				</t:column>
-		        </t:dataTable>
-		    </h:form>
-		    <h:form>
-				<h:commandButton 	value="CSV Klassenliste exportieren" 
-									action="#{exportBean.csvDownloadClass}"></h:commandButton>		
-				<h:commandButton 	value="PDF Passwortliste exportieren" 
-									action="#{exportBean.pdfDownloadClass}"></h:commandButton>			
-			</h:form>
+				<t:column rendered="#{(kuwasys.userRole()=='Lehrer') and kuwasys.phase!=1}">
+					<h:graphicImage library="img"
+						name="#{gradelistBean.isBundleChosen(users._id,'WZG') and gradelistBean.isBundleChosen(users._id,'MNT') and gradelistBean.isBundleChosen(users._id,'WAG') and gradelistBean.isBundleChosen(users._id,'MSG')?'Actions-dialog-ok-apply-icon.png':'Apps-preferences-desktop-notification-icon.png'}"
+						width="25px" alt="kreuz" /><br />
+						<h:outputText value="#{gradelistBean.isBundleChosen(users._id,'WZG')?'':'WZG!'}" /><br />
+						<h:outputText value="#{gradelistBean.isBundleChosen(users._id,'MNT')?'':'MNT!'}" /><br />
+						<h:outputText value="#{gradelistBean.isBundleChosen(users._id,'WAG')?'':'WAG!'}" /><br />
+						<h:outputText value="#{gradelistBean.isBundleChosen(users._id,'MSG')?'':'MSG!'}" />
+				</t:column>
+			</t:dataTable>
+		</h:form>
+		<h:form>
+			<h:commandButton value="CSV Klassenliste exportieren"
+				action="#{exportBean.csvDownloadClass}"></h:commandButton>
+			<h:commandButton value="PDF Passwortliste exportieren"
+				action="#{exportBean.pdfDownloadClass}"></h:commandButton>
+		</h:form>
 
-	        
+
 	</ui:define>
 </ui:composition>
