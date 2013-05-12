@@ -1011,8 +1011,11 @@ public class DatabaseHandler {
 		SQLConnection();
 		try {
 			statement = connection.createStatement();
-			System.out.println("SELECT * FROM course WHERE course_id=" + id + ";");
-			result = statement.executeQuery("SELECT * FROM course WHERE course_id=" + id + ";");
+			System.out.println("SELECT * FROM course WHERE course_id=" + id
+					+ ";");
+			result = statement
+					.executeQuery("SELECT * FROM course WHERE course_id=" + id
+							+ ";");
 			// CourseBean.emptyCourses();
 			while (result.next()) {
 				System.out.println(result.getInt("course_id")
@@ -1022,16 +1025,16 @@ public class DatabaseHandler {
 						+ result.getInt("course_termin")
 						+ result.getString("course_beschreibung"));
 				course = new CourseBean.Course(result.getInt("course_id"),
-						result.getString("course_name"), result
-								.getInt("course_kurslehrer"), result
-								.getString("course_faecherverbund"),
-						translateDate(result.getInt("course_termin")), result
-								.getString("course_beschreibung"), result
-								.getInt("course_schuljahr"), result
-								.getInt("course_tertial"), result
-								.getInt("course_teilnehmerzahl"), result
-								.getBoolean("course_pflichtkurs"), result
-								.getBoolean("course_sport"));
+						result.getString("course_name"),
+						result.getInt("course_kurslehrer"),
+						result.getString("course_faecherverbund"),
+						translateDate(result.getInt("course_termin")),
+						result.getString("course_beschreibung"),
+						result.getInt("course_schuljahr"),
+						result.getInt("course_tertial"),
+						result.getInt("course_teilnehmerzahl"),
+						result.getBoolean("course_pflichtkurs"),
+						result.getBoolean("course_sport"));
 
 			}
 		} catch (SQLException e) {
@@ -1039,11 +1042,8 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 		return course;
-	}	
-	
-	
-	
-	
+	}
+
 	public ArrayList<Course> listCourses() {
 		ArrayList<Course> courses = new ArrayList<Course>();
 		SQLConnection();
@@ -1329,7 +1329,14 @@ public class DatabaseHandler {
 								.getString("users_klasse"), result4
 								.getString("users_username"), result4
 								.getString("users_passwort"), result4
-								.getString("users_rolle"), false, result4.getInt("gradelist_id"), result4.getDouble("gradelist_note"), result4.getString("gradelist_bemerkung")));
+								.getString("users_rolle"), false, result4
+								.getInt("gradelist_id"), result4
+								.getDouble("gradelist_note"), result4
+								.getString("gradelist_bemerkung"), result4
+								.getDouble("gradelist_fachwissen"), result4
+								.getDouble("gradelist_sozial"), result4
+								.getDouble("gradelist_personal"), result4
+								.getDouble("gradelist_methodisch")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1614,7 +1621,7 @@ public class DatabaseHandler {
 
 		return name;
 	}
-	
+
 	public void updateCourse(int id, String name, String faecherverbund,
 			int teilnehmerzahl, String beschreibung) {
 
@@ -1637,10 +1644,6 @@ public class DatabaseHandler {
 		FacesContext.getCurrentInstance().addMessage(
 				"courseupdatesuccess_name", messageName);
 	}
-
-
-
-	
 
 	/**
 	 * SYSTEM METHODEN
@@ -1696,23 +1699,28 @@ public class DatabaseHandler {
 	/**
 	 * GRADELIST METHODEN
 	 */
-	
+
 	public Grades getSingleGrade(int userid, int kursid) {
 		Grades grade = null;
 		SQLConnection2();
 		try {
 			statement2 = connection2.createStatement();
 			result2 = statement2
-					.executeQuery("SELECT * FROM gradelist WHERE gradelist_kursid=" + kursid + " AND gradelist_userid="	+ userid + ";");
+					.executeQuery("SELECT * FROM gradelist WHERE gradelist_kursid="
+							+ kursid + " AND gradelist_userid=" + userid + ";");
 			// GradelistBean.emptyGradelist();
 			while (result2.next()) {
-			    grade=new GradelistBean.Grades(result2
-						.getInt("gradelist_id"), result2
-						.getDouble("gradelist_note"), result2
-						.getString("gradelist_bemerkung"), result2
-						.getInt("gradelist_userid"), "" , result2
-						.getInt("gradelist_jahr"), result2
-						.getInt("gradelist_tertial"), "");
+				grade = new GradelistBean.Grades(
+						result2.getInt("gradelist_id"),
+						result2.getDouble("gradelist_note"),
+						result2.getString("gradelist_bemerkung"),
+						result2.getInt("gradelist_userid"), "",
+						result2.getInt("gradelist_jahr"),
+						result2.getInt("gradelist_tertial"), "",
+						result2.getDouble("gradelist_fachwissen"),
+						result2.getDouble("gradelist_sozial"),
+						result2.getDouble("gradelist_personal"),
+						result2.getDouble("gradelist_methodisch"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1720,36 +1728,48 @@ public class DatabaseHandler {
 		SQLConnectionClose2();
 		return grade;
 	}
-	
-	
-	public void setSingleGrade(int id, double note, String bemerkung){
+
+	public void setSingleGrade(int id, double note, String bemerkung,
+			double fachwissen, double sozial, double personal, double methodisch) {
 		try {
 			SQLConnection();
 			statement = connection.createStatement();
-			statement.executeUpdate("UPDATE gradelist SET gradelist_note=" + note + ", gradelist_bemerkung='" + bemerkung + "' WHERE gradelist_id=" + id + ";");
+			statement.executeUpdate("UPDATE gradelist SET gradelist_note="
+					+ note + ", gradelist_bemerkung='" + bemerkung
+					+ "', gradelist_fachwissen=" + fachwissen
+					+ ", gradelist_sozial=" + sozial + ", gradelist_personal="
+					+ personal + ", gradelist_methodisch=" + methodisch
+					+ " WHERE gradelist_id=" + id + ";");
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 		SQLConnectionClose();
 	}
-	
-	
-	
-	public double getAverageGradeFromVerbund(int id, int jahr, String faecherverbund){
+
+	public double getAverageGradeFromVerbund(int id, int jahr,
+			String faecherverbund) {
 		double average = 0;
 		SQLConnection2();
 		try {
 			statement2 = connection2.createStatement();
-			System.out.println("SELECT SUM(gradelist_note)/COUNT(*) " +
-					"FROM gradelist JOIN course ON gradelist_kursid=course_id " +
-					"WHERE  gradelist_userid=" + id + " AND gradelist_jahr=" + jahr + " AND course_faecherverbund='" + faecherverbund + "' AND gradelist_note>0;");
-			result2 = statement2.executeQuery("SELECT SUM(gradelist_note)/COUNT(*) " +
-							"FROM gradelist JOIN course ON gradelist_kursid=course_id " +
-							"WHERE  gradelist_userid=" + id + " AND gradelist_jahr=" + jahr + " AND course_faecherverbund='" + faecherverbund + "' AND gradelist_note>0;");
+			System.out
+					.println("SELECT SUM(gradelist_note)/COUNT(*) "
+							+ "FROM gradelist JOIN course ON gradelist_kursid=course_id "
+							+ "WHERE  gradelist_userid=" + id
+							+ " AND gradelist_jahr=" + jahr
+							+ " AND course_faecherverbund='" + faecherverbund
+							+ "' AND gradelist_note>0;");
+			result2 = statement2
+					.executeQuery("SELECT SUM(gradelist_note)/COUNT(*) "
+							+ "FROM gradelist JOIN course ON gradelist_kursid=course_id "
+							+ "WHERE  gradelist_userid=" + id
+							+ " AND gradelist_jahr=" + jahr
+							+ " AND course_faecherverbund='" + faecherverbund
+							+ "' AND gradelist_note>0;");
 			// GradelistBean.emptyGradelist();
 			while (result2.next()) {
 				average = result2.getDouble(1);
-				System.out.println("Durchschnitt="+average);
+				System.out.println("Durchschnitt=" + average);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1757,8 +1777,7 @@ public class DatabaseHandler {
 		SQLConnectionClose2();
 		return average;
 	}
-	
-	
+
 	public List<Grades> listGradelist(int userid) {
 		List<Grades> gradeList = new ArrayList<Grades>();
 		SQLConnection();
@@ -1784,7 +1803,11 @@ public class DatabaseHandler {
 						.getString("course_name"), result
 						.getInt("gradelist_jahr"), result
 						.getInt("gradelist_tertial"), result
-						.getString("course_faecherverbund")));
+						.getString("course_faecherverbund"), result
+						.getDouble("gradelist_fachwissen"), result
+						.getDouble("gradelist_sozial"), result
+						.getDouble("gradelist_personal"), result
+						.getDouble("gradelist_methodisch")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

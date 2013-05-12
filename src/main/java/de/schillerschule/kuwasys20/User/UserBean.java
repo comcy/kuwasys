@@ -235,15 +235,16 @@ public class UserBean implements Serializable {
 	 * 
 	 * @return
 	 */
-	public String sendUserUpdate(String strid, String vorname, String nachname, String konfession, String klasse) {
+	public String sendUserUpdate(String strid, String vorname, String nachname,
+			String konfession, String klasse) {
 
-//		FacesContext ctx = FacesContext.getCurrentInstance();
-	//	HttpServletRequest request = (HttpServletRequest) ctx
-		//		.getExternalContext().getRequest();
-		//String vorname = request.getParameter("vorname");
+		// FacesContext ctx = FacesContext.getCurrentInstance();
+		// HttpServletRequest request = (HttpServletRequest) ctx
+		// .getExternalContext().getRequest();
+		// String vorname = request.getParameter("vorname");
 
-		 int id=Integer.parseInt(strid);
-		
+		int id = Integer.parseInt(strid);
+
 		// TODO MESSAGE/LOG DEBUG
 		System.out.println("ID: " + id);
 		System.out.println("Klasse: " + klasse);
@@ -371,10 +372,14 @@ public class UserBean implements Serializable {
 		private String _passwort;
 		private String _rolle; // default
 		private boolean _canEdit;
-		private Double _grade_note;
-		private String _grade_bemerkung;
+
 		private int _grade_id;
-		
+		private Double _grade_note;
+		private Double _grade_fachwissen;
+		private Double _grade_sozial;
+		private Double _grade_personal;
+		private Double _grade_methodisch;
+		private String _grade_bemerkung;
 
 		private String _termin1;
 		private String _termin2;
@@ -433,10 +438,13 @@ public class UserBean implements Serializable {
 			set_termin10(t10);
 
 		}
-		
+
 		public User(int id, String vorname, String nachname, String geburtstag,
 				String konfession, String klasse, String username,
-				String passwort, String rolle, boolean canEdit, int grade_id, Double grade_note, String grade_bemerkung) {
+				String passwort, String rolle, boolean canEdit, int grade_id,
+				Double grade_note, String grade_bemerkung,
+				double grade_fachwissen, double grade_sozial,
+				double grade_personal, double grade_methodisch) {
 
 			_id = id;
 			_nachname = nachname;
@@ -450,12 +458,13 @@ public class UserBean implements Serializable {
 			_canEdit = false;
 			_grade_id = grade_id;
 			_grade_note = grade_note;
+			_grade_fachwissen = grade_fachwissen;
+			_grade_sozial = grade_sozial;
+			_grade_personal = grade_personal;
+			_grade_methodisch = grade_methodisch;
 			_grade_bemerkung = grade_bemerkung;
-			
 
 		}
-		
-		
 
 		public int get_id() {
 			return _id;
@@ -642,6 +651,37 @@ public class UserBean implements Serializable {
 			this._grade_id = _grade_id;
 		}
 
+		public Double get_grade_fachwissen() {
+			return _grade_fachwissen;
+		}
+
+		public void set_grade_fachwissen(Double _grade_fachwissen) {
+			this._grade_fachwissen = _grade_fachwissen;
+		}
+
+		public Double get_grade_sozial() {
+			return _grade_sozial;
+		}
+
+		public void set_grade_sozial(Double _grade_sozial) {
+			this._grade_sozial = _grade_sozial;
+		}
+
+		public Double get_grade_personal() {
+			return _grade_personal;
+		}
+
+		public void set_grade_personal(Double _grade_personal) {
+			this._grade_personal = _grade_personal;
+		}
+
+		public Double get_grade_methodisch() {
+			return _grade_methodisch;
+		}
+
+		public void set_grade_methodisch(Double _grade_methodisch) {
+			this._grade_methodisch = _grade_methodisch;
+		}
 
 		/**
 		 * Userdaten selektieren und bearbeiten

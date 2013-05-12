@@ -49,7 +49,31 @@
 				                <f:facet name="header">
 				                    <h:outputText value="Bemerkung" />
 				                </f:facet>
-				                <h:inputText id="bemerkung" value="#{attender._grade_bemerkung}" size="50" />
+				                <h:inputText id="bemerkung" value="#{attender._grade_bemerkung}" size="20" />
+				            </t:column>
+					        <t:column>
+				                <f:facet name="header">
+				                    <h:outputText value="Fachwissen" />
+				                </f:facet>
+				                <h:inputText id="fachwissen" value="#{attender._grade_fachwissen}" size="1"/>
+				            </t:column>	
+					        <t:column>
+				                <f:facet name="header">
+				                    <h:outputText value="Sozial" />
+				                </f:facet>
+				                <h:inputText id="sozial" value="#{attender._grade_sozial}" size="1"/>
+				            </t:column>	
+				            <t:column>
+				                <f:facet name="header">
+				                    <h:outputText value="Personal" />
+				                </f:facet>
+				                <h:inputText id="personal" value="#{attender._grade_personal}" size="1"/>
+				            </t:column>	
+				            <t:column>
+				                <f:facet name="header">
+				                    <h:outputText value="Mathodisch" />
+				                </f:facet>
+				                <h:inputText id="methodisch" value="#{attender._grade_methodisch}" size="1"/>
 				            </t:column>	
 			            </t:dataTable>
 			<h:commandButton value="Speichern" action="#{gradelistBean.updateGrades()}" >

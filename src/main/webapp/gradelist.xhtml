@@ -48,6 +48,15 @@
 		                </f:facet>
 		                <h:outputText value="#{gradelist._bemerkung}" />
 		            </t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Kompetenzen" />
+					</f:facet>
+					<h:outputText value="#{gradelist._fachwissen==0?'-':gradelist._fachwissen} Fachwissen" /><br />
+					<h:outputText value="#{gradelist._sozial==0?'-':gradelist._sozial} Sozial" /><br />
+					<h:outputText value="#{gradelist._personal==0?'-':gradelist._personal} Personal" /><br />
+					<h:outputText value="#{gradelist._methodisch==0?'-':gradelist._methodisch} Methodisch" />
+				</t:column>		            
 		            <t:column>
 		                <f:facet name="header">
 		                    <h:outputText value="Note" />
