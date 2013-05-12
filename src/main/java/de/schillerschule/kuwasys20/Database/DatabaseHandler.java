@@ -1167,7 +1167,6 @@ public class DatabaseHandler {
 							+ kuwasysControllerBean.year + ""
 							+ "AND gradelist.gradelist_tertial="
 							+ kuwasysControllerBean.tertial
-							+ "AND gradelist.gradelist_note=0"
 							+ "ORDER BY course.course_termin" + ";");
 			// CourseBean.emptyCourses();
 			while (result.next()) {
@@ -1305,8 +1304,7 @@ public class DatabaseHandler {
 			result4 = statement4.executeQuery("SELECT * FROM gradelist "
 					+ "JOIN users "
 					+ "ON gradelist.gradelist_userid=users.users_id "
-					+ "WHERE gradelist.gradelist_note=0 "
-					+ " AND gradelist.gradelist_jahr="
+					+ "WHERE gradelist.gradelist_jahr="
 					+ kuwasysControllerBean.year
 					+ " AND gradelist.gradelist_tertial="
 					+ kuwasysControllerBean.tertial + "AND gradelist_kursid="
@@ -1331,7 +1329,7 @@ public class DatabaseHandler {
 								.getString("users_klasse"), result4
 								.getString("users_username"), result4
 								.getString("users_passwort"), result4
-								.getString("users_rolle"), false));
+								.getString("users_rolle"), false, result4.getInt("gradelist_id"), result4.getDouble("gradelist_note"), result4.getString("gradelist_bemerkung")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1616,6 +1614,33 @@ public class DatabaseHandler {
 
 		return name;
 	}
+	
+	public void updateCourse(int id, String name, String faecherverbund,
+			int teilnehmerzahl, String beschreibung) {
+
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE course SET course_name = '" + name
+					+ "', course_faecherverbund = '" + faecherverbund
+					+ "', course_teilnehmerzahl = " + teilnehmerzahl
+					+ ", course_beschreibung = '" + beschreibung
+					+ "' WHERE course_id = " + id + ";");
+			System.out.println(">>> UPDATE USER"); // DEBUG
+
+			messageName = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Der Kurs " + name + " " + faecherverbund
+							+ " wurde erfolgreich ge-updated!", null);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		FacesContext.getCurrentInstance().addMessage(
+				"courseupdatesuccess_name", messageName);
+	}
+
+
+
+	
 
 	/**
 	 * SYSTEM METHODEN
@@ -1671,7 +1696,44 @@ public class DatabaseHandler {
 	/**
 	 * GRADELIST METHODEN
 	 */
-
+	
+	public Grades getSingleGrade(int userid, int kursid) {
+		Grades grade = null;
+		SQLConnection2();
+		try {
+			statement2 = connection2.createStatement();
+			result2 = statement2
+					.executeQuery("SELECT * FROM gradelist WHERE gradelist_kursid=" + kursid + " AND gradelist_userid="	+ userid + ";");
+			// GradelistBean.emptyGradelist();
+			while (result2.next()) {
+			    grade=new GradelistBean.Grades(result2
+						.getInt("gradelist_id"), result2
+						.getDouble("gradelist_note"), result2
+						.getString("gradelist_bemerkung"), result2
+						.getInt("gradelist_userid"), "" , result2
+						.getInt("gradelist_jahr"), result2
+						.getInt("gradelist_tertial"), "");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		return grade;
+	}
+	
+	
+	public void setSingleGrade(int id, double note, String bemerkung){
+		try {
+			SQLConnection();
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE gradelist SET gradelist_note=" + note + ", gradelist_bemerkung='" + bemerkung + "' WHERE gradelist_id=" + id + ";");
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		SQLConnectionClose();
+	}
+	
+	
 	public List<Grades> listGradelist(int userid) {
 		List<Grades> gradeList = new ArrayList<Grades>();
 		SQLConnection();
@@ -1801,28 +1863,4 @@ public class DatabaseHandler {
 			return "FEHLER!";
 		}
 	}
-
-	public void updateCourse(int id, String name, String faecherverbund,
-			int teilnehmerzahl, String beschreibung) {
-
-		SQLConnection();
-		try {
-			statement = connection.createStatement();
-			statement.executeUpdate("UPDATE course SET course_name = '" + name
-					+ "', course_faecherverbund = '" + faecherverbund
-					+ "', course_teilnehmerzahl = " + teilnehmerzahl
-					+ ", course_beschreibung = '" + beschreibung
-					+ "' WHERE course_id = " + id + ";");
-			System.out.println(">>> UPDATE USER"); // DEBUG
-
-			messageName = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Der Kurs " + name + " " + faecherverbund
-							+ " wurde erfolgreich ge-updated!", null);
-		} catch (SQLException ex) {
-			ex.printStackTrace();
-		}
-		FacesContext.getCurrentInstance().addMessage(
-				"courseupdatesuccess_name", messageName);
-	}
-
 }

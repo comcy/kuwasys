@@ -5,16 +5,23 @@ import java.util.*;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
+import javax.faces.context.FacesContext;
 
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
+import de.schillerschule.kuwasys20.User.UserBean.User;
 
 @ManagedBean(name = "gradelistBean")
 @RequestScoped
 
 public class GradelistBean{
 
+	FacesContext fc = FacesContext.getCurrentInstance();
+	
+	  
+	
 	DatabaseHandler dbh = new DatabaseHandler();
 	private List<Grades> gradelists = new ArrayList<Grades>();
+	private List<User> courseAttenders = forCourseAttenders();
 	
 	private int id;
 	private double note;
@@ -36,13 +43,31 @@ public class GradelistBean{
 		gradelists.clear();
 	}
 	
+	private List<User> forCourseAttenders(){
+		if (fc.getExternalContext().getRequestParameterMap().get("id")!=null)
+			return dbh.listCourseParticipants(Integer.parseInt(fc.getExternalContext().getRequestParameterMap().get("id")));
+		else
+			return new ArrayList<User>();
+	}
+	
 	/*public void setGradelists(List<Grades> gradelist) {
-		GradelistBean.gradelists = gradelist;
+		GradelistBean.gradelists = grad)elist;
 	}	*/
 	
 	public List<Grades> getGradelists() {
 		return dbh.listGradelist(dbh.getUserId());
 	}
+	
+	public Grades getGrade(int userid, int kursid){
+		return dbh.getSingleGrade(userid, kursid);
+	}
+	
+	public String updateGrades(){
+		for (int i=0; i<courseAttenders.size(); i++)
+			dbh.setSingleGrade(courseAttenders.get(i).get_grade_id(), courseAttenders.get(i).get_grade_note(), courseAttenders.get(i).get_grade_bemerkung());
+		return "gradeeditor.jsf?id=" + ((fc.getExternalContext().getRequestParameterMap().isEmpty()) ? new ArrayList<User>() : dbh.listCourseParticipants(Integer.parseInt(fc.getExternalContext().getRequestParameterMap().get("id"))));
+	}
+	
 	
 	// Set-Methoden
 	public void setId(int id) {
@@ -86,6 +111,19 @@ public class GradelistBean{
 		return kursname;
 	}
 	
+
+
+	public List<User> getCourseAttenders() {
+
+	//	setCourseAttenders(dbh.listCourseParticipants(Integer.parseInt(fc.getExternalContext().getRequestParameterMap().get("id"))));
+		return courseAttenders;
+	}
+	public void setCourseAttenders(List<User> courseAttenders) {
+		this.courseAttenders = courseAttenders;
+	}
+
+
+
 	public static class Grades implements Serializable {
 		
 		private static final long serialVersionUID = 1L;

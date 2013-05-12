@@ -371,6 +371,10 @@ public class UserBean implements Serializable {
 		private String _passwort;
 		private String _rolle; // default
 		private boolean _canEdit;
+		private Double _grade_note;
+		private String _grade_bemerkung;
+		private int _grade_id;
+		
 
 		private String _termin1;
 		private String _termin2;
@@ -429,6 +433,29 @@ public class UserBean implements Serializable {
 			set_termin10(t10);
 
 		}
+		
+		public User(int id, String vorname, String nachname, String geburtstag,
+				String konfession, String klasse, String username,
+				String passwort, String rolle, boolean canEdit, int grade_id, Double grade_note, String grade_bemerkung) {
+
+			_id = id;
+			_nachname = nachname;
+			_vorname = vorname;
+			_geburtstag = geburtstag;
+			_konfession = konfession;
+			_klasse = klasse;
+			_username = username;
+			_passwort = passwort;
+			_rolle = rolle;
+			_canEdit = false;
+			_grade_id = grade_id;
+			_grade_note = grade_note;
+			_grade_bemerkung = grade_bemerkung;
+			
+
+		}
+		
+		
 
 		public int get_id() {
 			return _id;
@@ -590,6 +617,31 @@ public class UserBean implements Serializable {
 		public void set_termin10(String _termin10) {
 			this._termin10 = _termin10;
 		}
+
+		public Double get_grade_note() {
+			return _grade_note;
+		}
+
+		public void set_grade_note(Double _grade_note) {
+			this._grade_note = _grade_note;
+		}
+
+		public String get_grade_bemerkung() {
+			return _grade_bemerkung;
+		}
+
+		public void set_grade_bemerkung(String _grade_bemerkung) {
+			this._grade_bemerkung = _grade_bemerkung;
+		}
+
+		public int get_grade_id() {
+			return _grade_id;
+		}
+
+		public void set_grade_id(int _grade_id) {
+			this._grade_id = _grade_id;
+		}
+
 
 		/**
 		 * Userdaten selektieren und bearbeiten
