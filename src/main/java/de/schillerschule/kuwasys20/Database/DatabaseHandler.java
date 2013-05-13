@@ -247,7 +247,29 @@ public class DatabaseHandler {
 	}
 	
 	/**
+	 * Ändert für den gegebenen User das angegebene Passwort
+	 * 
+	 * @param id
+	 *            des zu ändernden Users
+	 * @param passwort
+	 *            des angegebenen Users
+	 */
+	public void changePassword(int id, String passwort) {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE users SET users_passwort = '"
+					+ passwort + "' WHERE users_id = " + id + ";");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+
+	}
+	
+	/**
 	 * Macht ein Passwort-Update in der Datenbank für die angegebene User-ID
+	 * das Passwort wird automatisch generiert
 	 * 
 	 * @param id
 	 */
@@ -1940,27 +1962,6 @@ public class DatabaseHandler {
 			System.out.println(">>> REMOVE GRADELIST"); // DEBUG
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		}
-		SQLConnectionClose();
-
-	}
-
-	/**
-	 * Ändert für den gegebenen User das angegebene Passwort
-	 * 
-	 * @param id
-	 *            des zu ändernden Users
-	 * @param passwort
-	 *            des angegebenen Users
-	 */
-	public void changePassword(int id, String passwort) {
-		SQLConnection();
-		try {
-			statement = connection.createStatement();
-			statement.executeUpdate("UPDATE users SET users_passwort = '"
-					+ passwort + "' WHERE users_id = " + id + ";");
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		SQLConnectionClose();
 
