@@ -1285,7 +1285,7 @@ public class ExportBean implements Serializable {
 			headerImage.scaleToFit(500, 150);
 
 			// List<User> anlegen
-			List<User> users = dbh.listClassesTeacherSchedule(dbh.getUserId());
+			List<User> users = dbh.listClassesSchedule();
 
 			// Tabellen-Objekt anlegen
 			PdfPTable tableHead = new PdfPTable(9); // 9 Spalten
