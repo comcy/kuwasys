@@ -7,86 +7,100 @@
 
 	<ui:define name="title">Klasse</ui:define>
 	<ui:define name="content">
-	        <h1>Klassenübersicht</h1>
-	        <h:form>
-	        <h2>Klasse: <h:outputText value="#{userBean.teacherClass.size()!=0 ? userBean.teacherClass.get(1)._klasse : 'keine...'}" rendered="#{kuwasys.userRole()=='Lehrer'}"/></h2>
-		        <t:dataTable id="data"
-		                styleClass="standardTable"
-		                headerClass="standardTable_SortHeader"
-		                footerClass="standardTable_Footer"
-		                rowClasses="standardTable_Row1,standardTable_Row2"
-		                var="users"
-		                sortable="true"
-		                value="#{userBean.schedule}"
-		                preserveDataModel="true">
-		
+		<h1>Klassenübersicht</h1>
+		<h:form>
+			<h2>
+				<h:outputText
+					value="Klasse: #{userBean.teacherClass.size()!=0 ? userBean.teacherClass.get(1)._klasse : 'keine...'}"
+					rendered="#{kuwasys.userRole()=='Lehrer'}" />
+				<h:outputText
+					value="Alle Klassen"
+					rendered="#{kuwasys.userRole()=='Admin'}" />
+			</h2>
+			<t:dataTable id="data" styleClass="standardTable"
+				headerClass="standardTable_SortHeader"
+				footerClass="standardTable_Footer"
+				rowClasses="standardTable_Row1,standardTable_Row2" var="users"
+				sortable="true" value="#{userBean.schedule}"
+				preserveDataModel="true">
 
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Vorname" />
-		                </f:facet>
-		                <h:outputText value="#{users._vorname}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Nachname" />
-		                </f:facet>
-		                <h:outputText value="#{users._nachname}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header" rendered="#{kuwasys.userRole()=='admin'}">
-		                    <h:outputText value="Klasse" />
-		                </f:facet>
-		                <h:outputText value="#{users._klasse}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Montag" />
-		                </f:facet>
-		                <t:div styleClass="separator">
-		                	<h:outputText value="#{users._termin1}"/>
-		                </t:div>
-		                <h:outputText value="#{users._termin2}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Dienstag" />
-		                </f:facet>
-		                <t:div styleClass="separator">
-		                	<h:outputText value="#{users._termin3}" />
-		                </t:div>
-		                <h:outputText value="#{users._termin4}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Mittwoch" />
-		                </f:facet>
-		                <t:div styleClass="separator">
-		                	<h:outputText value="#{users._termin5}" />
-		                </t:div>
-		                <h:outputText value="#{users._termin6}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Donnerstag" />
-		                </f:facet>
-		                <t:div styleClass="separator">
-		                	<h:outputText value="#{users._termin7}" />
-		                </t:div>
-		                <h:outputText value="#{users._termin8}" />
-		            </t:column>
-		            <t:column>
-		                <f:facet name="header">
-		                    <h:outputText value="Freitag" />
-		                </f:facet>
-		                <t:div styleClass="separator">
-		                	<h:outputText value="#{users._termin9}" />
-		                </t:div>
-		                <h:outputText value="#{users._termin10}" />
-		            </t:column>		            		            		            
-		        </t:dataTable>
-		    </h:form>
 
-	        
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Vorname" />
+					</f:facet>
+					<h:outputText value="#{users._vorname}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Nachname" />
+					</f:facet>
+					<h:outputText value="#{users._nachname}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header" rendered="#{kuwasys.userRole()=='admin'}">
+						<h:outputText value="Klasse" />
+					</f:facet>
+					<h:outputText value="#{users._klasse}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Montag" />
+					</f:facet>
+					<t:div styleClass="separator">
+						<h:outputText value="#{users._termin1}" />
+					</t:div>
+					<h:outputText value="#{users._termin2}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Dienstag" />
+					</f:facet>
+					<t:div styleClass="separator">
+						<h:outputText value="#{users._termin3}" />
+					</t:div>
+					<h:outputText value="#{users._termin4}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Mittwoch" />
+					</f:facet>
+					<t:div styleClass="separator">
+						<h:outputText value="#{users._termin5}" />
+					</t:div>
+					<h:outputText value="#{users._termin6}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Donnerstag" />
+					</f:facet>
+					<t:div styleClass="separator">
+						<h:outputText value="#{users._termin7}" />
+					</t:div>
+					<h:outputText value="#{users._termin8}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Freitag" />
+					</f:facet>
+					<t:div styleClass="separator">
+						<h:outputText value="#{users._termin9}" />
+					</t:div>
+					<h:outputText value="#{users._termin10}" />
+				</t:column>
+			</t:dataTable>
+		</h:form>
+		<h:form>
+			<h:commandButton
+				value="Terminplan als PDF-Datei herunterladen"
+				action="#{exportBean.pdfDownloadCoursesTimetableTeacher()}"
+				rendered="#{(kuwasys.userRole()=='Lehrer')}" />
+
+			<h:commandButton
+				value="Terminplan als PDF-Datei herunterladen"
+				action="#{exportBean.pdfDownloadCoursesTimetableAdmin()}"
+				rendered="#{(kuwasys.userRole()=='Admin')}" />
+		</h:form>
+
 	</ui:define>
 </ui:composition>

@@ -245,6 +245,52 @@ public class DatabaseHandler {
 
 		return password;
 	}
+	
+	/**
+	 * Ändert für den gegebenen User das angegebene Passwort
+	 * 
+	 * @param id
+	 *            des zu ändernden Users
+	 * @param passwort
+	 *            des angegebenen Users
+	 */
+	public void changePassword(int id, String passwort) {
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE users SET users_passwort = '"
+					+ passwort + "' WHERE users_id = " + id + ";");
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+
+	}
+	
+	/**
+	 * Macht ein Passwort-Update in der Datenbank für die angegebene User-ID
+	 * das Passwort wird automatisch generiert
+	 * 
+	 * @param id
+	 */
+	public void updatePasswort(int id) {
+
+		String passwort = createPassword();
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			statement.executeUpdate("UPDATE users SET users_passwort = '"
+					+ passwort + "' WHERE users_id = " + id + ";");
+			System.out.println(">>> UPDATE USER PASSWORT"); // DEBUG
+
+			messageName = new FacesMessage(FacesMessage.SEVERITY_INFO,
+					"Das Passwort von " + showUserFullName(id) + " wurde erfolgreich ge-updated!", null);
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
+		FacesContext.getCurrentInstance().addMessage("userupdatesuccess_name",
+				messageName);
+	}
 
 	/**
 	 * Fügt Datein eines NEUEN Users (Schüler oder Lehrer) in die Datenbank ein
@@ -349,6 +395,15 @@ public class DatabaseHandler {
 
 	}
 
+	/**
+	 * Macht ein Update in der Datenbank für die gegebenen Angaben eines Users
+	 * 
+	 * @param id
+	 * @param klasse
+	 * @param nname
+	 * @param vname
+	 * @param konf
+	 */
 	public void updateUser(int id, String klasse, String nname, String vname,
 			String konf) {
 
@@ -371,6 +426,11 @@ public class DatabaseHandler {
 				messageName);
 	}
 
+	/**
+	 * Anzeige des Usernamens
+	 * 
+	 * @return Vor- und Nachnamen
+	 */
 	public String showUserFullName() {
 		System.out.println("schowUSerFullName");
 		SQLConnection2();
@@ -434,8 +494,8 @@ public class DatabaseHandler {
 
 	/**
 	 * Gibt ID des angemeldeten User zurück
-	 * 
-	 * @param
+	 *
+	 * @return id
 	 */
 	public int getUserId() {
 		System.out.println("getUserId");
@@ -928,6 +988,56 @@ public class DatabaseHandler {
 			statement = connection.createStatement();
 			result = statement
 					.executeQuery("SELECT * FROM users WHERE users_rolle='schueler' ORDER BY users_klasse,users_nachname,users_vorname");
+			// UserBean.emptyUsers();
+			while (result.next()) {
+				System.out.println(result.getInt("users_id")
+						+ result.getString("users_vorname")
+						+ result.getString("users_nachname")
+						+ result.getString("users_geburtstag")
+						+ result.getString("users_konfession")
+						+ result.getString("users_klasse")
+						+ result.getString("users_username")
+						+ result.getString("users_passwort")
+						+ result.getString("users_rolle"));
+				users.add(new UserBean.User(result.getInt("users_id"), result
+						.getString("users_vorname"), result
+						.getString("users_nachname"), result
+						.getString("users_geburtstag"), result
+						.getString("users_konfession"), result
+						.getString("users_klasse"), result
+						.getString("users_username"), result
+						.getString("users_passwort"), result
+						.getString("users_rolle"), false, courseName(
+						result.getInt("users_id"), 1), courseName(
+						result.getInt("users_id"), 2), courseName(
+						result.getInt("users_id"), 3), courseName(
+						result.getInt("users_id"), 4), courseName(
+						result.getInt("users_id"), 5), courseName(
+						result.getInt("users_id"), 6), courseName(
+						result.getInt("users_id"), 7), courseName(
+						result.getInt("users_id"), 8), courseName(
+						result.getInt("users_id"), 9), courseName(
+						result.getInt("users_id"), 10)));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+		return users;
+	}
+	
+	/**
+	 * 
+	 * @param id
+	 * @return Liste der gewählten Kurse eines angegebenen Schülers
+	 */
+	public ArrayList<User> listStudentSchedule(int id) {
+		ArrayList<User> users = new ArrayList<User>();
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement
+					.executeQuery("SELECT * FROM users WHERE users_rolle='schueler' AND users_id = '" + id + "';");
 			// UserBean.emptyUsers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")
@@ -1852,27 +1962,6 @@ public class DatabaseHandler {
 			System.out.println(">>> REMOVE GRADELIST"); // DEBUG
 		} catch (SQLException ex) {
 			ex.printStackTrace();
-		}
-		SQLConnectionClose();
-
-	}
-
-	/**
-	 * Ändert für den gegebenen User das angegebene Passwort
-	 * 
-	 * @param id
-	 *            des zu ändernden Users
-	 * @param passwort
-	 *            des angegebenen Users
-	 */
-	public void changePassword(int id, String passwort) {
-		SQLConnection();
-		try {
-			statement = connection.createStatement();
-			statement.executeUpdate("UPDATE users SET users_passwort = '"
-					+ passwort + "' WHERE users_id = " + id + ";");
-		} catch (SQLException e) {
-			e.printStackTrace();
 		}
 		SQLConnectionClose();
 

@@ -325,6 +325,11 @@ public class UserBean implements Serializable {
 		String klasse = dbh.showUserClass(dbh.getUserId());
 		return klasse;
 	}
+	
+	public int showUserId() {
+		int id = dbh.getUserId();
+		return id;
+	}
 
 	public String addToUsers() {
 		dbh.addToTeachers(klasse, nachname, vorname, geburtstag, konfession,
@@ -338,7 +343,6 @@ public class UserBean implements Serializable {
 
 	public void emptyUsers() {
 		users.clear();
-
 	}
 
 	public String changePassword() {
@@ -348,6 +352,11 @@ public class UserBean implements Serializable {
 			return "password_failed";
 		}
 
+		return "password_success";
+	}
+	
+	public String generatePassword(int id) {
+		dbh.updatePasswort(id);
 		return "password_success";
 	}
 
