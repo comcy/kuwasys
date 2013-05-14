@@ -848,8 +848,11 @@ public class DatabaseHandler {
 			e.printStackTrace();
 		}
 		SQLConnectionClose2();
+		// Jahresberechnung
+		int jahr_ = jahr + 1;
+		String jahrStr = "" + jahr + "" + jahr_ + "";
 		System.out.println(jahr);
-		return jahr + "/" + jahr + 1;
+		return jahrStr;
 	}
 	
 	/**
