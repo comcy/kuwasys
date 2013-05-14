@@ -66,6 +66,13 @@ a:link,visited {
     color: rgb(0, 120, 183);
     text-decoration: none;
 }
+
+a:visited {
+	display:block;
+    color: rgb(0, 120, 183);
+    text-decoration: none;
+}
+
 a:hover,active  {
     text-decoration: underline;
 }
