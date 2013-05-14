@@ -1897,7 +1897,7 @@ public class DatabaseHandler {
 			result = statement
 					.executeQuery("SELECT * FROM gradelist JOIN course ON gradelist.gradelist_kursid=course.course_id WHERE gradelist_userid="
 							+ userid
-							+ " AND gradelist_note <> 0 ORDER BY gradelist_jahr DESC,gradelist_tertial;");
+							+ " AND gradelist_note <> 0 ORDER BY gradelist_jahr DESC,course_faecherverbund,gradelist_tertial;");
 			// GradelistBean.emptyGradelist();
 			while (result.next()) {
 				System.out.println(result.getInt("gradelist_id")
