@@ -1500,7 +1500,13 @@ public class ExportBean implements Serializable {
 	public String csvDownloadGradelist() {
 
 		String filename = "Notenliste_"
-				+ dbh.getCoursenameOfTeacherid(dbh.getUserId()) + ".csv";
+				+ dbh.getCoursenameOfCourseid(Integer
+						.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+								.get("id"))) + "_" + dbh.getCourseyearOfCourseid(Integer
+										.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+												.get("id"))) + "-" + dbh.getCoursetertialOfCourseid(Integer
+														.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
+																.get("id"))) + ".csv";
 
 		try {
 			FacesContext fc = FacesContext.getCurrentInstance();
@@ -1526,12 +1532,7 @@ public class ExportBean implements Serializable {
 
 			for (User participant : participants) {
 
-				// Aufbau CSV-Datei
-				// Klasse;Name;Vorname;Fächerverbund;Tertial/Schuljahr;Kompetenzen:
-				// Fachwissen;Kompetenzen: Sozial;Kompetenzen:
-				// Personal;Kompetenzen:
-				// Methodisch;Zehntelnote;Lehrer/Lehrerin;Bemerkungen
-
+				// Aufbau CSV-Datei (siehe Kommentare)
 				ps.print(participant.get_klasse()
 						+ ";" // Klasse x
 						+ participant.get_nachname()
@@ -1541,7 +1542,7 @@ public class ExportBean implements Serializable {
 						+ dbh.getCourseFaecherverbundOfCourseid(participant
 								.get_grade_kursid())
 						+ ";" // Fächerverbund
-						+ participant.get_grade_jahr()
+						+ "20" + participant.get_grade_jahr()
 						+ " - "
 						+ participant.get_grade_tertial()
 						+ ";" // Tertial/Schuljahr x
@@ -1574,26 +1575,14 @@ public class ExportBean implements Serializable {
 																		// also
 																		// seine
 																		// selbts
-						+ participant.get_grade_bemerkung() + "\n"); // Bemerkungen
-																		// x
-
-				// DEBUG
-				System.out.println(participant.get_id());
-				System.out.println(participant.get_vorname());
-				System.out.println(participant.get_nachname());
-
-				System.out.println(participant.get_grade_note());
-				System.out.println(participant.get_grade_fachwissen());
-				System.out.println(participant.get_grade_methodisch());
-				System.out.println(participant.get_grade_personal());
-				System.out.println(participant.get_grade_sozial());
-				System.out.println("--------------------------");
+						+ participant.get_grade_bemerkung() + "\n"); // Bemerkungen x
 			}
 
 			ps.flush();
 			ps.close();
 
 			fc.responseComplete();
+			
 		} catch (IOException ex) {
 			System.out.println("CSV File Export Error: " + ex);
 		}

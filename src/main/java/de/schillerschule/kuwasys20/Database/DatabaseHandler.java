@@ -791,6 +791,68 @@ public class DatabaseHandler {
 	}
 	
 	/**
+	 * Ließt Kurs-Tertial aus der DB für die gegebenen Kurs-ID 
+	 * 
+	 * @param id
+	 * @return passwort
+	 */
+	public String getCoursetertialOfCourseid(int id) {
+		
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "Select gradelist_tertial from gradelist where gradelist_kursid="
+				+ id + ";";
+		String tertial = "";
+
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+				tertial = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		System.out.println(tertial);
+		return tertial;
+	}
+	
+	/**
+	 * Ließt Kurs-Jahr aus der DB für die gegebenen Kurs-ID 
+	 * 
+	 * @param id
+	 * @return passwort
+	 */
+	public String getCourseyearOfCourseid(int id) {
+		
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "Select gradelist_jahr from gradelist where gradelist_kursid="
+				+ id + ";";
+		int jahr = 0;
+
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+				jahr = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		System.out.println(jahr);
+		return jahr + "/" + jahr + 1;
+	}
+	
+	/**
 	 * Ließt Kurs-Name aus der DB für die gegebenen Kurs-ID 
 	 * 
 	 * @param id
