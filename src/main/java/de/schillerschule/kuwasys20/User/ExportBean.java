@@ -12,6 +12,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
+import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Course.CourseBean.Course;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 import de.schillerschule.kuwasys20.Teacher.TeacherBean.Teacher;
@@ -38,14 +39,13 @@ public class ExportBean implements Serializable {
 	DatabaseHandler dbh = new DatabaseHandler();
 
 	/**
-	 * Exportfunktion einer CSV-Datei für die gesamte Schülerliste TODO
-	 * Usernamen und Passwort
+	 * Exportfunktion einer CSV-Datei für die gesamte Schülerliste
 	 * 
 	 * @return Facelet "users"
 	 */
 	public String csvDownloadStudents() {
 
-		String filename = "Schülerliste.csv";
+		String filename = "Schülerliste_Alle.csv";
 
 		try {
 			FacesContext fc = FacesContext.getCurrentInstance();
@@ -94,14 +94,13 @@ public class ExportBean implements Serializable {
 	}
 
 	/**
-	 * Exportfunktion einer CSV-Datei für die gesamte Kursliste TODO Tests wegen
-	 * nicht- und aktivierten Kursen
+	 * Exportfunktion einer CSV-Datei für die gesamte Kursliste
 	 * 
 	 * @return Facelet "courses"
 	 */
 	public String csvDownloadCourses() {
 
-		String filename = "Kursliste.csv";
+		String filename = "Kursliste_Alle.csv";
 
 		try {
 			FacesContext fc = FacesContext.getCurrentInstance();
@@ -150,14 +149,14 @@ public class ExportBean implements Serializable {
 	}
 
 	/**
-	 * Exportfunktion einer CSV-Datei für die gesamte Klassenliste TODO Tests
-	 * wegen nicht- und aktivierten Kursen
+	 * Exportfunktion einer CSV-Datei für die gesamte Klassenliste
 	 * 
 	 * @return Facelet "courses"
 	 */
 	public String csvDownloadClass() {
 
-		String filename = "Klassenliste.csv";
+		String filename = "Klassenliste_" + dbh.showUserClass(dbh.getUserId())
+				+ ".csv";
 
 		try {
 			FacesContext fc = FacesContext.getCurrentInstance();
@@ -206,62 +205,6 @@ public class ExportBean implements Serializable {
 	}
 
 	/**
-	 * Exportfunktion einer CSV-Datei für das Kursbuch eines Schülers TODO SQL
-	 * Abfrage
-	 * 
-	 * @return Facelet "coursebook"
-	 */
-	public String csvDownloadCoursebook() {
-
-		String filename = "Kursbuch.csv";
-
-		try {
-			FacesContext fc = FacesContext.getCurrentInstance();
-
-			ExternalContext ec = fc.getExternalContext();
-
-			ec.responseReset();
-			ec.setResponseContentType("text/comma-separated-values");
-			ec.setResponseHeader("Content-Disposition",
-					"attachment; filename=\"" + filename + "\"");
-
-			OutputStream os = ec.getResponseOutputStream();
-			PrintStream ps = new PrintStream(os);
-
-			List<User> users = dbh.listClassesTeacher(dbh.getUserId());
-
-			// DEBUG
-			System.out.println("CSV Export - Schülerliste:");
-			System.out.println("--------------------------");
-
-			for (User user : users) {
-				ps.print(user.get_vorname() + ";" + user.get_nachname() + ";"
-						+ user.get_geburtstag() + ";" + user.get_konfession()
-						+ ";" + user.get_klasse() + ";" + user.get_username()
-						+ ";" + user.get_passwort() + "\n");
-
-				// DEBUG
-				System.out.println(user.get_vorname());
-				System.out.println(user.get_nachname());
-				System.out.println(user.get_geburtstag());
-				System.out.println(user.get_konfession());
-				System.out.println(user.get_klasse());
-				System.out.println(user.get_username());
-				System.out.println(user.get_passwort());
-				System.out.println("--------------------------");
-			}
-
-			ps.flush();
-			ps.close();
-
-			fc.responseComplete();
-		} catch (IOException ex) {
-			System.out.println("CSV File Export Error: " + ex);
-		}
-		return "coursebook";
-	}
-
-	/**
 	 * Exportfunktion einer PDF-Datei für die Klassenliste des betreffenden
 	 * Lehrers mit den Usernamen und Passwörtern
 	 * 
@@ -270,7 +213,8 @@ public class ExportBean implements Serializable {
 	 */
 	public String pdfDownloadClass() throws IOException {
 
-		String filename = "Schüler_Passwortliste.pdf";
+		String filename = "Klassen_Passwortliste_"
+				+ dbh.showUserClass(dbh.getUserId()) + ".pdf";
 
 		try {
 
@@ -304,9 +248,6 @@ public class ExportBean implements Serializable {
 			// Roman, fett
 			Font font4 = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
 
-			// Header Bild "KuWaSys" definieren
-			// Bild "Header" auch unter "/home/ijcy/pics/"
-
 			String relativeWebPath = "/resources/img/header.jpg";
 			ServletContext servletContext = (ServletContext) ec.getContext();
 			String absoluteDiskPath = servletContext
@@ -326,8 +267,6 @@ public class ExportBean implements Serializable {
 			tableHead.setSpacingBefore(10f);
 
 			doc.open(); // Dokument beginnen
-
-			// TODO PDF Erstellung - externe PDF Klasse schreiben ???
 
 			doc.add(headerImage);
 			doc.add(new Paragraph("Passwortliste der Klasse: ", font1));
@@ -451,8 +390,6 @@ public class ExportBean implements Serializable {
 
 			doc.open(); // Dokument beginnen
 
-			// TODO PDF Erstellung - externe PDF Klasse schreiben ???
-
 			doc.add(headerImage);
 			doc.add(new Paragraph("Lehrer Passwortliste", font1));
 
@@ -509,271 +446,16 @@ public class ExportBean implements Serializable {
 	}
 
 	/**
-	 * Exportfunktion einer PDF-Datei für das Kursbuch eines Schülers TODO SQL
-	 * Abfrage
-	 * 
-	 * @return Facelet "coursebook"
-	 * @throws IOException
-	 */
-	public String pdfDownloadCoursebook() throws IOException {
-
-		String filename = "Kursbuch.pdf";
-
-		try {
-
-			FacesContext fc = FacesContext.getCurrentInstance();
-			ExternalContext ec = fc.getExternalContext();
-			OutputStream os = ec.getResponseOutputStream();
-
-			// Dateiinformationen setzen
-			ec.responseReset();
-			ec.setResponseContentType("application/pdf");
-			ec.setResponseCharacterEncoding("utf-8");
-			ec.setResponseHeader("Expires", "0");
-			ec.setResponseHeader("Cache-Control",
-					"must-revalidate, post-check=0, pre-check=0");
-			ec.setResponseHeader("Pragma", "public");
-			ec.setResponseHeader("Content-Disposition",
-					"attachment; filename=\"" + filename + "\"");
-
-			Document doc = new Document();
-
-			// PdfWriter writer =
-			PdfWriter.getInstance(doc, os);
-
-			// Schriftarten definieren
-			// Helvetica, fett
-			Font font1 = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
-			// Courier kursiv
-			Font font2 = new Font(Font.FontFamily.COURIER, 16);
-			// Roman, normal
-			Font font3 = new Font(Font.FontFamily.TIMES_ROMAN, 12);
-			// Roman, fett
-			Font font4 = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-
-			// Header Bild "KuWaSys" definieren
-			// Bild "Header" auch unter "/home/ijcy/pics/"
-			String relativeWebPath = "/resources/img/header.jpg";
-			ServletContext servletContext = (ServletContext) ec.getContext();
-			String absoluteDiskPath = servletContext
-					.getRealPath(relativeWebPath);
-
-			Image headerImage = Image.getInstance(absoluteDiskPath);
-			headerImage.scaleToFit(500, 150);
-
-			// List<User> anlegen
-			List<User> users = dbh.listClassesTeacher(dbh.getUserId());
-
-			// Tabellen-Objekt anlegen
-			PdfPTable tableHead = new PdfPTable(4); // 4 Spalten
-			PdfPTable tableCont = new PdfPTable(4); // 4 Spalten
-			tableHead.setWidthPercentage(100);
-			tableCont.setWidthPercentage(100);
-			tableHead.setSpacingBefore(10f);
-
-			doc.open(); // Dokument beginnen
-
-			// TODO PDF Erstellung - externe PDF Klasse schreiben ???
-
-			doc.add(headerImage);
-			doc.add(new Paragraph("Passwortliste der Klasse: ", font1));
-			doc.add(new Paragraph(dbh.showUserClass(dbh.getUserId()), font2));
-			doc.add(new Paragraph("Klassenlehrer : ", font1));
-			doc.add(new Paragraph(dbh.showUserFullName(dbh.getUserId()), font2));
-			// doc.add(new
-			// Paragraph("----------------------------------------------------",
-			// font2));
-
-			// statischen Kopf der Tabelle erzeugen
-			PdfPCell cellVName = new PdfPCell(new Paragraph("Vorname", font4));
-			PdfPCell cellNName = new PdfPCell(new Paragraph("Nachname", font4));
-			PdfPCell cellUsername = new PdfPCell(new Paragraph("Username",
-					font4));
-			PdfPCell cellPasswort = new PdfPCell(new Paragraph("Passwort",
-					font4));
-
-			tableHead.addCell(cellVName);
-			tableHead.addCell(cellNName);
-			tableHead.addCell(cellUsername);
-			tableHead.addCell(cellPasswort);
-
-			doc.add(tableHead); // Tabellenkopf hinzufügen
-
-			for (User user : users) {
-
-				// dynamische Usertabelle erzeugen
-				PdfPCell cellVNameDyn = new PdfPCell(new Paragraph(
-						user.get_vorname(), font3));
-				PdfPCell cellNNameDyn = new PdfPCell(new Paragraph(
-						user.get_nachname(), font3));
-				PdfPCell cellUsernameDyn = new PdfPCell(new Paragraph(
-						user.get_username(), font3));
-				PdfPCell cellPasswortDyn = new PdfPCell(new Paragraph(
-						user.get_passwort(), font3));
-
-				tableCont.addCell(cellVNameDyn);
-				tableCont.addCell(cellNNameDyn);
-				tableCont.addCell(cellUsernameDyn);
-				tableCont.addCell(cellPasswortDyn);
-			}
-			doc.add(tableCont); // Tabelle mit dynamischen Inhalt hinzufügen
-
-			doc.close(); // Dokument beenden
-
-			os.flush();
-			os.close();
-
-			fc.responseComplete(); // "response" abschließen, sonst wird HTML
-									// Kontext
-									// der aktuellen Seite in die Datei
-									// geschrieben
-
-		} catch (DocumentException de) {
-			System.out.println("Error during PDF creation: " + de);
-		} catch (IOException ioe) {
-			System.out.println("Error during PDF creation: " + ioe);
-		}
-		return "coursebook";
-	}
-
-	/**
-	 * Exportfunktion einer PDF-Datei für einen neu angelegten Schüler TODO SQL
-	 * Abfrage
-	 * 
-	 * @return Facelet "coursebook"
-	 * @throws IOException
-	 */
-	public String pdfDownloadCoursebookStudent() throws IOException {
-
-		String filename = "Kursbuch.pdf";
-
-		try {
-
-			FacesContext fc = FacesContext.getCurrentInstance();
-			ExternalContext ec = fc.getExternalContext();
-			OutputStream os = ec.getResponseOutputStream();
-
-			// Dateiinformationen setzen
-			ec.responseReset();
-			ec.setResponseContentType("application/pdf");
-			ec.setResponseCharacterEncoding("utf-8");
-			ec.setResponseHeader("Expires", "0");
-			ec.setResponseHeader("Cache-Control",
-					"must-revalidate, post-check=0, pre-check=0");
-			ec.setResponseHeader("Pragma", "public");
-			ec.setResponseHeader("Content-Disposition",
-					"attachment; filename=\"" + filename + "\"");
-
-			Document doc = new Document();
-
-			// PdfWriter writer =
-			PdfWriter.getInstance(doc, os);
-
-			// Schriftarten definieren
-			// Helvetica, fett
-			Font font1 = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
-			// Courier kursiv
-			Font font2 = new Font(Font.FontFamily.COURIER, 16);
-			// Roman, normal
-			Font font3 = new Font(Font.FontFamily.TIMES_ROMAN, 12);
-			// Roman, fett
-			Font font4 = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-
-			// Header Bild "KuWaSys" definieren
-			// Bild "Header" auch unter "/home/ijcy/pics/"
-			String relativeWebPath = "/resources/img/header.jpg";
-			ServletContext servletContext = (ServletContext) ec.getContext();
-			String absoluteDiskPath = servletContext
-					.getRealPath(relativeWebPath);
-
-			Image headerImage = Image.getInstance(absoluteDiskPath);
-			headerImage.scaleToFit(500, 150);
-
-			// List<User> anlegen
-			List<User> users = dbh.listClassesTeacher(dbh.getUserId());
-
-			// Tabellen-Objekt anlegen
-			PdfPTable tableHead = new PdfPTable(4); // 4 Spalten
-			PdfPTable tableCont = new PdfPTable(4); // 4 Spalten
-			tableHead.setWidthPercentage(100);
-			tableCont.setWidthPercentage(100);
-			tableHead.setSpacingBefore(10f);
-
-			doc.open(); // Dokument beginnen
-
-			// TODO PDF Erstellung - externe PDF Klasse schreiben ???
-
-			doc.add(headerImage);
-			doc.add(new Paragraph("Passwortliste der Klasse: ", font1));
-			doc.add(new Paragraph(dbh.showUserClass(dbh.getUserId()), font2));
-			doc.add(new Paragraph("Klassenlehrer : ", font1));
-			doc.add(new Paragraph(dbh.showUserFullName(dbh.getUserId()), font2));
-			// doc.add(new
-			// Paragraph("----------------------------------------------------",
-			// font2));
-
-			// statischen Kopf der Tabelle erzeugen
-			PdfPCell cellVName = new PdfPCell(new Paragraph("Vorname", font4));
-			PdfPCell cellNName = new PdfPCell(new Paragraph("Nachname", font4));
-			PdfPCell cellUsername = new PdfPCell(new Paragraph("Username",
-					font4));
-			PdfPCell cellPasswort = new PdfPCell(new Paragraph("Passwort",
-					font4));
-
-			tableHead.addCell(cellVName);
-			tableHead.addCell(cellNName);
-			tableHead.addCell(cellUsername);
-			tableHead.addCell(cellPasswort);
-
-			doc.add(tableHead); // Tabellenkopf hinzufügen
-
-			for (User user : users) {
-
-				// dynamische Usertabelle erzeugen
-				PdfPCell cellVNameDyn = new PdfPCell(new Paragraph(
-						user.get_vorname(), font3));
-				PdfPCell cellNNameDyn = new PdfPCell(new Paragraph(
-						user.get_nachname(), font3));
-				PdfPCell cellUsernameDyn = new PdfPCell(new Paragraph(
-						user.get_username(), font3));
-				PdfPCell cellPasswortDyn = new PdfPCell(new Paragraph(
-						user.get_passwort(), font3));
-
-				tableCont.addCell(cellVNameDyn);
-				tableCont.addCell(cellNNameDyn);
-				tableCont.addCell(cellUsernameDyn);
-				tableCont.addCell(cellPasswortDyn);
-			}
-			doc.add(tableCont); // Tabelle mit dynamischen Inhalt hinzufügen
-
-			doc.close(); // Dokument beenden
-
-			os.flush();
-			os.close();
-
-			fc.responseComplete(); // "response" abschließen, sonst wird HTML
-									// Kontext
-									// der aktuellen Seite in die Datei
-									// geschrieben
-
-		} catch (DocumentException de) {
-			System.out.println("Error during PDF creation: " + de);
-		} catch (IOException ioe) {
-			System.out.println("Error during PDF creation: " + ioe);
-		}
-		return "coursebook";
-	}
-
-	/**
 	 * Exportfunktion einer PDF-Datei für das Datenblatt nach Passwortänderung
-	 * des Admins TODO SQL Abfrage
+	 * des Admins
 	 * 
 	 * @return Facelet "coursebook"
 	 * @throws IOException
 	 */
 	public String pdfDownloadPassword() throws IOException {
 
-		String filename = "Passwort_Datenblatt.pdf";
+		String filename = "Passwort_" + dbh.getUserFirstname(dbh.getUserId())
+				+ ".pdf";
 
 		try {
 
@@ -861,7 +543,8 @@ public class ExportBean implements Serializable {
 	 */
 	public String pdfDownloadCoursesTimetableStudent() throws IOException {
 
-		String filename = "Kursplan.pdf";
+		String filename = "Kursplan_" + dbh.getUserFirstname(dbh.getUserId())
+				+ ".pdf";
 
 		try {
 
@@ -894,8 +577,6 @@ public class ExportBean implements Serializable {
 			Font font3 = new Font(Font.FontFamily.TIMES_ROMAN, 12);
 			// Roman, fett
 			Font font4 = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-			// Courier kursiv
-			Font font5 = new Font(Font.FontFamily.COURIER, 12);
 
 			// Header Bild "KuWaSys" definieren
 			// Bild "Header" auch unter "/home/ijcy/pics/"
@@ -918,8 +599,6 @@ public class ExportBean implements Serializable {
 			tableHead.setSpacingBefore(10f);
 
 			doc.open(); // Dokument beginnen
-
-			// TODO PDF Erstellung - externe PDF Klasse schreiben ???
 
 			doc.add(headerImage);
 			doc.add(new Paragraph("Kursplan von: ", font1));
@@ -1041,7 +720,8 @@ public class ExportBean implements Serializable {
 	 */
 	public String pdfDownloadCoursesTimetableTeacher() throws IOException {
 
-		String filename = "Terminplan_Klasse_" + dbh.showUserClass(dbh.getUserId()) +".pdf";
+		String filename = "Terminplan_Klasse_"
+				+ dbh.showUserClass(dbh.getUserId()) + ".pdf";
 
 		try {
 
@@ -1074,8 +754,6 @@ public class ExportBean implements Serializable {
 			Font font3 = new Font(Font.FontFamily.TIMES_ROMAN, 12);
 			// Roman, fett
 			Font font4 = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-			// Courier kursiv
-			Font font5 = new Font(Font.FontFamily.COURIER, 12);
 
 			// Header Bild "KuWaSys" definieren
 			// Bild "Header" auch unter "/home/ijcy/pics/"
@@ -1097,7 +775,7 @@ public class ExportBean implements Serializable {
 			tableCont.setWidthPercentage(100);
 			tableHead.setSpacingBefore(10f);
 
-		//	cell.setBorder(Rectangle.NO_BORDER); // removes border
+			// cell.setBorder(Rectangle.NO_BORDER); // removes border
 
 			doc.open(); // Dokument beginnen
 
@@ -1124,7 +802,7 @@ public class ExportBean implements Serializable {
 			cellMi.setBorder(Rectangle.NO_BORDER);
 			cellDo.setBorder(Rectangle.NO_BORDER);
 			cellFr.setBorder(Rectangle.NO_BORDER);
-		
+
 			cellVname.setBorderWidthBottom(1f);
 			cellNname.setBorderWidthBottom(1f);
 			cellMo.setBorderWidthBottom(1f);
@@ -1132,7 +810,7 @@ public class ExportBean implements Serializable {
 			cellMi.setBorderWidthBottom(1f);
 			cellDo.setBorderWidthBottom(1f);
 			cellFr.setBorderWidthBottom(1f);
-						
+
 			tableHead.addCell(cellVname);
 			tableHead.addCell(cellNname);
 			tableHead.addCell(cellMo);
@@ -1166,7 +844,7 @@ public class ExportBean implements Serializable {
 				PdfPCell cellMiNaDyn;
 				PdfPCell cellDoNaDyn;
 				PdfPCell cellFrNaDyn;
-								
+
 				// USER DATEN
 				cellVnameVoDyn = new PdfPCell(new Paragraph(user.get_vorname(),
 						font3));
@@ -1202,33 +880,33 @@ public class ExportBean implements Serializable {
 						font3));
 				cellFrNaDyn = new PdfPCell(new Paragraph(user.get_termin10(),
 						font3));
-				
+
 				// Rahmen entfernen
 				// vormittags
 				cellVnameVoDyn.setBorder(Rectangle.NO_BORDER);
 				cellNnameVoDyn.setBorder(Rectangle.NO_BORDER);
-				
+
 				cellMoVoDyn.setBorder(Rectangle.NO_BORDER);
 				cellDiVoDyn.setBorder(Rectangle.NO_BORDER);
 				cellMiVoDyn.setBorder(Rectangle.NO_BORDER);
 				cellDoVoDyn.setBorder(Rectangle.NO_BORDER);
 				cellFrVoDyn.setBorder(Rectangle.NO_BORDER);
-				
+
 				// nahcmittags
 				cellVnameNaDyn.setBorder(Rectangle.NO_BORDER);
 				cellNnameNaDyn.setBorder(Rectangle.NO_BORDER);
-				
+
 				cellMoNaDyn.setBorder(Rectangle.NO_BORDER);
 				cellDiNaDyn.setBorder(Rectangle.NO_BORDER);
 				cellMiNaDyn.setBorder(Rectangle.NO_BORDER);
 				cellDoNaDyn.setBorder(Rectangle.NO_BORDER);
 				cellFrNaDyn.setBorder(Rectangle.NO_BORDER);
-				
+
 				// TRENNER
 				// Name User
 				cellNnameVoDyn.setBorderWidthRight(3f);
 				cellNnameNaDyn.setBorderWidthRight(3f);
-				
+
 				// kompl. User
 				cellVnameNaDyn.setBorderWidthBottom(2f);
 				cellNnameNaDyn.setBorderWidthBottom(2f);
@@ -1237,7 +915,7 @@ public class ExportBean implements Serializable {
 				cellMiNaDyn.setBorderWidthBottom(2f);
 				cellDoNaDyn.setBorderWidthBottom(2f);
 				cellFrNaDyn.setBorderWidthBottom(2f);
-				
+
 				// kompl. User ohne Namen
 				cellMoVoDyn.setBorderWidthBottom(1f);
 				cellMoVoDyn.setBorderColor(BaseColor.BLUE);
@@ -1249,7 +927,7 @@ public class ExportBean implements Serializable {
 				cellDoVoDyn.setBorderColor(BaseColor.BLUE);
 				cellFrVoDyn.setBorderWidthBottom(1f);
 				cellFrVoDyn.setBorderColor(BaseColor.BLUE);
-								
+
 				// Tabelleninhalte hinzufügen
 				// vormittags
 				tableCont.addCell(cellVnameVoDyn);
@@ -1264,13 +942,13 @@ public class ExportBean implements Serializable {
 				// nachmittags
 				tableCont.addCell(cellVnameNaDyn);
 				tableCont.addCell(cellNnameNaDyn);
-				
+
 				tableCont.addCell(cellMoNaDyn);
 				tableCont.addCell(cellDiNaDyn);
 				tableCont.addCell(cellMiNaDyn);
 				tableCont.addCell(cellDoNaDyn);
 				tableCont.addCell(cellFrNaDyn);
-					
+
 			}
 
 			doc.add(tableCont); // Tabelle mit dynamischen Inhalt hinzufügen
@@ -1329,14 +1007,10 @@ public class ExportBean implements Serializable {
 			// Schriftarten definieren
 			// Helvetica, fett
 			Font font1 = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
-			// Courier kursiv
-			Font font2 = new Font(Font.FontFamily.COURIER, 16);
 			// Roman, normal
 			Font font3 = new Font(Font.FontFamily.TIMES_ROMAN, 12);
 			// Roman, fett
 			Font font4 = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
-			// Courier kursiv
-			Font font5 = new Font(Font.FontFamily.COURIER, 12);
 
 			// Header Bild "KuWaSys" definieren
 			// Bild "Header" auch unter "/home/ijcy/pics/"
@@ -1362,7 +1036,7 @@ public class ExportBean implements Serializable {
 
 			doc.add(headerImage);
 			doc.add(new Paragraph("Terminplan aller Klasse ", font1));
-			
+
 			doc.add(new Paragraph("Zeitplan", font1));
 			// statischen Kopf der Tabelle erzeugen
 
@@ -1384,7 +1058,7 @@ public class ExportBean implements Serializable {
 			cellMi.setBorder(Rectangle.NO_BORDER);
 			cellDo.setBorder(Rectangle.NO_BORDER);
 			cellFr.setBorder(Rectangle.NO_BORDER);
-		
+
 			cellVname.setBorderWidthBottom(1f);
 			cellNname.setBorderWidthBottom(1f);
 			cellKlasse.setBorderWidthBottom(1f);
@@ -1393,7 +1067,7 @@ public class ExportBean implements Serializable {
 			cellMi.setBorderWidthBottom(1f);
 			cellDo.setBorderWidthBottom(1f);
 			cellFr.setBorderWidthBottom(1f);
-						
+
 			tableHead.addCell(cellVname);
 			tableHead.addCell(cellNname);
 			tableHead.addCell(cellKlasse);
@@ -1413,14 +1087,13 @@ public class ExportBean implements Serializable {
 				PdfPCell cellNnameVoDyn;
 				PdfPCell cellKlasseVoDyn;
 
-				
 				// Leerstrings nachmittags
 				PdfPCell cellVnameNaDyn = new PdfPCell(
 						new Paragraph(" ", font3));
 				PdfPCell cellNnameNaDyn = new PdfPCell(
 						new Paragraph(" ", font3));
-				PdfPCell cellKlasseNaDyn = new PdfPCell(
-						new Paragraph(" ", font3));
+				PdfPCell cellKlasseNaDyn = new PdfPCell(new Paragraph(" ",
+						font3));
 
 				// vormittags
 				PdfPCell cellMoVoDyn;
@@ -1435,15 +1108,15 @@ public class ExportBean implements Serializable {
 				PdfPCell cellMiNaDyn;
 				PdfPCell cellDoNaDyn;
 				PdfPCell cellFrNaDyn;
-								
+
 				// USER DATEN
 				cellVnameVoDyn = new PdfPCell(new Paragraph(user.get_vorname(),
 						font3));
 				cellNnameVoDyn = new PdfPCell(new Paragraph(
 						user.get_nachname(), font3));
-				cellKlasseVoDyn= new PdfPCell(new Paragraph(
-						user.get_klasse(), font3));
-				
+				cellKlasseVoDyn = new PdfPCell(new Paragraph(user.get_klasse(),
+						font3));
+
 				// MONTAG
 				cellMoVoDyn = new PdfPCell(new Paragraph(user.get_termin1(),
 						font3));
@@ -1473,35 +1146,35 @@ public class ExportBean implements Serializable {
 						font3));
 				cellFrNaDyn = new PdfPCell(new Paragraph(user.get_termin10(),
 						font3));
-				
+
 				// Rahmen entfernen
 				// vormittags
 				cellVnameVoDyn.setBorder(Rectangle.NO_BORDER);
 				cellNnameVoDyn.setBorder(Rectangle.NO_BORDER);
 				cellKlasseVoDyn.setBorder(Rectangle.NO_BORDER);
-				
+
 				cellMoVoDyn.setBorder(Rectangle.NO_BORDER);
 				cellDiVoDyn.setBorder(Rectangle.NO_BORDER);
 				cellMiVoDyn.setBorder(Rectangle.NO_BORDER);
 				cellDoVoDyn.setBorder(Rectangle.NO_BORDER);
 				cellFrVoDyn.setBorder(Rectangle.NO_BORDER);
-				
+
 				// nahcmittags
 				cellVnameNaDyn.setBorder(Rectangle.NO_BORDER);
 				cellNnameNaDyn.setBorder(Rectangle.NO_BORDER);
 				cellKlasseNaDyn.setBorder(Rectangle.NO_BORDER);
-				
+
 				cellMoNaDyn.setBorder(Rectangle.NO_BORDER);
 				cellDiNaDyn.setBorder(Rectangle.NO_BORDER);
 				cellMiNaDyn.setBorder(Rectangle.NO_BORDER);
 				cellDoNaDyn.setBorder(Rectangle.NO_BORDER);
 				cellFrNaDyn.setBorder(Rectangle.NO_BORDER);
-				
+
 				// TRENNER
 				// Name User
 				cellKlasseVoDyn.setBorderWidthRight(3f);
 				cellKlasseNaDyn.setBorderWidthRight(3f);
-				
+
 				// kompl. User
 				cellVnameNaDyn.setBorderWidthBottom(2f);
 				cellNnameNaDyn.setBorderWidthBottom(2f);
@@ -1511,7 +1184,7 @@ public class ExportBean implements Serializable {
 				cellMiNaDyn.setBorderWidthBottom(2f);
 				cellDoNaDyn.setBorderWidthBottom(2f);
 				cellFrNaDyn.setBorderWidthBottom(2f);
-				
+
 				// kompl. User ohne Namen
 				cellMoVoDyn.setBorderWidthBottom(1f);
 				cellMoVoDyn.setBorderColor(BaseColor.BLUE);
@@ -1523,7 +1196,7 @@ public class ExportBean implements Serializable {
 				cellDoVoDyn.setBorderColor(BaseColor.BLUE);
 				cellFrVoDyn.setBorderWidthBottom(1f);
 				cellFrVoDyn.setBorderColor(BaseColor.BLUE);
-								
+
 				// Tabelleninhalte hinzufügen
 				// vormittags
 				tableCont.addCell(cellVnameVoDyn);
@@ -1540,13 +1213,13 @@ public class ExportBean implements Serializable {
 				tableCont.addCell(cellVnameNaDyn);
 				tableCont.addCell(cellNnameNaDyn);
 				tableCont.addCell(cellKlasseNaDyn);
-				
+
 				tableCont.addCell(cellMoNaDyn);
 				tableCont.addCell(cellDiNaDyn);
 				tableCont.addCell(cellMiNaDyn);
 				tableCont.addCell(cellDoNaDyn);
 				tableCont.addCell(cellFrNaDyn);
-					
+
 			}
 
 			doc.add(tableCont); // Tabelle mit dynamischen Inhalt hinzufügen
@@ -1569,4 +1242,331 @@ public class ExportBean implements Serializable {
 		return "courses";
 	}
 
+	/**
+	 * Exportfunktion einer PDF-Datei für einen neu angelegten Schüler
+	 * 
+	 * @return Facelet "coursebook"
+	 * @throws IOException
+	 */
+	public String pdfDownloadCoursebookStudent() throws IOException {
+
+		String filename = "Kursbuch_" + dbh.getUserFirstname(dbh.getUserId())
+				+ ".pdf";
+
+		try {
+
+			FacesContext fc = FacesContext.getCurrentInstance();
+			ExternalContext ec = fc.getExternalContext();
+			OutputStream os = ec.getResponseOutputStream();
+
+			// Dateiinformationen setzen
+			ec.responseReset();
+			ec.setResponseContentType("application/pdf");
+			ec.setResponseCharacterEncoding("utf-8");
+			ec.setResponseHeader("Expires", "0");
+			ec.setResponseHeader("Cache-Control",
+					"must-revalidate, post-check=0, pre-check=0");
+			ec.setResponseHeader("Pragma", "public");
+			ec.setResponseHeader("Content-Disposition",
+					"attachment; filename=\"" + filename + "\"");
+
+			Document doc = new Document();
+
+			// PdfWriter writer =
+			PdfWriter.getInstance(doc, os);
+
+			// Schriftarten definieren
+			// Helvetica, fett
+			Font font1 = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+			// Courier kursiv
+			Font font2 = new Font(Font.FontFamily.COURIER, 16);
+			// Roman, normal
+			Font font3 = new Font(Font.FontFamily.TIMES_ROMAN, 12);
+			// Roman, fett
+			Font font4 = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+
+			// Header Bild "KuWaSys" definieren
+			// Bild "Header" auch unter "/home/ijcy/pics/"
+			String relativeWebPath = "/resources/img/header.jpg";
+			ServletContext servletContext = (ServletContext) ec.getContext();
+			String absoluteDiskPath = servletContext
+					.getRealPath(relativeWebPath);
+
+			Image headerImage = Image.getInstance(absoluteDiskPath);
+			headerImage.scaleToFit(500, 150);
+
+			// List<User> anlegen
+			List<User> users = dbh.listClassesTeacher(dbh.getUserId());
+
+			// Tabellen-Objekt anlegen
+			PdfPTable tableHead = new PdfPTable(4); // 4 Spalten
+			PdfPTable tableCont = new PdfPTable(4); // 4 Spalten
+			tableHead.setWidthPercentage(100);
+			tableCont.setWidthPercentage(100);
+			tableHead.setSpacingBefore(10f);
+
+			doc.open(); // Dokument beginnen
+
+			doc.add(headerImage);
+			doc.add(new Paragraph("Passwortliste der Klasse: ", font1));
+			doc.add(new Paragraph(dbh.showUserClass(dbh.getUserId()), font2));
+			doc.add(new Paragraph("Klassenlehrer : ", font1));
+			doc.add(new Paragraph(dbh.showUserFullName(dbh.getUserId()), font2));
+			// doc.add(new
+			// Paragraph("----------------------------------------------------",
+			// font2));
+
+			// statischen Kopf der Tabelle erzeugen
+			PdfPCell cellVName = new PdfPCell(new Paragraph("Vorname", font4));
+			PdfPCell cellNName = new PdfPCell(new Paragraph("Nachname", font4));
+			PdfPCell cellUsername = new PdfPCell(new Paragraph("Username",
+					font4));
+			PdfPCell cellPasswort = new PdfPCell(new Paragraph("Passwort",
+					font4));
+
+			tableHead.addCell(cellVName);
+			tableHead.addCell(cellNName);
+			tableHead.addCell(cellUsername);
+			tableHead.addCell(cellPasswort);
+
+			doc.add(tableHead); // Tabellenkopf hinzufügen
+
+			for (User user : users) {
+
+				// dynamische Usertabelle erzeugen
+				PdfPCell cellVNameDyn = new PdfPCell(new Paragraph(
+						user.get_vorname(), font3));
+				PdfPCell cellNNameDyn = new PdfPCell(new Paragraph(
+						user.get_nachname(), font3));
+				PdfPCell cellUsernameDyn = new PdfPCell(new Paragraph(
+						user.get_username(), font3));
+				PdfPCell cellPasswortDyn = new PdfPCell(new Paragraph(
+						user.get_passwort(), font3));
+
+				tableCont.addCell(cellVNameDyn);
+				tableCont.addCell(cellNNameDyn);
+				tableCont.addCell(cellUsernameDyn);
+				tableCont.addCell(cellPasswortDyn);
+			}
+			doc.add(tableCont); // Tabelle mit dynamischen Inhalt hinzufügen
+
+			doc.close(); // Dokument beenden
+
+			os.flush();
+			os.close();
+
+			fc.responseComplete(); // "response" abschließen, sonst wird HTML
+									// Kontext
+									// der aktuellen Seite in die Datei
+									// geschrieben
+
+		} catch (DocumentException de) {
+			System.out.println("Error during PDF creation: " + de);
+		} catch (IOException ioe) {
+			System.out.println("Error during PDF creation: " + ioe);
+		}
+		return "coursebook";
+	}
+
+	/**
+	 * Exportfunktion einer PDF-Datei für das Kursbuch eines Schülers
+	 * 
+	 * @return Facelet "coursebook"
+	 * @throws IOException
+	 */
+	public String pdfDownloadCoursebook() throws IOException {
+
+		String filename = "Kursbuch.pdf";
+
+		try {
+
+			FacesContext fc = FacesContext.getCurrentInstance();
+			ExternalContext ec = fc.getExternalContext();
+			OutputStream os = ec.getResponseOutputStream();
+
+			// Dateiinformationen setzen
+			ec.responseReset();
+			ec.setResponseContentType("application/pdf");
+			ec.setResponseCharacterEncoding("utf-8");
+			ec.setResponseHeader("Expires", "0");
+			ec.setResponseHeader("Cache-Control",
+					"must-revalidate, post-check=0, pre-check=0");
+			ec.setResponseHeader("Pragma", "public");
+			ec.setResponseHeader("Content-Disposition",
+					"attachment; filename=\"" + filename + "\"");
+
+			Document doc = new Document();
+
+			// PdfWriter writer =
+			PdfWriter.getInstance(doc, os);
+
+			// Schriftarten definieren
+			// Helvetica, fett
+			Font font1 = new Font(Font.FontFamily.HELVETICA, 18, Font.BOLD);
+			// Courier kursiv
+			Font font2 = new Font(Font.FontFamily.COURIER, 16);
+			// Roman, normal
+			Font font3 = new Font(Font.FontFamily.TIMES_ROMAN, 12);
+			// Roman, fett
+			Font font4 = new Font(Font.FontFamily.TIMES_ROMAN, 12, Font.BOLD);
+
+			// Header Bild "KuWaSys" definieren
+			// Bild "Header" auch unter "/home/ijcy/pics/"
+			String relativeWebPath = "/resources/img/header.jpg";
+			ServletContext servletContext = (ServletContext) ec.getContext();
+			String absoluteDiskPath = servletContext
+					.getRealPath(relativeWebPath);
+
+			Image headerImage = Image.getInstance(absoluteDiskPath);
+			headerImage.scaleToFit(500, 150);
+
+			// List<User> anlegen
+			List<User> users = dbh.listClassesTeacher(dbh.getUserId());
+
+			// Tabellen-Objekt anlegen
+			PdfPTable tableHead = new PdfPTable(4); // 4 Spalten
+			PdfPTable tableCont = new PdfPTable(4); // 4 Spalten
+			tableHead.setWidthPercentage(100);
+			tableCont.setWidthPercentage(100);
+			tableHead.setSpacingBefore(10f);
+
+			doc.open(); // Dokument beginnen
+
+			doc.add(headerImage);
+			doc.add(new Paragraph("Passwortliste der Klasse: ", font1));
+			doc.add(new Paragraph(dbh.showUserClass(dbh.getUserId()), font2));
+			doc.add(new Paragraph("Klassenlehrer : ", font1));
+			doc.add(new Paragraph(dbh.showUserFullName(dbh.getUserId()), font2));
+			// doc.add(new
+			// Paragraph("----------------------------------------------------",
+			// font2));
+
+			// statischen Kopf der Tabelle erzeugen
+			PdfPCell cellVName = new PdfPCell(new Paragraph("Vorname", font4));
+			PdfPCell cellNName = new PdfPCell(new Paragraph("Nachname", font4));
+			PdfPCell cellUsername = new PdfPCell(new Paragraph("Username",
+					font4));
+			PdfPCell cellPasswort = new PdfPCell(new Paragraph("Passwort",
+					font4));
+
+			tableHead.addCell(cellVName);
+			tableHead.addCell(cellNName);
+			tableHead.addCell(cellUsername);
+			tableHead.addCell(cellPasswort);
+
+			doc.add(tableHead); // Tabellenkopf hinzufügen
+
+			for (User user : users) {
+
+				// dynamische Usertabelle erzeugen
+				PdfPCell cellVNameDyn = new PdfPCell(new Paragraph(
+						user.get_vorname(), font3));
+				PdfPCell cellNNameDyn = new PdfPCell(new Paragraph(
+						user.get_nachname(), font3));
+				PdfPCell cellUsernameDyn = new PdfPCell(new Paragraph(
+						user.get_username(), font3));
+				PdfPCell cellPasswortDyn = new PdfPCell(new Paragraph(
+						user.get_passwort(), font3));
+
+				tableCont.addCell(cellVNameDyn);
+				tableCont.addCell(cellNNameDyn);
+				tableCont.addCell(cellUsernameDyn);
+				tableCont.addCell(cellPasswortDyn);
+			}
+			doc.add(tableCont); // Tabelle mit dynamischen Inhalt hinzufügen
+
+			doc.close(); // Dokument beenden
+
+			os.flush();
+			os.close();
+
+			fc.responseComplete(); // "response" abschließen, sonst wird HTML
+									// Kontext
+									// der aktuellen Seite in die Datei
+									// geschrieben
+
+		} catch (DocumentException de) {
+			System.out.println("Error during PDF creation: " + de);
+		} catch (IOException ioe) {
+			System.out.println("Error during PDF creation: " + ioe);
+		}
+		return "coursebook";
+	}
+
+	/**
+	 * Exportfunktion einer CSV-Datei für die Notenliste eines Kurses
+	 * 
+	 * @return Facelet "coursebook"
+	 */
+	public String csvDownloadGradelist() {
+
+		String filename = "Notenliste_"
+				+ dbh.getCourseNameOfTeacher(dbh.getUserId()) + ".csv";
+
+		try {
+			FacesContext fc = FacesContext.getCurrentInstance();
+
+			ExternalContext ec = fc.getExternalContext();
+
+			ec.responseReset();
+			ec.setResponseContentType("text/comma-separated-values");
+			ec.setResponseHeader("Content-Disposition",
+					"attachment; filename=\"" + filename + "\"");
+
+			OutputStream os = ec.getResponseOutputStream();
+			PrintStream ps = new PrintStream(os);
+
+			// Kursteilnehmer auslesen
+			List<User> participants = dbh.listCourseParticipants(dbh
+					.getCourseIdOfTeacher(dbh.getUserId()));
+
+			// DEBUG
+			System.out.println("CSV Export - Notenliste");
+			System.out.println("--------------------------");
+
+			for (User participant : participants) {
+
+				// Aufbau CSV-Datei
+				// Klasse;Name;Vorname;Fächerverbund;Tertial/Schuljahr;Kompetenzen:
+				// Fachwissen;Kompetenzen: Sozial;Kompetenzen:
+				// Personal;Kompetenzen:
+				// Methodisch;Zehntelnote;Lehrer/Lehrerin;Bemerkungen
+
+				ps.print(participant.get_klasse() + ";" // Klasse	x
+						+ participant.get_nachname() + ";" // Name	x
+						+ participant.get_vorname() + ";" // Vorname	x
+						+ dbh.getCourseFaecherverbundOfCourseid(participant.get_grade_kursid()) + ";" // Fächerverbund
+						+ participant.get_grade_jahr() + " - " + participant.get_grade_tertial() + ";" // Tertial/Schuljahr	x
+						+ participant.get_grade_fachwissen() + ";" // Kompetenzen: Fachwissen x
+						+ participant.get_grade_sozial() + ";" // Kompetenzen: Sozial	x
+						+ participant.get_grade_personal() + ";" // Kompetenzen: Personal	x
+						+ participant.get_grade_methodisch() + ";" // Kompetenzen: Methodisch	x
+						+ participant.get_grade_note() + ";" // Zehntelnote	x
+						+ dbh.showUserFullName(dbh.getUserId()) + ";" // Lehrerin/Lehrer -> Nur für Kurslehrer-Export
+						+ participant.get_grade_bemerkung() + "\n"); // Bemerkungen	x
+						
+
+				// DEBUG
+				System.out.println(participant.get_id());
+				System.out.println(participant.get_vorname());
+				System.out.println(participant.get_nachname());
+
+				System.out.println(participant.get_grade_note());
+				System.out.println(participant.get_grade_fachwissen());
+				System.out.println(participant.get_grade_methodisch());
+				System.out.println(participant.get_grade_personal());
+				System.out.println(participant.get_grade_sozial());
+				System.out.println("--------------------------");
+			}
+
+			ps.flush();
+			ps.close();
+
+			fc.responseComplete();
+		} catch (IOException ex) {
+			System.out.println("CSV File Export Error: " + ex);
+		}
+		return "coursebook";
+	}
+	
 }

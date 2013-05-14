@@ -71,7 +71,7 @@
 				            </t:column>	
 				            <t:column>
 				                <f:facet name="header">
-				                    <h:outputText value="Mathodisch" />
+				                    <h:outputText value="Methodisch" />
 				                </f:facet>
 				                <h:inputText id="methodisch" value="#{attender._grade_methodisch}" size="1"/>
 				            </t:column>	
@@ -79,6 +79,10 @@
 			<h:commandButton value="Speichern" action="#{gradelistBean.updateGrades()}" >
 				<f:param name="id" value="#{param['id']}" />
 			</h:commandButton>
+		</h:form>
+		<h3><h:outputText rendered="#{(kuwasys.userRole()=='Lehrer')}" value="Funktionen:"/></h3>
+		<h:form>
+			<h:commandButton value="Notenliste des Kurses als CSV-Datei herunterladen"	action="#{exportBean.csvDownloadGradelist}"  rendered="#{(kuwasys.userRole()=='Lehrer')}" />
 		</h:form>
 	</ui:define>
 </ui:composition>
