@@ -164,16 +164,11 @@
 				rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()==0) and (kuwasys.phase==2)}"
 				action="#{kuwasys.goAddGradelist()}" />
 		</h:form>
-		<h3><h:outputText value="Funktionen:"/></h3>
+		<h3><h:outputText rendered="#{(kuwasys.userRole()=='Schüler')}" value="Funktionen:"/></h3>
 		<h:form>
 			<h:commandButton value="aktuellen Kursplan als PDF-Datei herunterladen"	action="#{exportBean.pdfDownloadCoursesTimetableStudent}"  rendered="#{(kuwasys.userRole()=='Schüler')}" />
 		</h:form>
-		<h:form>
-			<h:commandButton value="alle Kurse mit Teilnehmer als CSV-Datei herunterladen"	action="#{exportBean.csvDownloadCourses}"  rendered="#{(kuwasys.userRole()=='Lehrer')}" />
-		</h:form>
-		<h:form>
-			<h:commandButton value="alle Kurse mit Teilnehmer als PDF-Datei herunterladen"	action="#{exportBean.csvDownloadCourses}"  rendered="#{(kuwasys.userRole()=='Lehrer')}" />
-		</h:form>
+		<h3><h:outputText rendered="#{(kuwasys.userRole()=='Admin')}" value="Funktionen:"/></h3>
 		<h:form>
 			<h:commandButton value="alle Kurse als CSV-Datei herunterladen"	action="#{exportBean.csvDownloadCourses}"  rendered="#{(kuwasys.userRole()=='Admin')}" />
 		</h:form>

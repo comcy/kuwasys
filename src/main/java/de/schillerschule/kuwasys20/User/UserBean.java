@@ -245,7 +245,6 @@ public class UserBean implements Serializable {
 
 		int id = Integer.parseInt(strid);
 
-		// TODO MESSAGE/LOG DEBUG
 		System.out.println("ID: " + id);
 		System.out.println("Klasse: " + klasse);
 		System.out.println("Nachname: " + nachname);
@@ -400,6 +399,9 @@ public class UserBean implements Serializable {
 		private String _termin8;
 		private String _termin9;
 		private String _termin10;
+		private int _grade_kursid;
+		private int _grade_jahr;
+		private int _grade_tertial;
 
 		public User(int id, String vorname, String nachname, String geburtstag,
 				String konfession, String klasse, String username,
@@ -450,7 +452,7 @@ public class UserBean implements Serializable {
 
 		public User(int id, String vorname, String nachname, String geburtstag,
 				String konfession, String klasse, String username,
-				String passwort, String rolle, boolean canEdit, int grade_id,
+				String passwort, String rolle, boolean canEdit, int grade_kursid,int grade_jahr,int grade_tertial, int grade_id,
 				Double grade_note, String grade_bemerkung,
 				double grade_fachwissen, double grade_sozial,
 				double grade_personal, double grade_methodisch) {
@@ -465,6 +467,9 @@ public class UserBean implements Serializable {
 			_passwort = passwort;
 			_rolle = rolle;
 			_canEdit = false;
+			_grade_kursid = grade_kursid;
+			_grade_jahr = grade_jahr;
+			_grade_tertial = grade_tertial;
 			_grade_id = grade_id;
 			_grade_note = grade_note;
 			_grade_fachwissen = grade_fachwissen;
@@ -692,23 +697,29 @@ public class UserBean implements Serializable {
 			this._grade_methodisch = _grade_methodisch;
 		}
 
-		/**
-		 * Userdaten selektieren und bearbeiten
-		 * 
-		 * @return
-		 */
+		public int get_grade_kursid() {
+			return _grade_kursid;
+		}
 
-		/*
-		 * public String editUser(User user) {
-		 * 
-		 * System.out.println("User: " + _vorname); // String vornameEdit =
-		 * dbh.getUserFirstname(_id); String // nachnameEdit = //
-		 * dbh.getUserLastname(_id); String klasseEdit = //
-		 * dbh.showUserClass(_id); // String konfessionEdit =
-		 * dbh.getUserKonfession(_id);
-		 * 
-		 * // dbh.listEditorUser(_id); return return
-		 * kuwasysControllerBean.goUsereditor(); }
-		 */
+		public void set_grade_kursid(int _grade_kursid) {
+			this._grade_kursid = _grade_kursid;
+		}
+
+		public int get_grade_jahr() {
+			return _grade_jahr;
+		}
+
+		public void set_grade_jahr(int _grade_jahr) {
+			this._grade_jahr = _grade_jahr;
+		}
+
+		public int get_grade_tertial() {
+			return _grade_tertial;
+		}
+
+		public void set_grade_tertial(int _grade_tertial) {
+			this._grade_tertial = _grade_tertial;
+		}
+
 	}
 }

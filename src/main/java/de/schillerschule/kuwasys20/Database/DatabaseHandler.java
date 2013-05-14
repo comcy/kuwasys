@@ -245,7 +245,7 @@ public class DatabaseHandler {
 
 		return password;
 	}
-	
+
 	/**
 	 * Ändert für den gegebenen User das angegebene Passwort
 	 * 
@@ -266,10 +266,10 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 
 	}
-	
+
 	/**
-	 * Macht ein Passwort-Update in der Datenbank für die angegebene User-ID
-	 * das Passwort wird automatisch generiert
+	 * Macht ein Passwort-Update in der Datenbank für die angegebene User-ID das
+	 * Passwort wird automatisch generiert
 	 * 
 	 * @param id
 	 */
@@ -284,7 +284,8 @@ public class DatabaseHandler {
 			System.out.println(">>> UPDATE USER PASSWORT"); // DEBUG
 
 			messageName = new FacesMessage(FacesMessage.SEVERITY_INFO,
-					"Das Passwort von " + showUserFullName(id) + " wurde erfolgreich ge-updated!", null);
+					"Das Passwort von " + showUserFullName(id)
+							+ " wurde erfolgreich ge-updated!", null);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -494,7 +495,7 @@ public class DatabaseHandler {
 
 	/**
 	 * Gibt ID des angemeldeten User zurück
-	 *
+	 * 
 	 * @return id
 	 */
 	public int getUserId() {
@@ -690,6 +691,105 @@ public class DatabaseHandler {
 	}
 
 	/**
+	 * Ließt Kurs-Lehrer Namen aus der DB für die gegebenen User-ID !!! User muss Lehrer
+	 * sein !!!
+	 * 
+	 * @param id
+	 * @return passwort
+	 */
+	public String getCourseFaecherverbundOfCourseid(int id) {
+		System.out.println("getCourseIdOfTeacher");
+
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "Select course_faecherverbund FROM course WHERE course_id="
+				+ id + ";";
+		String fb = "";
+
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+				fb = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		System.out.println("Fächerverbund: " + fb);
+		return fb;
+	}
+
+	/**
+	 * Ließt Kurs-ID aus der DB für die gegebenen User-ID !!! User muss Lehrer
+	 * sein !!!
+	 * 
+	 * @param id
+	 * @return passwort
+	 */
+	public int getCourseIdOfTeacher(int id) {
+		System.out.println("getCourseIdOfTeacher");
+
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "Select course_id from course where course_kurslehrer="
+				+ id + ";";
+		int kid = -1;
+
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+				kid = rs.getInt(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		System.out.println("ID: " + kid);
+		return kid;
+	}
+
+	/**
+	 * Ließt Kurs-Name aus der DB für die gegebenen User-ID !!! User muss Lehrer
+	 * sein !!!
+	 * 
+	 * @param id
+	 * @return passwort
+	 */
+	public String getCourseNameOfTeacher(int id) {
+		System.out.println("getCourseNameOfTeacher");
+
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "Select course_name from course where course_kurslehrer="
+				+ id + ";";
+		String kname = "";
+
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+				kname = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		System.out.println(kname);
+		return kname;
+	}
+
+	/**
 	 * Gibt einem User, mit gegebenem usernamen, die gegebenen Rechte
 	 * 
 	 * @param username
@@ -793,7 +893,6 @@ public class DatabaseHandler {
 		return users;
 	}
 
-	// TODO ??? Funktion nötig ???
 	public void addToUsers(String klasse, String nachname, String vorname,
 			String geburtstag, String konfession, String rolle) {
 		try {
@@ -822,8 +921,6 @@ public class DatabaseHandler {
 
 	/**
 	 * TEACHER METHODEN
-	 * 
-	 * @return
 	 */
 
 	// Lehreransicht
@@ -862,7 +959,6 @@ public class DatabaseHandler {
 		return teacherList;
 	}
 
-	// TODO ??? Funktion nötig ???
 	public void addToTeachers(String klasse, String nachname, String vorname,
 			String geburtstag, String konfession, String rolle) {
 		try {
@@ -889,8 +985,16 @@ public class DatabaseHandler {
 
 	}
 
-	// Klassenansichte
+	/**
+	 * KLASSEN METHODEN
+	 */
 
+	/**
+	 * Methode die Klasse eines Lehrers aus der Datenbank ausliest
+	 * 
+	 * @param id
+	 * @return
+	 */
 	public ArrayList<User> listClassesTeacher(int id) {
 		ArrayList<User> users = new ArrayList<User>();
 		SQLConnection();
@@ -1025,7 +1129,7 @@ public class DatabaseHandler {
 		SQLConnectionClose();
 		return users;
 	}
-	
+
 	/**
 	 * 
 	 * @param id
@@ -1037,7 +1141,8 @@ public class DatabaseHandler {
 		try {
 			statement = connection.createStatement();
 			result = statement
-					.executeQuery("SELECT * FROM users WHERE users_rolle='schueler' AND users_id = '" + id + "';");
+					.executeQuery("SELECT * FROM users WHERE users_rolle='schueler' AND users_id = '"
+							+ id + "';");
 			// UserBean.emptyUsers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")
@@ -1440,6 +1545,9 @@ public class DatabaseHandler {
 								.getString("users_username"), result4
 								.getString("users_passwort"), result4
 								.getString("users_rolle"), false, result4
+								.getInt("gradelist_kursid"), result4
+								.getInt("gradelist_jahr"), result4
+								.getInt("gradelist_tertial"), result4
 								.getInt("gradelist_id"), result4
 								.getDouble("gradelist_note"), result4
 								.getString("gradelist_bemerkung"), result4
@@ -1967,7 +2075,6 @@ public class DatabaseHandler {
 
 	}
 
-	// TODO in Course ???
 	/**
 	 * Übersetzt int der Datumswerte aus DB in Datumskürzel
 	 * 
