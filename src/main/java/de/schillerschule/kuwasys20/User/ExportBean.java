@@ -12,7 +12,6 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
 
-import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Course.CourseBean.Course;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 import de.schillerschule.kuwasys20.Teacher.TeacherBean.Teacher;
@@ -1501,7 +1500,7 @@ public class ExportBean implements Serializable {
 	public String csvDownloadGradelist() {
 
 		String filename = "Notenliste_"
-				+ dbh.getCourseNameOfTeacher(dbh.getUserId()) + ".csv";
+				+ dbh.getCoursenameOfTeacherid(dbh.getUserId()) + ".csv";
 
 		try {
 			FacesContext fc = FacesContext.getCurrentInstance();
@@ -1517,8 +1516,9 @@ public class ExportBean implements Serializable {
 			PrintStream ps = new PrintStream(os);
 
 			// Kursteilnehmer auslesen
-			List<User> participants = dbh.listCourseParticipants(dbh
-					.getCourseIdOfTeacher(dbh.getUserId()));
+			List<User> participants = dbh.listCourseParticipants(Integer
+					.parseInt(fc.getExternalContext().getRequestParameterMap()
+							.get("id")));
 
 			// DEBUG
 			System.out.println("CSV Export - Notenliste");
@@ -1532,19 +1532,50 @@ public class ExportBean implements Serializable {
 				// Personal;Kompetenzen:
 				// Methodisch;Zehntelnote;Lehrer/Lehrerin;Bemerkungen
 
-				ps.print(participant.get_klasse() + ";" // Klasse	x
-						+ participant.get_nachname() + ";" // Name	x
-						+ participant.get_vorname() + ";" // Vorname	x
-						+ dbh.getCourseFaecherverbundOfCourseid(participant.get_grade_kursid()) + ";" // Fächerverbund
-						+ participant.get_grade_jahr() + " - " + participant.get_grade_tertial() + ";" // Tertial/Schuljahr	x
-						+ participant.get_grade_fachwissen() + ";" // Kompetenzen: Fachwissen x
-						+ participant.get_grade_sozial() + ";" // Kompetenzen: Sozial	x
-						+ participant.get_grade_personal() + ";" // Kompetenzen: Personal	x
-						+ participant.get_grade_methodisch() + ";" // Kompetenzen: Methodisch	x
-						+ participant.get_grade_note() + ";" // Zehntelnote	x
-						+ dbh.showUserFullName(dbh.getUserId()) + ";" // Lehrerin/Lehrer -> Nur für Kurslehrer-Export
-						+ participant.get_grade_bemerkung() + "\n"); // Bemerkungen	x
-						
+				ps.print(participant.get_klasse()
+						+ ";" // Klasse x
+						+ participant.get_nachname()
+						+ ";" // Name x
+						+ participant.get_vorname()
+						+ ";" // Vorname x
+						+ dbh.getCourseFaecherverbundOfCourseid(participant
+								.get_grade_kursid())
+						+ ";" // Fächerverbund
+						+ participant.get_grade_jahr()
+						+ " - "
+						+ participant.get_grade_tertial()
+						+ ";" // Tertial/Schuljahr x
+						+ dbh.getCoursenameOfCourseid(participant
+								.get_grade_kursid()) + ";" // Kursthema
+						+ participant.get_grade_fachwissen() + ";" // Kompetenzen:
+																	// Fachwissen
+																	// x
+						+ participant.get_grade_sozial() + ";" // Kompetenzen:
+																// Sozial x
+						+ participant.get_grade_personal() + ";" // Kompetenzen:
+																	// Personal
+																	// x
+						+ participant.get_grade_methodisch() + ";" // Kompetenzen:
+																	// Methodisch
+																	// x
+						+ participant.get_grade_note() + ";" // Zehntelnote x
+						+ dbh.showUserFullName(dbh.getUserId()) + ";" // Lehrerin/Lehrer
+																		// ->
+																		// Nur
+																		// für
+																		// Kurslehrer-Export
+																		// möglich
+																		// da ID
+																		// des
+																		// aufrufenden
+																		// Lehrers
+																		// verwendet
+																		// wird,
+																		// also
+																		// seine
+																		// selbts
+						+ participant.get_grade_bemerkung() + "\n"); // Bemerkungen
+																		// x
 
 				// DEBUG
 				System.out.println(participant.get_id());
@@ -1568,5 +1599,5 @@ public class ExportBean implements Serializable {
 		}
 		return "coursebook";
 	}
-	
+
 }

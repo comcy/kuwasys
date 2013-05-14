@@ -727,6 +727,8 @@ public class DatabaseHandler {
 	 * Ließt Kurs-ID aus der DB für die gegebenen User-ID !!! User muss Lehrer
 	 * sein !!!
 	 * 
+	 * TODO LÖSCHEN WEIL BULLSHIT
+	 * 
 	 * @param id
 	 * @return passwort
 	 */
@@ -757,19 +759,50 @@ public class DatabaseHandler {
 	}
 
 	/**
-	 * Ließt Kurs-Name aus der DB für die gegebenen User-ID !!! User muss Lehrer
-	 * sein !!!
+	 * Ließt Kurs-Name aus der DB für die gegebenen User-ID 
 	 * 
 	 * @param id
 	 * @return passwort
 	 */
-	public String getCourseNameOfTeacher(int id) {
+	public String getCoursenameOfTeacherid(int id) {
 		System.out.println("getCourseNameOfTeacher");
 
 		SQLConnection2();
 		ResultSet rs = null;
 		PreparedStatement pst = null;
 		String stm = "Select course_name from course where course_kurslehrer="
+				+ id + ";";
+		String kname = "";
+
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+				kname = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		System.out.println(kname);
+		return kname;
+	}
+	
+	/**
+	 * Ließt Kurs-Name aus der DB für die gegebenen Kurs-ID 
+	 * 
+	 * @param id
+	 * @return passwort
+	 */
+	public String getCoursenameOfCourseid(int id) {
+		System.out.println("getCourseNameOfTeacher");
+
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "Select course_name from course where course_id="
 				+ id + ";";
 		String kname = "";
 

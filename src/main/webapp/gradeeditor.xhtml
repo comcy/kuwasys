@@ -3,86 +3,97 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-    xmlns:t="http://myfaces.apache.org/tomahawk">
+	xmlns:t="http://myfaces.apache.org/tomahawk">
 
 	<ui:define name="title">Notenverwaltung</ui:define>
 	<ui:define name="content">
 		<h1>
-			<h:outputText value="#{courseBean.getSingleCourse(param['id'])._name}"/> 
-			<h:outputText value=" #{courseBean.getSingleCourse(param['id'])._jahr}/#{courseBean.getSingleCourse(param['id'])._jahr+1}"/> - 
-			<h:outputText value=" #{courseBean.getSingleCourse(param['id'])._tertial}"/>
+			<h:outputText
+				value="#{courseBean.getSingleCourse(param['id'])._name}" />
+			<h:outputText
+				value=" #{courseBean.getSingleCourse(param['id'])._jahr}/#{courseBean.getSingleCourse(param['id'])._jahr+1}" />
+			-
+			<h:outputText
+				value=" #{courseBean.getSingleCourse(param['id'])._tertial}" />
 		</h1>
 		<h:form id="gradeeditor">
-						<t:dataTable id="att"
-			                styleClass="standardTable"
-			                headerClass="standardTable_SortHeader"
-			                footerClass="standardTable_Footer"
-			                var="attender"
-			                sortable="false"
-			                value="#{gradelistBean.courseAttenders}"
-			                preserveDataModel="false">
-					        <t:column>
-				                <f:facet name="header">
-				                    <h:outputText value="Vorname" />
-				                </f:facet>
-				                <h:outputText value="#{attender._vorname}" />
-				            </t:column>
-					        <t:column>
-				                <f:facet name="header">
-				                    <h:outputText value="Nachname" />
-				                </f:facet>
-				                <h:outputText value="#{attender._nachname}" />
-				            </t:column>
-					        <t:column>
-				                <f:facet name="header">
-				                    <h:outputText value="Klasse" />
-				                </f:facet>
-				                <h:outputText value="#{attender._klasse}" />
-				            </t:column>		
-					        <t:column>
-				                <f:facet name="header">
-				                    <h:outputText value="Note" />
-				                </f:facet>
-				                <h:inputText id="note" value="#{attender._grade_note}" size="1"/>
-				            </t:column>	
-					        <t:column>
-				                <f:facet name="header">
-				                    <h:outputText value="Bemerkung" />
-				                </f:facet>
-				                <h:inputText id="bemerkung" value="#{attender._grade_bemerkung}" size="20" />
-				            </t:column>
-					        <t:column>
-				                <f:facet name="header">
-				                    <h:outputText value="Fachwissen" />
-				                </f:facet>
-				                <h:inputText id="fachwissen" value="#{attender._grade_fachwissen}" size="1"/>
-				            </t:column>	
-					        <t:column>
-				                <f:facet name="header">
-				                    <h:outputText value="Sozial" />
-				                </f:facet>
-				                <h:inputText id="sozial" value="#{attender._grade_sozial}" size="1"/>
-				            </t:column>	
-				            <t:column>
-				                <f:facet name="header">
-				                    <h:outputText value="Personal" />
-				                </f:facet>
-				                <h:inputText id="personal" value="#{attender._grade_personal}" size="1"/>
-				            </t:column>	
-				            <t:column>
-				                <f:facet name="header">
-				                    <h:outputText value="Methodisch" />
-				                </f:facet>
-				                <h:inputText id="methodisch" value="#{attender._grade_methodisch}" size="1"/>
-				            </t:column>	
-			            </t:dataTable>
-			<h:commandButton value="Speichern" action="#{gradelistBean.updateGrades()}" >
+			<t:dataTable id="att" styleClass="standardTable"
+				headerClass="standardTable_SortHeader"
+				footerClass="standardTable_Footer" var="attender" sortable="false"
+				value="#{gradelistBean.courseAttenders}" preserveDataModel="false">
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Vorname" />
+					</f:facet>
+					<h:outputText value="#{attender._vorname}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Nachname" />
+					</f:facet>
+					<h:outputText value="#{attender._nachname}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Klasse" />
+					</f:facet>
+					<h:outputText value="#{attender._klasse}" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Note" />
+					</f:facet>
+					<h:inputText id="note" value="#{attender._grade_note}" size="1" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Bemerkung" />
+					</f:facet>
+					<h:inputText id="bemerkung" value="#{attender._grade_bemerkung}"
+						size="20" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Fachwissen" />
+					</f:facet>
+					<h:inputText id="fachwissen" value="#{attender._grade_fachwissen}"
+						size="1" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Sozial" />
+					</f:facet>
+					<h:inputText id="sozial" value="#{attender._grade_sozial}" size="1" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Personal" />
+					</f:facet>
+					<h:inputText id="personal" value="#{attender._grade_personal}"
+						size="1" />
+				</t:column>
+				<t:column>
+					<f:facet name="header">
+						<h:outputText value="Methodisch" />
+					</f:facet>
+					<h:inputText id="methodisch" value="#{attender._grade_methodisch}"
+						size="1" />
+				</t:column>
+			</t:dataTable>
+			<h:commandButton value="Speichern"
+				action="#{gradelistBean.updateGrades()}">
 				<f:param name="id" value="#{param['id']}" />
 			</h:commandButton>
 		</h:form>
-		<h3><h:outputText rendered="#{(kuwasys.userRole()=='Lehrer')}" value="Funktionen:"/></h3>
+		<h3>
+			<h:outputText value="Funktionen:" />
+		</h3>
 		<h:form>
-			<h:commandButton value="Notenliste des Kurses als CSV-Datei herunterladen"	action="#{exportBean.csvDownloadGradelist}"  rendered="#{(kuwasys.userRole()=='Lehrer')}" />
+			<h:commandButton
+				value="Notenliste des Kurses als CSV-Datei herunterladen"
+				action="#{exportBean.csvDownloadGradelist()}">
+				<f:param name="id" value="#{param['id']}" />
+			</h:commandButton>
 		</h:form>
 	</ui:define>
 </ui:composition>
