@@ -161,7 +161,7 @@
 				</t:column>
 			</t:dataTable>
 			<h:commandLink value="Einen Kurs wählen"
-				rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()==0) and (kuwasys.phase==2)}"
+				rendered="#{(kuwasys.userRole()=='Schüler') and (courseBean.isDateConflicting()=='0') and (kuwasys.phase==2)}"
 				action="#{kuwasys.goAddGradelist()}" />
 		</h:form>
 		<h3><h:outputText rendered="#{(kuwasys.userRole()=='Schüler')}" value="Funktionen:"/></h3>
