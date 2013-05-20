@@ -11,12 +11,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
-import javax.persistence.RollbackException;
 import javax.validation.ConstraintViolationException;
 
 import org.apache.myfaces.custom.fileupload.UploadedFile;
-import org.hibernate.tool.hbm2ddl.ImportScriptException;
-
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 
 /**
@@ -114,17 +111,7 @@ public class ImportBean implements Serializable {
 			reader.close();
 			//DatabaseHandler.SQLConnectionClose();
 
-		} catch (RollbackException e) {
-			logger.info("Import fehlgeschlagen\n" + e.getMessage());
-
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Import fehlgeschlagen", null);
 		} catch (ConstraintViolationException e) {
-			logger.info("Import fehlgeschlagen\n" + e.getMessage());
-
-			message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-					"Import fehlgeschlagen", null);
-		} catch (ImportScriptException e) {
 			logger.info("Import fehlgeschlagen\n" + e.getMessage());
 
 			message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
