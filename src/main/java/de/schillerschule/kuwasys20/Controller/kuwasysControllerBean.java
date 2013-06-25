@@ -215,6 +215,17 @@ public class kuwasysControllerBean {
     }
 	
 	/**
+	 * Klassen eines Lehrers anzeigen (eigene) mit Notenliste
+	 * 
+	 * @return Facelet "classesgrades"
+	 */
+	public String goClassesGrades(){
+		return "classesgrades";
+    }
+	
+	
+	
+	/**
 	 * Kurs hinzufügen
 	 * 
 	 * @return Facelet "courseadd"

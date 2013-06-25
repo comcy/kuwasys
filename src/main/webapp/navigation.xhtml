@@ -21,6 +21,7 @@
 					
 					<t:navigationMenuItem value="Klasse" id="klasse" action="#{kuwasys.goClasses}" visibleOnUserRole="lehrer">
 						<t:navigationMenuItem value=" - Terminplan" id="classschedule" action="#{kuwasys.goClassesSchedule}" visibleOnUserRole="admin,lehrer"/>
+						<t:navigationMenuItem value=" - Notenliste" id="classgrades" action="#{kuwasys.goClassesGrades}" visibleOnUserRole="admin,lehrer"/>
 					</t:navigationMenuItem>
 					<t:navigationMenuItem value="Terminplan" id="classesschedule" action="#{kuwasys.goClassesSchedule}" visibleOnUserRole="admin"/>
 					<t:navigationMenuItem value="Kurse" id="kurse" action="#{kuwasys.goCourses}" visibleOnUserRole="admin,lehrer,schueler">
