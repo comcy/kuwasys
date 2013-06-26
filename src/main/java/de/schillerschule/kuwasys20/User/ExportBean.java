@@ -2,8 +2,13 @@ package de.schillerschule.kuwasys20.User;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
+import java.nio.charset.CharsetDecoder;
+import java.nio.charset.CharsetEncoder;
 import java.util.List;
 
 import javax.faces.bean.ManagedBean;
@@ -1499,14 +1504,23 @@ public class ExportBean implements Serializable {
 	 */
 	public String csvDownloadGradelist() {
 
+		Charset charset = Charset.forName("ISO-8859-1");
+		//DEBUG
+		System.out.println( charset );    
+		
 		String filename = "Notenliste_"
-				+ dbh.getCoursenameOfCourseid(Integer
-						.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
-								.get("id"))) + "_" + dbh.getCourseyearOfCourseid(Integer
-										.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
-												.get("id"))) + "-" + dbh.getCoursetertialOfCourseid(Integer
-														.parseInt(FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap()
-																.get("id"))) + ".csv";
+				+ dbh.getCoursenameOfCourseid(Integer.parseInt(FacesContext
+						.getCurrentInstance().getExternalContext()
+						.getRequestParameterMap().get("id")))
+				+ "_"
+				+ dbh.getCourseyearOfCourseid(Integer.parseInt(FacesContext
+						.getCurrentInstance().getExternalContext()
+						.getRequestParameterMap().get("id")))
+				+ "-"
+				+ dbh.getCoursetertialOfCourseid(Integer.parseInt(FacesContext
+						.getCurrentInstance().getExternalContext()
+						.getRequestParameterMap().get("id"))) + ".csv";
+		String csvContent = "";
 
 		try {
 			FacesContext fc = FacesContext.getCurrentInstance();
@@ -1514,13 +1528,15 @@ public class ExportBean implements Serializable {
 			ExternalContext ec = fc.getExternalContext();
 
 			ec.responseReset();
-			ec.setResponseContentType("text/comma-separated-values");
+			ec.setResponseContentType("application/vnd.xls");
+			ec.setRequestCharacterEncoding("LATIN1");
 			ec.setResponseHeader("Content-Disposition",
 					"attachment; filename=\"" + filename + "\"");
 
+			// OutpuStreamWriter kann encodieren
+			// Windows "ISO-8859-1" Probleme treten nicht mehr auf
 			OutputStream os = ec.getResponseOutputStream();
-			PrintStream ps = new PrintStream(os);
-
+			OutputStreamWriter osw = new OutputStreamWriter(os, "ISO-8859-1");
 			// Kursteilnehmer auslesen
 			List<User> participants = dbh.listCourseParticipants(Integer
 					.parseInt(fc.getExternalContext().getRequestParameterMap()
@@ -1532,8 +1548,7 @@ public class ExportBean implements Serializable {
 
 			for (User participant : participants) {
 
-				// Aufbau CSV-Datei (siehe Kommentare)
-				ps.print(participant.get_klasse()
+				csvContent = participant.get_klasse()
 						+ ";" // Klasse x
 						+ participant.get_nachname()
 						+ ";" // Name x
@@ -1542,24 +1557,32 @@ public class ExportBean implements Serializable {
 						+ dbh.getCourseFaecherverbundOfCourseid(participant
 								.get_grade_kursid())
 						+ ";" // Fächerverbund
-						+ "20" + participant.get_grade_jahr()
-						+ " - "
+						+ "20"
+						+ participant.get_grade_jahr()
+						+ "/ "
 						+ participant.get_grade_tertial()
-						+ ";" // Tertial/Schuljahr x
+						+ ";" // Tertial/Schuljahr
 						+ dbh.getCoursenameOfCourseid(participant
-								.get_grade_kursid()) + ";" // Kursthema
-						+ participant.get_grade_fachwissen() + ";" // Kompetenzen:
-																	// Fachwissen
-																	// x
-						+ participant.get_grade_sozial() + ";" // Kompetenzen:
-																// Sozial x
-						+ participant.get_grade_personal() + ";" // Kompetenzen:
-																	// Personal
-																	// x
-						+ participant.get_grade_methodisch() + ";" // Kompetenzen:
-																	// Methodisch
-																	// x
-						+ participant.get_grade_note() + ";" // Zehntelnote x
+								.get_grade_kursid())
+						+ ";" // Kursthema
+						+ Double.toString(participant.get_grade_fachwissen())
+								.replaceAll("[.]", ",")
+						+ ";" // Kompetenzen:
+						// Fachwissen
+						+ Double.toString(participant.get_grade_sozial())
+								.replaceAll("[.]", ",")
+						+ ";" // Kompetenzen:
+						// Sozial
+						+ Double.toString(participant.get_grade_personal())
+								.replaceAll("[.]", ",")
+						+ ";" // Kompetenzen:
+						// Personal
+						+ Double.toString(participant.get_grade_methodisch())
+								.replaceAll("[.]", ",")
+						+ ";" // Kompetenzen:
+						// Methodisch
+						+ Double.toString(participant.get_grade_note())
+								.replaceAll("[.]", ",") + ";" // Zehntelnote
 						+ dbh.showUserFullName(dbh.getUserId()) + ";" // Lehrerin/Lehrer
 																		// ->
 																		// Nur
@@ -1575,14 +1598,14 @@ public class ExportBean implements Serializable {
 																		// also
 																		// seine
 																		// selbts
-						+ participant.get_grade_bemerkung() + "\n"); // Bemerkungen x
+						+ participant.get_grade_bemerkung() + "\n"; // Bemerkungen
+				osw.write(csvContent);
 			}
-
-			ps.flush();
-			ps.close();
+			osw.flush();
+			osw.close();
 
 			fc.responseComplete();
-			
+
 		} catch (IOException ex) {
 			System.out.println("CSV File Export Error: " + ex);
 		}
