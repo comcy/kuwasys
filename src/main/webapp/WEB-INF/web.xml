@@ -145,6 +145,7 @@
 			<url-pattern>/gradelist.jsf</url-pattern>
 			<url-pattern>/system.jsf</url-pattern>
 			<url-pattern>/passwordgenerate.jsf</url-pattern>
+			<url-pattern>/classesgrades.jsf</url-pattern>
 		</web-resource-collection>
 		<auth-constraint>
 			<role-name>admin</role-name>
