@@ -5,18 +5,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.annotation.PostConstruct;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
-import javax.faces.component.UIInput;
 import javax.faces.context.FacesContext;
-import javax.faces.event.ValueChangeEvent;
-import javax.servlet.http.HttpServletRequest;
-
-import org.postgresql.translation.messages_bg;
-
 import de.schillerschule.kuwasys20.Controller.kuwasysControllerBean;
 import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 

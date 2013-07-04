@@ -90,10 +90,11 @@
 		</h:form>
 		<h3><h:outputText value="Funktionen:"/></h3>
 		<h:form>
-			<h:commandButton value="CSV Klassenliste exportieren"
-				action="#{exportBean.csvDownloadClass}"></h:commandButton>
-			<h:commandButton value="PDF Passwortliste exportieren"
-				action="#{exportBean.pdfDownloadClass}"></h:commandButton>
+			<h:commandButton
+				value="Notenliste der Klasse als CSV-Datei herunterladen"
+				action="#{exportBean.csvDownloadGradelistClass()}">
+				<f:param name="id" value="#{param['id']}" />
+			</h:commandButton>
 		</h:form>
 	</ui:define>
 </ui:composition>

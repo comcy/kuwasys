@@ -791,6 +791,49 @@ public class DatabaseHandler {
 	}
 	
 	/**
+	 * Ließt Kurs-Name aus der DB für die gegebenen User-ID 
+	 * 
+	 * @param id
+	 * @return passwort
+	 */
+	public String getTeachernameOfCourseid() {
+		System.out.println("getTeachernameOfCourseid");
+
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = 
+				"SELECT DISTINCT U.users_id, U.users_vorname, U.users_nachname" 
+				+ "FROM (users AS U"
+				+ "JOIN course AS C"
+				+ "ON U.users_id = C.course_kurslehrer)"
+				+ "JOIN gradelist AS G"
+				+ "ON C.course_id = '19'"
+				+ "WHERE U.users_rolle = 'lehrer';";
+		
+		String teacherVname = "";
+		String teacherNname = "";
+		String teacher = "";
+		
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+				teacherNname = rs.getString(1);
+				teacherVname = rs.getString(2);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		teacher = teacherVname + " " + teacherNname; 
+		System.out.println(teacher);
+		return teacher;
+	}
+	
+	/**
 	 * Ließt Kurs-Tertial aus der DB für die gegebenen Kurs-ID 
 	 * 
 	 * @param id
@@ -2036,7 +2079,8 @@ public class DatabaseHandler {
 						result2.getDouble("gradelist_fachwissen"),
 						result2.getDouble("gradelist_sozial"),
 						result2.getDouble("gradelist_personal"),
-						result2.getDouble("gradelist_methodisch"));
+						result2.getDouble("gradelist_methodisch"),
+						result2.getInt("gradelist_kursid"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -2123,7 +2167,8 @@ public class DatabaseHandler {
 						.getDouble("gradelist_fachwissen"), result
 						.getDouble("gradelist_sozial"), result
 						.getDouble("gradelist_personal"), result
-						.getDouble("gradelist_methodisch")));
+						.getDouble("gradelist_methodisch"), result
+						.getInt("gradelist_kursid")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

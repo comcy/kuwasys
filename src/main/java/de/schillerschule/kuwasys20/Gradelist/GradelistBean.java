@@ -160,11 +160,12 @@ public class GradelistBean {
 		private Double _sozial;
 		private Double _personal;
 		private Double _methodisch;
+		private int _kursid;
 
 		public Grades(int id, double note, String bemerkung, int usersid,
 				String kursname, int jahr, int tertial, String faecherverbund,
 				double fachwissen, double sozial, double personal,
-				double methodisch) {
+				double methodisch, int kursid) {
 			_id = id;
 			_note = note;
 			_bemerkung = bemerkung;
@@ -177,6 +178,7 @@ public class GradelistBean {
 			set_sozial(sozial);
 			set_personal(personal);
 			set_methodisch(methodisch);
+			set_kursid(kursid);
 
 		}
 
@@ -197,6 +199,10 @@ public class GradelistBean {
 			this._userid = _usersid;
 		}
 
+		public void set_kursid(int _kursid) {
+			this._kursid = _kursid;
+		}
+		
 		public void set_kursid(String _kursname) {
 			this._kursname = _kursname;
 		}
@@ -220,6 +226,10 @@ public class GradelistBean {
 
 		public String get_kursname() {
 			return _kursname;
+		}
+		
+		public int get_kursid() {
+			return _kursid;
 		}
 
 		public int get_jahr() {
@@ -277,5 +287,6 @@ public class GradelistBean {
 		public void set_methodisch(Double _methodisch) {
 			this._methodisch = _methodisch;
 		}
+		
 	}
 }
