@@ -22,7 +22,7 @@
 				<h:inputText id="teilnehmer" value="#{teilnehmer_orig.value}" required="true" binding="#{teilnehmer}" />
 				<h:outputText value="#{param['teilnehmer']}" binding="#{teilnehmer_orig}" />				
 				
-				<h:outputLabel for="beschreibung" value="beschreibung:" />
+				<h:outputLabel for="beschreibung" value="Beschreibung:" />
 				<h:inputTextarea id="beschreibung" value="#{beschreibung_orig.value}" required="false" maximum="100" cols="50" rows="10"  binding="#{beschreibung}"/>
 				<h:outputText value="#{param['beschreibung']}" binding="#{beschreibung_orig}" />
 			</h:panelGrid>
