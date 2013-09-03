@@ -152,6 +152,8 @@
 						<f:param name="teilnehmer" value="#{course._teilnehmerzahl}" />
 						<f:param name="termin" value="#{course._termin}" />
 						<f:param name="beschreibung" value="#{course._beschreibung}" />
+						<f:param name="kurslehrer" value="#{course._kurslehrer}" />
+						<f:param name="kurslehrerName" value="#{course._kurslehrerName}" />
 						<h:outputText value="Bearbeiten" />
 					</h:outputLink>
 					<h:outputLink value="gradeeditor.jsf" rendered="#{(kuwasys.userRole()=='Lehrer')}">

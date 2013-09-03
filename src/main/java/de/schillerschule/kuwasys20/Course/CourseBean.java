@@ -118,19 +118,21 @@ public class CourseBean implements Serializable{
 	 * 
 	 * @return
 	 */
-	public String sendCourseUpdate(String strid, String name, String faecherverbund, String strteilnehmerzahl, String beschreibung) {
+	public String sendCourseUpdate(String strid, String name, String faecherverbund, String strteilnehmerzahl, String strkurslehrer, String beschreibung) {
 
 		 int id=Integer.parseInt(strid);
 		 int teilnehmerzahl = Integer.parseInt(strteilnehmerzahl);
+		 int kurslehrer = Integer.parseInt(strkurslehrer);
 		
 		// TODO MESSAGE/LOG DEBUG
 		System.out.println("ID: " + id);
 		System.out.println("Kursname: " + name);
 		System.out.println("faecherverbund: " + faecherverbund);
 		System.out.println("Teilnehmerzahl: " + teilnehmerzahl);
+		System.out.println("Kurslehrer: " + kurslehrer);
 		System.out.println("Beschreibung: " + beschreibung);
 
-		dbh.updateCourse(id, name, faecherverbund, teilnehmerzahl, beschreibung);
+		dbh.updateCourse(id, name, faecherverbund, teilnehmerzahl, kurslehrer, beschreibung);
 
 		logger.info("Kurs: " + name + " " + faecherverbund + " geändert!");
 		return "courseupdatesuccess";

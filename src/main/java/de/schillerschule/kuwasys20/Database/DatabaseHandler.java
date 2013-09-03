@@ -1982,7 +1982,7 @@ public class DatabaseHandler {
 	}
 
 	public void updateCourse(int id, String name, String faecherverbund,
-			int teilnehmerzahl, String beschreibung) {
+			int teilnehmerzahl, int kurslehrer, String beschreibung) {
 
 		SQLConnection();
 		try {
@@ -1990,18 +1990,20 @@ public class DatabaseHandler {
 			statement.executeUpdate("UPDATE course SET course_name = '" + name
 					+ "', course_faecherverbund = '" + faecherverbund
 					+ "', course_teilnehmerzahl = " + teilnehmerzahl
+					+ ", course_kurslehrer = " + kurslehrer
 					+ ", course_beschreibung = '" + beschreibung
 					+ "' WHERE course_id = " + id + ";");
-			System.out.println(">>> UPDATE USER"); // DEBUG
+			System.out.println(">>> UPDATE COURSE"); // DEBUG
 
 			messageName = new FacesMessage(FacesMessage.SEVERITY_INFO,
 					"Der Kurs " + name + " " + faecherverbund
-							+ " wurde erfolgreich ge-updated!", null);
+							+ " wurde erfolgreich aktualisiert!", null);
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		}
 		FacesContext.getCurrentInstance().addMessage(
 				"courseupdatesuccess_name", messageName);
+		SQLConnectionClose();
 	}
 
 	/**
