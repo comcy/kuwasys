@@ -38,6 +38,7 @@
 			<h:inputText id="id" value="#{id_orig.value}" required="true"
 				binding="#{id}" style="visibility:hidden" />
 			<h:commandButton value="Speichern"
+				 style="#{param['konfession'] eq 'lehrer' ? 'visibility:hidden' : 'visbility:visible'}"
 				action="#{userBean.sendUserUpdate(id_orig.value, name.value, lastname.value, konfession.value, klasse.value)}" />
 			<h:messages showDetail="true" showSummary="false" />
 		</h:form>
