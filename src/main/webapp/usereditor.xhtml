@@ -21,10 +21,13 @@
 				<h:outputText value="#{param['nachname']}"
 					binding="#{nachname_orig}" />
 
-				<h:outputLabel for="konfession" value="Konfession:" />
+				<h:outputLabel for="konfession" value="Konfession:" 
+					style="#{param['konfession'] eq 'lehrer' ? 'visibility:hidden' : 'visbility:visible'}"/>
 				<h:inputText id="konfession" value="#{konfession_orig.value}"
+					style="#{param['konfession'] eq 'lehrer' ? 'visibility:hidden' : 'visbility:visible'}"
 					required="true" binding="#{konfession}" />
 				<h:outputText value="#{param['konfession']}"
+					style="#{param['konfession'] eq 'lehrer' ? 'visibility:hidden' : 'visbility:visible'}"
 					binding="#{konfession_orig}" />
 
 				<h:outputLabel for="klasse" value="Klasse:" />
@@ -38,7 +41,6 @@
 			<h:inputText id="id" value="#{id_orig.value}" required="true"
 				binding="#{id}" style="visibility:hidden" />
 			<h:commandButton value="Speichern"
-				 style="#{param['konfession'] eq 'lehrer' ? 'visibility:hidden' : 'visbility:visible'}"
 				action="#{userBean.sendUserUpdate(id_orig.value, name.value, lastname.value, konfession.value, klasse.value)}" />
 			<h:messages showDetail="true" showSummary="false" />
 		</h:form>
