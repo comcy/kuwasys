@@ -11,7 +11,7 @@
 			<h:panelGrid columns="3">
 							
 				<h:outputLabel for="name" value="Kursname:" />
-				<h:inputText id="name" value="#{name_orig.value}" required="true" binding="#{name}" />
+				<h:inputText id="name" value="#{name_orig.value}" size="60" required="true" binding="#{name}" />
 				<h:outputText value="#{param['name']}" binding="#{name_orig}" />
 				
 				<h:outputLabel for="faecherverbund" value="Fächerverbund:" />
