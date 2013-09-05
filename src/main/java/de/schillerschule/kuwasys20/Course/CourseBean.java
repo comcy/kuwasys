@@ -118,11 +118,16 @@ public class CourseBean implements Serializable{
 	 * 
 	 * @return
 	 */
-	public String sendCourseUpdate(String strid, String name, String faecherverbund, String strteilnehmerzahl, String strkurslehrer, String beschreibung) {
+	public String sendCourseUpdate(String strid, String name, String faecherverbund, String strteilnehmerzahl, String strkurslehrer, String strtermin, String beschreibung) {
 
 		 int id=Integer.parseInt(strid);
 		 int teilnehmerzahl = Integer.parseInt(strteilnehmerzahl);
 		 int kurslehrer = Integer.parseInt(strkurslehrer);
+		 int termin = 1;
+		 String[] termine = { "MO VO", "MO NA", "DI VO", "DI NA", "MI VO", "MI NA", "DO VO", "DO NA", "FR VO", "FR NA" };
+		 
+		 for (int i=0; i<10; i++)
+			 if (termine[i].equals(strtermin)) termin = termin + i;
 		
 		// TODO MESSAGE/LOG DEBUG
 		System.out.println("ID: " + id);
@@ -130,9 +135,10 @@ public class CourseBean implements Serializable{
 		System.out.println("faecherverbund: " + faecherverbund);
 		System.out.println("Teilnehmerzahl: " + teilnehmerzahl);
 		System.out.println("Kurslehrer: " + kurslehrer);
+		System.out.println("Termin: " + strtermin);
 		System.out.println("Beschreibung: " + beschreibung);
 
-		dbh.updateCourse(id, name, faecherverbund, teilnehmerzahl, kurslehrer, beschreibung);
+		dbh.updateCourse(id, name, faecherverbund, teilnehmerzahl, kurslehrer, termin, beschreibung);
 
 		logger.info("Kurs: " + name + " " + faecherverbund + " geändert!");
 		return "courseupdatesuccess";

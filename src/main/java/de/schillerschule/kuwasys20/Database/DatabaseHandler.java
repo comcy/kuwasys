@@ -1982,7 +1982,7 @@ public class DatabaseHandler {
 	}
 
 	public void updateCourse(int id, String name, String faecherverbund,
-			int teilnehmerzahl, int kurslehrer, String beschreibung) {
+			int teilnehmerzahl, int kurslehrer, int termin, String beschreibung) {
 
 		SQLConnection();
 		try {
@@ -1991,6 +1991,7 @@ public class DatabaseHandler {
 					+ "', course_faecherverbund = '" + faecherverbund
 					+ "', course_teilnehmerzahl = " + teilnehmerzahl
 					+ ", course_kurslehrer = " + kurslehrer
+					+ ", course_termin = " + termin
 					+ ", course_beschreibung = '" + beschreibung
 					+ "' WHERE course_id = " + id + ";");
 			System.out.println(">>> UPDATE COURSE"); // DEBUG

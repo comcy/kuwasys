@@ -2,7 +2,8 @@
 <ui:composition template="template.xhtml"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:ui="http://java.sun.com/jsf/facelets">
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:t="http://myfaces.apache.org/tomahawk">
 
 	<ui:define name="title">Kursverwaltung</ui:define>
 	<ui:define name="content">
@@ -29,6 +30,40 @@
 					<h:outputText value="#{param['kurslehrer']}" binding="#{kurslehrer_orig}"/>
 				</h:panelGrid>
 				
+				<h:outputLabel for="termin" value="Zeitpunkt" />
+			    <h:panelGroup>
+			      <t:selectOneRadio id="termin" layout="spread" value="#{termin_orig.value}" binding="#{termin}">
+			        <f:selectItem itemValue="MO VO" itemLabel="Vormittag" />
+			        <f:selectItem itemValue="MO NA" itemLabel="Nachmittag" />
+			        <f:selectItem itemValue="DI VO" itemLabel="Vormittag" />
+			        <f:selectItem itemValue="DI NA" itemLabel="Nachmittag" />
+			        <f:selectItem itemValue="MI VO" itemLabel="Vormittag" />
+			        <f:selectItem itemValue="MI NA" itemLabel="Nachmittag" />
+			        <f:selectItem itemValue="DO VO" itemLabel="Vormittag" />
+			        <f:selectItem itemValue="DO NA" itemLabel="Nachmittag" />
+			        <f:selectItem itemValue="FR VO" itemLabel="Vormittag" />
+			        <f:selectItem itemValue="FR NA" itemLabel="Nachmittag" />
+			      </t:selectOneRadio>
+			      <h:panelGrid columns="5">
+			      	<h:outputText value="Montag"/>
+			      	<h:outputText value="Dienstag"/>
+			      	<h:outputText value="Mittwoch"/>
+			      	<h:outputText value="Donnerstag"/>
+			      	<h:outputText value="Freitag"/>
+			        <t:radio for="termin" index="0" />
+			        <t:radio for="termin" index="2" />
+			        <t:radio for="termin" index="4" />
+			        <t:radio for="termin" index="6" />
+			        <t:radio for="termin" index="8" />
+			        <t:radio for="termin" index="1" />
+			        <t:radio for="termin" index="3" />
+			        <t:radio for="termin" index="5" />
+			        <t:radio for="termin" index="7" />
+			        <t:radio for="termin" index="9" />
+			      </h:panelGrid>
+			    </h:panelGroup>
+				<h:outputLabel for="termin" value="#{param['termin']}" binding="#{termin_orig}"/>
+				
 				<h:outputLabel for="beschreibung" value="Beschreibung:" />
 				<h:inputTextarea id="beschreibung" value="#{beschreibung_orig.value}" required="false" maximum="100" cols="50" rows="10"  binding="#{beschreibung}"/>
 				<h:outputText value="#{param['beschreibung']}" binding="#{beschreibung_orig}" />
@@ -36,7 +71,7 @@
 				<h:outputLabel for="id" value="ID:" style="visibility:hidden"/>
 				<h:outputText value="#{param['id']}" binding="#{id_orig}" style="visibility:hidden"/>
 				<h:inputText id="id" value="#{id_orig.value}" required="true" binding="#{id}" style="visibility:hidden"/>
-			<h:commandButton value="Speichern" action="#{courseBean.sendCourseUpdate(id_orig.value, name.value, faecherverbund.value, teilnehmer.value, kurslehrer.value, beschreibung.value)}" />
+			<h:commandButton value="Speichern" action="#{courseBean.sendCourseUpdate(id_orig.value, name.value, faecherverbund.value, teilnehmer.value, kurslehrer.value, termin.value, beschreibung.value)}" />
 			<h:messages showDetail="true" showSummary="false" />
 		</h:form>
 	</ui:define>
