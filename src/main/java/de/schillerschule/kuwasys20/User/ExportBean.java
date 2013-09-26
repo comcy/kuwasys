@@ -48,19 +48,23 @@ public class ExportBean implements Serializable {
 	public String csvDownloadStudents() {
 
 		String filename = "Schülerliste_Alle.csv";
-
+		String csvContent = "";
+		
 		try {
 			FacesContext fc = FacesContext.getCurrentInstance();
 
 			ExternalContext ec = fc.getExternalContext();
 
 			ec.responseReset();
-			ec.setResponseContentType("text/comma-separated-values");
+			ec.setResponseContentType("application/vnd.xls");
+			ec.setRequestCharacterEncoding("LATIN1");
 			ec.setResponseHeader("Content-Disposition",
 					"attachment; filename=\"" + filename + "\"");
 
+			// OutpuStreamWriter kann encodieren
+			// Windows "ISO-8859-1" Probleme treten nicht mehr auf
 			OutputStream os = ec.getResponseOutputStream();
-			PrintStream ps = new PrintStream(os);
+			OutputStreamWriter osw = new OutputStreamWriter(os, "ISO-8859-1");
 
 			List<User> users = dbh.listUsers();
 
@@ -69,10 +73,10 @@ public class ExportBean implements Serializable {
 			System.out.println("--------------------------");
 
 			for (User user : users) {
-				ps.print(user.get_vorname() + ";" + user.get_nachname() + ";"
+				csvContent = user.get_vorname() + ";" + user.get_nachname() + ";"
 						+ user.get_geburtstag() + ";" + user.get_konfession()
 						+ ";" + user.get_klasse() + ";" + user.get_username()
-						+ ";" + user.get_passwort() + "\n");
+						+ ";" + user.get_passwort() + "\n";
 
 				// DEBUG
 				System.out.println(user.get_vorname());
@@ -84,9 +88,10 @@ public class ExportBean implements Serializable {
 				System.out.println(user.get_passwort());
 				System.out.println("--------------------------");
 			}
-
-			ps.flush();
-			ps.close();
+			
+			osw.write(csvContent);
+			osw.flush();
+			osw.close();
 
 			fc.responseComplete();
 		} catch (IOException ex) {
@@ -103,6 +108,7 @@ public class ExportBean implements Serializable {
 	public String csvDownloadCourses() {
 
 		String filename = "Kursliste_Alle.csv";
+		String csvContent = "";
 
 		try {
 			FacesContext fc = FacesContext.getCurrentInstance();
@@ -110,12 +116,15 @@ public class ExportBean implements Serializable {
 			ExternalContext ec = fc.getExternalContext();
 
 			ec.responseReset();
-			ec.setResponseContentType("text/comma-separated-values");
+			ec.setResponseContentType("application/vnd.xls");
+			ec.setRequestCharacterEncoding("LATIN1");
 			ec.setResponseHeader("Content-Disposition",
 					"attachment; filename=\"" + filename + "\"");
 
+			// OutpuStreamWriter kann encodieren
+			// Windows "ISO-8859-1" Probleme treten nicht mehr auf
 			OutputStream os = ec.getResponseOutputStream();
-			PrintStream ps = new PrintStream(os);
+			OutputStreamWriter osw = new OutputStreamWriter(os, "ISO-8859-1");
 
 			List<Course> courses = dbh.listCourses();
 
@@ -124,11 +133,11 @@ public class ExportBean implements Serializable {
 			System.out.println("--------------------------");
 
 			for (Course course : courses) {
-				ps.print(course.get_name() + ";" + course.get_faecherverbund()
+				csvContent = course.get_name() + ";" + course.get_faecherverbund()
 						+ ";" + course.get_termin() + ";"
 						+ course.get_beschreibung() + ";"
 						+ course.get_kurslehrerName() + ";"
-						+ course.get_teilnehmerzahl() + "\n");
+						+ course.get_teilnehmerzahl() + "\n";
 
 				// DEBUG
 				System.out.println(course.get_name());
@@ -140,8 +149,9 @@ public class ExportBean implements Serializable {
 				System.out.println("--------------------------");
 			}
 
-			ps.flush();
-			ps.close();
+			osw.write(csvContent);
+			osw.flush();
+			osw.close();
 
 			fc.responseComplete();
 		} catch (IOException ex) {
@@ -160,18 +170,23 @@ public class ExportBean implements Serializable {
 		String filename = "Klassenliste_" + dbh.showUserClass(dbh.getUserId())
 				+ ".csv";
 
+			String csvContent = "";
+			
 		try {
 			FacesContext fc = FacesContext.getCurrentInstance();
 
 			ExternalContext ec = fc.getExternalContext();
 
 			ec.responseReset();
-			ec.setResponseContentType("text/comma-separated-values");
+			ec.setResponseContentType("application/vnd.xls");
+			ec.setRequestCharacterEncoding("LATIN1");
 			ec.setResponseHeader("Content-Disposition",
 					"attachment; filename=\"" + filename + "\"");
 
+			// OutpuStreamWriter kann encodieren
+			// Windows "ISO-8859-1" Probleme treten nicht mehr auf
 			OutputStream os = ec.getResponseOutputStream();
-			PrintStream ps = new PrintStream(os);
+			OutputStreamWriter osw = new OutputStreamWriter(os, "ISO-8859-1");
 
 			List<User> users = dbh.listClassesTeacher(dbh.getUserId());
 
@@ -180,10 +195,10 @@ public class ExportBean implements Serializable {
 			System.out.println("--------------------------");
 
 			for (User user : users) {
-				ps.print(user.get_vorname() + ";" + user.get_nachname() + ";"
+				csvContent = user.get_vorname() + ";" + user.get_nachname() + ";"
 						+ user.get_geburtstag() + ";" + user.get_konfession()
 						+ ";" + user.get_klasse() + ";" + user.get_username()
-						+ ";" + user.get_passwort() + "\n");
+						+ ";" + user.get_passwort() + "\n";
 
 				// DEBUG
 				System.out.println(user.get_vorname());
@@ -196,8 +211,9 @@ public class ExportBean implements Serializable {
 				System.out.println("--------------------------");
 			}
 
-			ps.flush();
-			ps.close();
+			osw.write(csvContent);
+			osw.flush();
+			osw.close();
 
 			fc.responseComplete();
 		} catch (IOException ex) {
