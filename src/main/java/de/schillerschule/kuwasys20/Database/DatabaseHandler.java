@@ -1390,7 +1390,8 @@ public class DatabaseHandler {
 						result.getInt("course_tertial"),
 						result.getInt("course_teilnehmerzahl"),
 						result.getBoolean("course_pflichtkurs"),
-						result.getBoolean("course_sport"));
+						result.getBoolean("course_sport"),
+						result.getString("course_raum"));
 
 			}
 		} catch (SQLException e) {
@@ -1425,7 +1426,8 @@ public class DatabaseHandler {
 								.getInt("course_tertial"), result
 								.getInt("course_teilnehmerzahl"), result
 								.getBoolean("course_pflichtkurs"), result
-								.getBoolean("course_sport")));
+								.getBoolean("course_sport"),
+								result.getString("course_raum")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1434,7 +1436,7 @@ public class DatabaseHandler {
 		return courses;
 	}
 
-	public void addCourse(String name, String faecherverbund, int kurslehrer,
+	public void addCourse(String name, String faecherverbund, String raum, int kurslehrer,
 			int termin, String beschreibung, int teilnehmerzahl, boolean sport,
 			ArrayList<String> konfessionen) {
 		int id = 0;
@@ -1442,11 +1444,13 @@ public class DatabaseHandler {
 			SQLConnection();
 			statement = connection.createStatement();
 			statement
-					.executeUpdate("INSERT INTO course (course_name, course_faecherverbund, course_kurslehrer, course_termin, course_beschreibung, course_teilnehmerzahl, course_sport)"
+					.executeUpdate("INSERT INTO course (course_name, course_faecherverbund, course_raum ,course_kurslehrer, course_termin, course_beschreibung, course_teilnehmerzahl, course_sport)"
 							+ "VALUES ('"
 							+ name
 							+ "', '"
 							+ faecherverbund
+							+ "', "			
+							+ raum
 							+ "', "
 							+ kurslehrer
 							+ ", "
@@ -1542,7 +1546,8 @@ public class DatabaseHandler {
 								.getInt("course_tertial"), result
 								.getInt("course_teilnehmerzahl"), result
 								.getBoolean("course_pflichtkurs"), result
-								.getBoolean("course_sport")));
+								.getBoolean("course_sport"),
+								result.getString("course_raum")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1597,7 +1602,8 @@ public class DatabaseHandler {
 								.getInt("course_tertial"), result
 								.getInt("course_teilnehmerzahl"), result
 								.getBoolean("course_pflichtkurs"), result
-								.getBoolean("course_sport")));
+								.getBoolean("course_sport"),
+								result.getString("course_raum")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1643,7 +1649,8 @@ public class DatabaseHandler {
 								.getInt("course_tertial"), result
 								.getInt("course_teilnehmerzahl"), result
 								.getBoolean("course_pflichtkurs"), result
-								.getBoolean("course_sport")));
+								.getBoolean("course_sport"),
+								result.getString("course_raum")));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -1981,7 +1988,7 @@ public class DatabaseHandler {
 		return name;
 	}
 
-	public void updateCourse(int id, String name, String faecherverbund,
+	public void updateCourse(int id, String name, String faecherverbund, String raum,
 			int teilnehmerzahl, int kurslehrer, int termin, String beschreibung) {
 
 		SQLConnection();
@@ -1989,6 +1996,7 @@ public class DatabaseHandler {
 			statement = connection.createStatement();
 			statement.executeUpdate("UPDATE course SET course_name = '" + name
 					+ "', course_faecherverbund = '" + faecherverbund
+					+ "', course_raum = '" + raum
 					+ "', course_teilnehmerzahl = " + teilnehmerzahl
 					+ ", course_kurslehrer = " + kurslehrer
 					+ ", course_termin = " + termin

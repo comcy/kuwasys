@@ -43,6 +43,8 @@ public class CourseBean implements Serializable{
 	private String beschreibung;
 	private int teilnehmerzahl;
 	private boolean sport;
+	private String raum;
+	
 	
 	private ArrayList<String> konfessionen = new ArrayList<String>();
 
@@ -54,7 +56,7 @@ public class CourseBean implements Serializable{
 		if (context.getExternalContext().isUserInRole("lehrer")) {
 			kurslehrer = dbh.getUserId();
 		}
-		dbh.addCourse(name, faecherverbund, kurslehrer, termin,
+		dbh.addCourse(name, faecherverbund, raum, kurslehrer, termin,
 				beschreibung, teilnehmerzahl,  sport, konfessionen);
 		//return kuwasysControllerBean.goCourses();
 		return "courses";
@@ -118,7 +120,7 @@ public class CourseBean implements Serializable{
 	 * 
 	 * @return
 	 */
-	public String sendCourseUpdate(String strid, String name, String faecherverbund, String strteilnehmerzahl, String strkurslehrer, String strtermin, String beschreibung) {
+	public String sendCourseUpdate(String strid, String name, String faecherverbund, String raum, String strteilnehmerzahl, String strkurslehrer, String strtermin, String beschreibung) {
 
 		 int id=Integer.parseInt(strid);
 		 int teilnehmerzahl = Integer.parseInt(strteilnehmerzahl);
@@ -133,12 +135,13 @@ public class CourseBean implements Serializable{
 		System.out.println("ID: " + id);
 		System.out.println("Kursname: " + name);
 		System.out.println("faecherverbund: " + faecherverbund);
+		System.out.println("raum: " + raum);
 		System.out.println("Teilnehmerzahl: " + teilnehmerzahl);
 		System.out.println("Kurslehrer: " + kurslehrer);
 		System.out.println("Termin: " + strtermin);
 		System.out.println("Beschreibung: " + beschreibung);
 
-		dbh.updateCourse(id, name, faecherverbund, teilnehmerzahl, kurslehrer, termin, beschreibung);
+		dbh.updateCourse(id, name, faecherverbund, raum, teilnehmerzahl, kurslehrer, termin, beschreibung);
 
 		logger.info("Kurs: " + name + " " + faecherverbund + " geändert!");
 		return "courseupdatesuccess";
@@ -200,6 +203,14 @@ public class CourseBean implements Serializable{
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public void setRaum(String raum) {
+		this.raum = raum;
+	}
+	
+	public String getRaum() {
+		return raum;
 	}
 
 	public int getKurslehrer() {
@@ -288,16 +299,18 @@ public class CourseBean implements Serializable{
 		private int _teilnehmerzahlAktuell;
 		private boolean _pflichtkurs;
 		private boolean _sport;
+		private String _raum;
 
 
 		public Course(int id, String name, int kurslehrer,
-				String faecherverbund, String termin, String beschreibung, int jahr, int tertial, int teilnehmerzahl, boolean pflichtkurs, boolean sport) {
+				String faecherverbund, String termin, String beschreibung, int jahr, int tertial, int teilnehmerzahl, boolean pflichtkurs, boolean sport, String raum) {
 			System.out.println("CourseConstructor");
 			_id = id;
 			_name = name;
 			_kurslehrer = kurslehrer;
 			_kurslehrerName = dbh.showUserFullName(kurslehrer);
 			_faecherverbund = faecherverbund;
+			_raum = raum;
 			_termin = termin;
 			_beschreibung = beschreibung;
 			set_jahr(jahr);
@@ -306,6 +319,7 @@ public class CourseBean implements Serializable{
 			set_teilnehmerzahlAktuell(dbh.countCourseParticipants(id));
 			set_pflichtkurs(pflichtkurs);
 			set_sport(sport);
+
 		}
 
 		public String attendCourse() {
@@ -377,6 +391,14 @@ public class CourseBean implements Serializable{
 
 		public void set_name(String _name) {
 			this._name = _name;
+		}
+		
+		public String get_raum() {
+			return _raum;
+		}
+
+		public void set_raum(String _raum) {
+			this._raum = _raum;
 		}
 
 		public int get_kurslehrer() {

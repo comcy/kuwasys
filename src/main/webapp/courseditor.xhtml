@@ -19,6 +19,10 @@
 				<h:inputText id="faecherverbund" value="#{faecherverbund_orig.value}" required="true" binding="#{faecherverbund}" />
 				<h:outputText value="#{param['faecherverbund']}" binding="#{faecherverbund_orig}" />
 				
+				<h:outputLabel for="raum" value="Raum:" />
+				<h:inputText id="raum" value="#{raum_orig.value}" required="true" binding="#{raum}" />
+				<h:outputText value="#{param['raum']}" binding="#{raum_orig}" />
+				
 				<h:outputLabel for="teilnehmer" value="Teilnehmerzahl:" />
 				<h:inputText id="teilnehmer" value="#{teilnehmer_orig.value}" required="true" binding="#{teilnehmer}" />
 				<h:outputText value="#{param['teilnehmer']}" binding="#{teilnehmer_orig}" />
@@ -71,7 +75,7 @@
 				<h:outputLabel for="id" value="ID:" style="visibility:hidden"/>
 				<h:outputText value="#{param['id']}" binding="#{id_orig}" style="visibility:hidden"/>
 				<h:inputText id="id" value="#{id_orig.value}" required="true" binding="#{id}" style="visibility:hidden"/>
-			<h:commandButton value="Speichern" action="#{courseBean.sendCourseUpdate(id_orig.value, name.value, faecherverbund.value, teilnehmer.value, kurslehrer.value, termin.value, beschreibung.value)}" />
+			<h:commandButton value="Speichern" action="#{courseBean.sendCourseUpdate(id_orig.value, name.value, faecherverbund.value, raum.value, teilnehmer.value, kurslehrer.value, termin.value, beschreibung.value)}" />
 			<h:messages showDetail="true" showSummary="false" />
 		</h:form>
 	</ui:define>
