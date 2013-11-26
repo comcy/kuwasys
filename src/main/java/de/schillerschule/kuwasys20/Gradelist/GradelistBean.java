@@ -83,8 +83,7 @@ public class GradelistBean {
 	}
 
 	public double getAverageGrade(int id, int jahr, String faecherverbund) {
-		return Math.floor(dbh.getAverageGradeFromVerbund(id, jahr,
-				faecherverbund) * 100) / 100;
+		return Math.floor(dbh.getAverageGradeFromVerbund(id, jahr, faecherverbund) * 1000) / 1000;
 	}
 
 	public boolean isBundleChosen(int userid, String bundle){

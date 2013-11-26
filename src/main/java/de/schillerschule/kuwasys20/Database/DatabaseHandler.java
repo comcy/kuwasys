@@ -1515,7 +1515,7 @@ public class DatabaseHandler {
 			statement = connection.createStatement();
 			result = statement
 					.executeQuery("SELECT gradelist.gradelist_kursid, "
-							+ "course.course_id, gradelist.gradelist_userid, course.course_beschreibung, course.course_termin, course.course_faecherverbund, course.course_kurslehrer, course.course_name, course.course_schuljahr, course.course_tertial, course.course_teilnehmerzahl, course.course_pflichtkurs, course.course_sport "
+							+ "course.course_id, gradelist.gradelist_userid, course.course_beschreibung, course.course_termin, course.course_faecherverbund, course.course_kurslehrer, course.course_name, course.course_schuljahr, course.course_tertial, course.course_teilnehmerzahl, course.course_pflichtkurs, course.course_sport, course.course_raum "
 							+ "FROM  public.course, public.gradelist "
 							+ "WHERE course.course_id = gradelist.gradelist_kursid "
 							+ "AND gradelist.gradelist_userid=" + id
