@@ -1232,7 +1232,7 @@ public class DatabaseHandler {
 		try {
 			statement = connection.createStatement();
 			result = statement
-					.executeQuery("SELECT * FROM users WHERE users_rolle='schueler' ORDER BY users_klasse,users_nachname,users_vorname");
+					.executeQuery("SELECT * FROM users WHERE users_rolle='schueler' AND users_klasse != 'Z_Abgang' AND users_klasse NOT LIKE 'Z_Abschluss%' ORDER BY users_klasse,users_nachname,users_vorname");
 			// UserBean.emptyUsers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")
