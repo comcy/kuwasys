@@ -929,7 +929,63 @@ public class DatabaseHandler {
 		System.out.println(kname);
 		return kname;
 	}
+	
+	/**
+	 * Gibt das aktuelle Schuljahr zurück 
+	 */
+	public String getSystemYear() {
+		System.out.println("getSystemYear");
 
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "SELECT system_jahr FROM system;";
+		String year = "";
+
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+				year = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		System.out.println(year);
+		return year;
+	}
+
+	/**
+	 * Gibt das aktuelle Tertial zurück 
+	 */
+	public String getSystemTertial() {
+		System.out.println("getSystemTertial");
+
+		SQLConnection2();
+		ResultSet rs = null;
+		PreparedStatement pst = null;
+		String stm = "SELECT system_tertial FROM system;";
+		String tertial = "";
+
+		try {
+			pst = connection2.prepareStatement(stm);
+			pst.execute();
+			rs = pst.getResultSet();
+
+			while (rs.next()) {
+				tertial = rs.getString(1);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose2();
+		System.out.println(tertial);
+		return tertial;
+	}
+	
 	/**
 	 * Gibt einem User, mit gegebenem usernamen, die gegebenen Rechte
 	 * 
@@ -1434,6 +1490,84 @@ public class DatabaseHandler {
 		}
 		SQLConnectionClose();
 		return courses;
+	}
+	
+	/**
+	 * Lists activated courses
+	 * @return
+	 */
+	public ArrayList<Course> listCoursesActive() {
+		ArrayList<Course> coursesActive = new ArrayList<Course>();
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement
+					.executeQuery("SELECT * FROM course WHERE course_schuljahr = '" + getSystemYear() + "' AND course_tertial = '" + getSystemTertial() +"' ORDER BY course_termin");
+			// CourseBean.emptyCourses();
+			while (result.next()) {
+				System.out.println(result.getInt("course_id")
+						+ result.getString("course_name")
+						+ result.getInt("course_kurslehrer")
+						+ result.getString("course_faecherverbund")
+						+ result.getInt("course_termin")
+						+ result.getString("course_beschreibung"));
+				coursesActive.add(new CourseBean.Course(result.getInt("course_id"),
+						result.getString("course_name"), result
+								.getInt("course_kurslehrer"), result
+								.getString("course_faecherverbund"),
+						translateDate(result.getInt("course_termin")), result
+								.getString("course_beschreibung"), result
+								.getInt("course_schuljahr"), result
+								.getInt("course_tertial"), result
+								.getInt("course_teilnehmerzahl"), result
+								.getBoolean("course_pflichtkurs"), result
+								.getBoolean("course_sport"),
+								result.getString("course_raum")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+		return coursesActive;
+	}
+	
+	/**
+	 * Lists inactive courses
+	 * @return
+	 */
+	public ArrayList<Course> listCoursesInactive() {
+		ArrayList<Course> coursesInactive = new ArrayList<Course>();
+		SQLConnection();
+		try {
+			statement = connection.createStatement();
+			result = statement
+					.executeQuery("SELECT * FROM course WHERE course_schuljahr != '" + getSystemYear() + "' AND course_tertial != '" + getSystemTertial() +"' ORDER BY course_termin");
+			// CourseBean.emptyCourses();
+			while (result.next()) {
+				System.out.println(result.getInt("course_id")
+						+ result.getString("course_name")
+						+ result.getInt("course_kurslehrer")
+						+ result.getString("course_faecherverbund")
+						+ result.getInt("course_termin")
+						+ result.getString("course_beschreibung"));
+				coursesInactive.add(new CourseBean.Course(result.getInt("course_id"),
+						result.getString("course_name"), result
+								.getInt("course_kurslehrer"), result
+								.getString("course_faecherverbund"),
+						translateDate(result.getInt("course_termin")), result
+								.getString("course_beschreibung"), result
+								.getInt("course_schuljahr"), result
+								.getInt("course_tertial"), result
+								.getInt("course_teilnehmerzahl"), result
+								.getBoolean("course_pflichtkurs"), result
+								.getBoolean("course_sport"),
+								result.getString("course_raum")));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		SQLConnectionClose();
+		return coursesInactive;
 	}
 
 	public void addCourse(String name, String faecherverbund, String raum, int kurslehrer,

@@ -15,25 +15,25 @@ import de.schillerschule.kuwasys20.Database.DatabaseHandler;
 import de.schillerschule.kuwasys20.User.UserBean;
 import de.schillerschule.kuwasys20.User.UserBean.User;
 
-
 @ManagedBean(name = "courseBean")
 @RequestScoped
-
-public class CourseBean implements Serializable{
+public class CourseBean implements Serializable {
 
 	FacesContext context = FacesContext.getCurrentInstance();
-	
+
 	private static Logger logger = Logger.getLogger(UserBean.class
-			.getCanonicalName());	
-	
+			.getCanonicalName());
+
 	private static final long serialVersionUID = 1L;
-		
+
 	private List<Course> courses = new ArrayList<Course>();
-	
+	private List<Course> coursesActive = new ArrayList<Course>();
+	private List<Course> coursesInactive = new ArrayList<Course>();
+
 	private ArrayList<SelectItem> alleKonfessionen = new ArrayList<SelectItem>();
 
 	DatabaseHandler dbh = new DatabaseHandler();
-	
+
 	private int id;
 	private String name;
 	private int kurslehrer = 0;
@@ -44,8 +44,7 @@ public class CourseBean implements Serializable{
 	private int teilnehmerzahl;
 	private boolean sport;
 	private String raum;
-	
-	
+
 	private ArrayList<String> konfessionen = new ArrayList<String>();
 
 	public CourseBean() {
@@ -57,8 +56,8 @@ public class CourseBean implements Serializable{
 			kurslehrer = dbh.getUserId();
 		}
 		dbh.addCourse(name, faecherverbund, raum, kurslehrer, termin,
-				beschreibung, teilnehmerzahl,  sport, konfessionen);
-		//return kuwasysControllerBean.goCourses();
+				beschreibung, teilnehmerzahl, sport, konfessionen);
+		// return kuwasysControllerBean.goCourses();
 		return "courses";
 	}
 
@@ -92,8 +91,8 @@ public class CourseBean implements Serializable{
 	public void clearAllConfessions() {
 		alleKonfessionen.clear();
 	}
-	
-	public boolean bundleChosen(String bundle){
+
+	public boolean bundleChosen(String bundle) {
 		if (bundle.equals("sport"))
 			return dbh.sportChosen(dbh.getUserId());
 		else if (bundle.equals("reli"))
@@ -101,36 +100,38 @@ public class CourseBean implements Serializable{
 		else
 			return dbh.bundleChosen(dbh.getUserId(), bundle);
 	}
-	
-	
-	public String isDateConflicting(){
-		for (int i=1; i<=10; i++)
+
+	public String isDateConflicting() {
+		for (int i = 1; i <= 10; i++)
 			if (dbh.isDateConflicting(dbh.getUserId(), i))
 				return dbh.translateDate(i);
 		return "0";
 	}
-	
-	
+
 	public Course getSingleCourse(int id) {
 		return dbh.getCourse(id);
 	}
-	
+
 	/**
 	 * Vorhandenen Kurs in DB updaten
 	 * 
 	 * @return
 	 */
-	public String sendCourseUpdate(String strid, String name, String faecherverbund, String raum, String strteilnehmerzahl, String strkurslehrer, String strtermin, String beschreibung) {
+	public String sendCourseUpdate(String strid, String name,
+			String faecherverbund, String raum, String strteilnehmerzahl,
+			String strkurslehrer, String strtermin, String beschreibung) {
 
-		 int id=Integer.parseInt(strid);
-		 int teilnehmerzahl = Integer.parseInt(strteilnehmerzahl);
-		 int kurslehrer = Integer.parseInt(strkurslehrer);
-		 int termin = 1;
-		 String[] termine = { "MO VO", "MO NA", "DI VO", "DI NA", "MI VO", "MI NA", "DO VO", "DO NA", "FR VO", "FR NA" };
-		 
-		 for (int i=0; i<10; i++)
-			 if (termine[i].equals(strtermin)) termin = termin + i;
-		
+		int id = Integer.parseInt(strid);
+		int teilnehmerzahl = Integer.parseInt(strteilnehmerzahl);
+		int kurslehrer = Integer.parseInt(strkurslehrer);
+		int termin = 1;
+		String[] termine = { "MO VO", "MO NA", "DI VO", "DI NA", "MI VO",
+				"MI NA", "DO VO", "DO NA", "FR VO", "FR NA" };
+
+		for (int i = 0; i < 10; i++)
+			if (termine[i].equals(strtermin))
+				termin = termin + i;
+
 		// TODO MESSAGE/LOG DEBUG
 		System.out.println("ID: " + id);
 		System.out.println("Kursname: " + name);
@@ -141,16 +142,51 @@ public class CourseBean implements Serializable{
 		System.out.println("Termin: " + strtermin);
 		System.out.println("Beschreibung: " + beschreibung);
 
-		dbh.updateCourse(id, name, faecherverbund, raum, teilnehmerzahl, kurslehrer, termin, beschreibung);
+		dbh.updateCourse(id, name, faecherverbund, raum, teilnehmerzahl,
+				kurslehrer, termin, beschreibung);
 
 		logger.info("Kurs: " + name + " " + faecherverbund + " geändert!");
 		return "courseupdatesuccess";
 	}
-	
+
 	/**
 	 * GETTER & SETTER
 	 * 
 	 */
+
+	// active courses
+	public void addToCoursesActive(Course c) {
+		coursesActive.add(c);
+	}
+
+	public void emptyCoursesActive() {
+		coursesActive.clear();
+	}
+
+	public List<Course> getCoursesActive() {
+		return dbh.listCoursesActive();
+	}
+
+	public void setCoursesActive(List<Course> coursesActive) {
+		this.coursesInactive = coursesActive;
+	}
+
+	// inactive courses
+	public void addToCoursesInactive(Course c) {
+		coursesInactive.add(c);
+	}
+
+	public void emptyCoursesInactive() {
+		coursesInactive.clear();
+	}
+
+	public List<Course> getCoursesInactive() {
+		return dbh.listCoursesInactive();
+	}
+
+	public void setCoursesInactive(List<Course> coursesInactive) {
+		this.coursesInactive = coursesInactive;
+	}
 
 	public List<Course> getCourses() {
 		if (context.getExternalContext().isUserInRole("admin"))
@@ -162,7 +198,7 @@ public class CourseBean implements Serializable{
 		else
 			return courses;
 	}
-	
+
 	public List<Course> getCoursesAttendable() {
 		if (context.getExternalContext().isUserInRole("schueler"))
 			return dbh.listCoursesAttendable(dbh.getUserId());
@@ -170,8 +206,7 @@ public class CourseBean implements Serializable{
 			return null;
 	}
 
-
-	public List<Course> getCourseAttenders(){
+	public List<Course> getCourseAttenders() {
 		if (context.getExternalContext().isUserInRole("admin"))
 			return dbh.listCourses();
 		if (context.getExternalContext().isUserInRole("lehrer"))
@@ -179,11 +214,10 @@ public class CourseBean implements Serializable{
 		else
 			return null;
 	}
-	
-	public List<User> getCourseAttenders(int id){
+
+	public List<User> getCourseAttenders(int id) {
 		return dbh.listCourseParticipants(id);
 	}
-	
 
 	public void setCourses(List<Course> courses) {
 		this.courses = courses;
@@ -204,11 +238,11 @@ public class CourseBean implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public void setRaum(String raum) {
 		this.raum = raum;
 	}
-	
+
 	public String getRaum() {
 		return raum;
 	}
@@ -273,8 +307,7 @@ public class CourseBean implements Serializable{
 		this.sport = sport;
 	}
 
-	public void setAlleKonfessionen(
-		ArrayList<SelectItem> alleKonfessionen) {
+	public void setAlleKonfessionen(ArrayList<SelectItem> alleKonfessionen) {
 		this.alleKonfessionen = alleKonfessionen;
 	}
 
@@ -283,9 +316,9 @@ public class CourseBean implements Serializable{
 		 * serial id for serialisation versioning
 		 */
 		private static final long serialVersionUID = 1L;
-		
+
 		DatabaseHandler dbh = new DatabaseHandler();
-		
+
 		private int _id;
 		private String _name;
 		private int _kurslehrer;
@@ -301,9 +334,10 @@ public class CourseBean implements Serializable{
 		private boolean _sport;
 		private String _raum;
 
-
 		public Course(int id, String name, int kurslehrer,
-				String faecherverbund, String termin, String beschreibung, int jahr, int tertial, int teilnehmerzahl, boolean pflichtkurs, boolean sport, String raum) {
+				String faecherverbund, String termin, String beschreibung,
+				int jahr, int tertial, int teilnehmerzahl, boolean pflichtkurs,
+				boolean sport, String raum) {
 			System.out.println("CourseConstructor");
 			_id = id;
 			_name = name;
@@ -323,57 +357,57 @@ public class CourseBean implements Serializable{
 		}
 
 		public String attendCourse() {
-			dbh.addToGradelist(0, "", dbh.getUserId(),_id);
-			//return kuwasysControllerBean.goCourses();
-			return "courses";
-		}
-		
-		public String unAttendCourse(){
-			dbh.removeFromGradelist(dbh.getUserId(),_id);
-			//return kuwasysControllerBean.goCourses();
-			return "courses";
-		}
-		
-		public String activateCourse(){
-			dbh.activateCourse(_id);
-			//return kuwasysControllerBean.goCourses();
-			return "courses";
-		}
-		
-		public String deActivateCourse(){
-			dbh.deActivateCourse(_id);
-			//return kuwasysControllerBean.goCourses();
-			return "courses";		
-		}
-		
-		public String toggleEssentialCourse(){
-			System.out.println("SET "+_id+" ESSENTIAL");
-			dbh.toggleEssentialCourse(_id);
-			//return kuwasysControllerBean.goCourses();
+			dbh.addToGradelist(0, "", dbh.getUserId(), _id);
+			// return kuwasysControllerBean.goCourses();
 			return "courses";
 		}
 
-		public List<User> getCourseAttenders(){
-			System.out.println("listCourseAttenders "+_id);
+		public String unAttendCourse() {
+			dbh.removeFromGradelist(dbh.getUserId(), _id);
+			// return kuwasysControllerBean.goCourses();
+			return "courses";
+		}
+
+		public String activateCourse() {
+			dbh.activateCourse(_id);
+			// return kuwasysControllerBean.goCourses();
+			return "courses";
+		}
+
+		public String deActivateCourse() {
+			dbh.deActivateCourse(_id);
+			// return kuwasysControllerBean.goCourses();
+			return "courses";
+		}
+
+		public String toggleEssentialCourse() {
+			System.out.println("SET " + _id + " ESSENTIAL");
+			dbh.toggleEssentialCourse(_id);
+			// return kuwasysControllerBean.goCourses();
+			return "courses";
+		}
+
+		public List<User> getCourseAttenders() {
+			System.out.println("listCourseAttenders " + _id);
 			return dbh.listCourseParticipants(_id);
 		}
-		
-		
-		public boolean isCurrentTertial(){
-			if (_jahr==kuwasysControllerBean.year&&_tertial==kuwasysControllerBean.tertial)
+
+		public boolean isCurrentTertial() {
+			if (_jahr == kuwasysControllerBean.year
+					&& _tertial == kuwasysControllerBean.tertial)
 				return true;
 			else
 				return false;
 		}
-		
-		public double courseGrade(){
-			return dbh.getCourseGrade(dbh.getUserId(),_id);
+
+		public double courseGrade() {
+			return dbh.getCourseGrade(dbh.getUserId(), _id);
 		}
-		
-		public boolean freePositions(){
-			if (_teilnehmerzahl>_teilnehmerzahlAktuell)
+
+		public boolean freePositions() {
+			if (_teilnehmerzahl > _teilnehmerzahlAktuell)
 				return true;
-			else 
+			else
 				return false;
 		}
 
@@ -392,7 +426,7 @@ public class CourseBean implements Serializable{
 		public void set_name(String _name) {
 			this._name = _name;
 		}
-		
+
 		public String get_raum() {
 			return _raum;
 		}

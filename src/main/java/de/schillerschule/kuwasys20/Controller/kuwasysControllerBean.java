@@ -176,15 +176,16 @@ public class kuwasysControllerBean {
 	 * @return Facelet "courses"
 	 */
 	public String goCourses(){
-		/*FacesContext context = FacesContext.getCurrentInstance();
-		if (context.getExternalContext().isUserInRole("admin"))
-			dbh.listCourses();
-		if (context.getExternalContext().isUserInRole("lehrer"))
-			dbh.listCoursesTeacher(dbh.getUserId());
-		if (context.getExternalContext().isUserInRole("schueler"))
-			dbh.listCoursesStudent(dbh.getUserId()); */
 		return "courses";
     }	
+	
+	public String goCoursesActive(){
+		return "coursesactive";
+    }
+	
+	public String goCoursesInactive(){
+		return "coursesinactive";
+    }
 	
 	/**
 	 * Klassen eines Lehrers anzeigen (eigene) 
