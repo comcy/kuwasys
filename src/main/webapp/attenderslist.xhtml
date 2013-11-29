@@ -25,7 +25,8 @@
 		                <h:outputText value="#{course._name}" style="font-weight:bold;" /><br />
 		                <h:outputText value="#{course._kurslehrerName}" /><br />
 		                <h:outputText value="#{course._faecherverbund}" /><br />
-		                <h:outputText value="Raum: #{course._raum}" />
+		                <h:outputText value="Raum: #{course._raum}" /><br />
+		            	<h:outputText value="Teilnehmer: #{course._teilnehmerzahlAktuell}/#{course._teilnehmerzahl}" />
 		            </t:column>
 		            <t:column>
 		            	<f:facet name="header">
