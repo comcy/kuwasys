@@ -1127,7 +1127,7 @@ public class DatabaseHandler {
 		try {
 			statement = connection.createStatement();
 			result = statement
-					.executeQuery("SELECT * FROM users WHERE users_rolle = 'lehrer'ORDER BY users_nachname,users_vorname;");
+					.executeQuery("SELECT * FROM users WHERE users_rolle = 'lehrer' ORDER BY users_nachname,users_vorname;");
 			// TeacherBean.emptyTeachers();
 			while (result.next()) {
 				System.out.println(result.getInt("users_id")
@@ -1583,7 +1583,7 @@ public class DatabaseHandler {
 							+ name
 							+ "', '"
 							+ faecherverbund
-							+ "', "			
+							+ "', '"			
 							+ raum
 							+ "', "
 							+ kurslehrer

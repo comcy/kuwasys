@@ -24,7 +24,7 @@
 					
 				<h:outputLabel for="kurslehrer" value="Kurslehrer:" rendered="#{kuwasys.userRole()=='Admin'}" />
 				<h:selectOneMenu id="kurslehrer" value="#{courseBean.kurslehrer}" required="true" rendered="#{kuwasys.userRole()=='Admin'}">
-              		<t:selectItems value="#{selectItemsBean.carList}" var="Car" itemLabel="#{Car.type}" itemValue="#{Car.color}" />
+              		<t:selectItems value="#{teacherBean.teachers}" var="teacher" itemLabel="#{teacher._vorname} #{teacher._nachname} (#{teacher._id})" itemValue="#{teacher._id}" />
          		</h:selectOneMenu>
 				<h:outputLabel for="termin" value="Zeitpunkt" />
 				    <h:panelGroup>

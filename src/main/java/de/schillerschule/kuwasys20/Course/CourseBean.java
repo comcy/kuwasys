@@ -60,6 +60,16 @@ public class CourseBean implements Serializable {
 		// return kuwasysControllerBean.goCourses();
 		return "courses";
 	}
+	
+	public String addCourseAdmin() {
+		if (context.getExternalContext().isUserInRole("lehrer")) {
+			kurslehrer = dbh.getUserId();
+		}
+		dbh.addCourse(name, faecherverbund, raum, kurslehrer, termin,
+				beschreibung, teilnehmerzahl, sport, konfessionen);
+		// return kuwasysControllerBean.goCourses();
+		return "courses";
+	}
 
 	public void addToCourses(Course c) {
 		courses.add(c);
