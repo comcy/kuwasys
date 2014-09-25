@@ -1003,7 +1003,7 @@ public class ExportBean implements Serializable {
 			// statischen Kopf der Tabelle erzeugen
 
 			PdfPCell cellVname = new PdfPCell(new Paragraph("Vorname", font4));
-			PdfPCell cellNname = new PdfPCell(new Paragraph("Nachame", font4));
+			PdfPCell cellNname = new PdfPCell(new Paragraph("Nachname", font4));
 
 			PdfPCell cellMo = new PdfPCell(new Paragraph("Montag", font4));
 			PdfPCell cellDi = new PdfPCell(new Paragraph("Dienstag", font4));
@@ -1257,7 +1257,7 @@ public class ExportBean implements Serializable {
 			// statischen Kopf der Tabelle erzeugen
 
 			PdfPCell cellVname = new PdfPCell(new Paragraph("Vorname", font4));
-			PdfPCell cellNname = new PdfPCell(new Paragraph("Nachame", font4));
+			PdfPCell cellNname = new PdfPCell(new Paragraph("Nachname", font4));
 			PdfPCell cellKlasse = new PdfPCell(new Paragraph("Klasse", font4));
 
 			PdfPCell cellMo = new PdfPCell(new Paragraph("Montag", font4));
